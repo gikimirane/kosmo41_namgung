@@ -11,11 +11,12 @@ public class Quiz4 {
 		
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("0이 아닌 숫자를 입력 시 계속 더해드립니다.");
-		int num1 = s.nextInt();
 		int sum = 0;
+		int num1;
 		
 		do {
+			System.out.println("0이 아닌 숫자를 입력 시 계속 더해드립니다.");
+			
 			num1 = s.nextInt();
 			sum = sum + num1;
 			
