@@ -8,30 +8,36 @@ import java.util.Scanner;
 public class Quiz8 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
-		int nNum;
-		int nSum = 0;
-		for(int i=0;i<5;i++) {
-			System.out.println("숫자를 총 5개 입력하세요.");
-			nNum = s.nextInt();
-			if(nNum > 0) {
-				nSum = nSum + nNum;
-			}
-			else if (nNum <= 0){
-				System.out.println("다시");
+		
+		int sum=0,num;
+		for (int i=0;i<5;i++) {
+			System.out.println("1미만 수를 제외한 수 5개 입력");
+			num = s.nextInt();
+			if(num <0) {
 				i=i-1;
+				System.out.println("1미만! 다시 입력");
 			}
+			sum = sum+num;
 		}
-		System.out.println("5개 숫자의 합은 : "+nSum);
+		System.out.println(" 입력한 수의 합은 : "+sum);
 	}
 }
+
+
 /*
- * if (nNum <= 0) {
-				System.out.println("다시 입력하세요.");
-				continue;
-			}
-			else if (nNum > 0)
-			{
-				nSum = nSum + nNum;
-				i++;
-			}
+int nNum;
+int nSum = 0;
+for(int i=0;i<5;i++) {
+	System.out.println("숫자를 총 5개 입력하세요.");
+	nNum = s.nextInt();
+	if(nNum > 0) {
+		nSum = nSum + nNum;
+	}
+	else if (nNum <= 0){
+		System.out.println("다시");
+		i=i-1;
+	}
+}
+System.out.println("5개 숫자의 합은 : "+nSum);
  */
+
