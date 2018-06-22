@@ -1,6 +1,8 @@
 /*
+문제 05-13
 중첩 for문을 이용하여 구구단 전체를 출력하는 프로그램을 작성하시오.
 단 가로형, 세로형 둘다 만들어야함.
+
  */
 public class Quiz13 {
 
@@ -13,7 +15,8 @@ public class Quiz13 {
 				}
 				System.out.println();
 			}
-			System.out.println("----------------------------------------------------------------------");
+			System.out.println();
+			System.out.println();
 			
 			for(int x=2;x<10;x++) {
 				for(int y=1;y<10;y++) {
@@ -22,6 +25,5 @@ public class Quiz13 {
 				System.out.println();
 				System.out.println();
 			}
-			
 		}
 }
