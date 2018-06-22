@@ -1,0 +1,42 @@
+/*
+문제 05-01
+사용자로부터 계속해서 정수를 입력받는다.
+단 0을 입력받게되면 기존에 입력받은 모든 정수를 더한후 결과를 출력하는 프로그램을 작성하시오.
+ */
+
+import java.util.Scanner;
+public class Quiz1 {
+
+	public static void main(String[] args) {
+	
+		Scanner s = new Scanner(System.in);
+		
+		int sum = 0;
+		int num1;
+	
+		
+		System.out.println("숫자 입력 (0 넣으면 종료)");
+		
+		num1 = s.nextInt();
+		
+		while (num1 != 0) {
+			sum = sum + num1;
+			num1 = s.nextInt();
+		}
+		
+		System.out.println("0을 입력하여 합계 반환 : " + sum);
+	}
+}
+
+/*	
+do {
+	System.out.println("0이 아닌 숫자를 입력 시 계속 더해드립니다.");
+	
+	num1 = s.nextInt();
+	sum = sum + num1;
+	
+}while (num1 != 0);
+
+System.out.println("0을 입력하여 합을 반환합니다. 합은 : "+sum);
+*/
+

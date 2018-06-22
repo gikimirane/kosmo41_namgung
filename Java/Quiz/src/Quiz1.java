@@ -10,6 +10,8 @@ public class Quiz1 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		
+		int sum=0;
+		
 		System.out.println("Ã¹ ¹øÂ° ¼ýÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
 		int num1 = s.nextInt();
 		
@@ -17,7 +19,17 @@ public class Quiz1 {
 		int num2 = s.nextInt();
 		
 		System.out.println("µ¡¼ÀÀÇ °á°ú : " + (num1+num2));
-		System.out.println("»¬¼ÀÀÇ °á°ú : " + (num1-num2));
+		
+		// if ¹®À¸·Î ÇØº½
+	
+		if (num1 > num2 ){
+			System.out.println("»¬¼ÀÀÇ °á°ú : " + (num1-num2));
+		}
+		else System.out.println("»¬¼ÀÀÇ °á°ú : " + (num2-num1));
+
+		// »ïÇ× ¿¬»êÀÚ·Î È°¿ë
+		//sum = num1 > num2 ? (num1-num2) : (num2 - num1);
+		System.out.println("»¬¼ÀÀÇ °á°ú : " + sum);
 		System.out.println("°ö¼ÀÀÇ °á°ú : " + (num1*num2));
 		System.out.println("³ª´°¼ÀÀÇ °á°ú : " + (num1/num2));
 
