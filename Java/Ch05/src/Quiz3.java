@@ -1,8 +1,6 @@
 /*
-¹®Á¦ 05-03 
-1 ÀÌ»ó 100¹Ì¸¸ÀÇ Á¤¼öÁß¿¡¼­ 7ÀÇ¹è¼ö¿Í 9ÀÇ¹è¼ö¸¦ Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ¶ó.
-´Ü, 7ÀÇ ¹è¼öÀÌ¸é¼­ µ¿½Ã¿¡ 9ÀÇ ¹è¼öÀÎ Á¤¼ö´Â ÇÑ¹ø¸¸ Ãâ·ÂÇØ¾ß ÇÑ´Ù.
-
+1ì´ìƒ 100ë¯¸ë§Œì˜ ì •ìˆ˜ì¤‘ì—ì„œ 7ì˜ë°°ìˆ˜ì™€ 9ì˜ë°°ìˆ˜ë¥¼ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ëž¨ì„ ìž‘ì„±í•˜ë¼.
+ë‹¨, 7ì˜ ë°°ìˆ˜ì´ë©´ì„œ ë™ì‹œì— 9ì˜ ë°°ìˆ˜ì¸ ì •ìˆ˜ëŠ” í•œë²ˆë§Œ ì¶œë ¥í•´ì•¼ í•œë‹¤.
  */
 public class Quiz3 {
 
@@ -10,28 +8,8 @@ public class Quiz3 {
 		
 		for (int i=1;i<100;i++) {
 			if ((i % 7 == 0) || (i % 9 == 0)) {
-				System.out.println("7 ¶Ç´Â 9ÀÇ ¹è¼öµé : "+i);
+				System.out.println("7 ë˜ëŠ” 9ì˜ ë°°ìˆ˜ : "+i);
 			}
 		}
 	}
 }
-
-/* 7 ¶Ç´Â 9ÀÇ ¹è¼öÀÎ ¾ÖµéÀ» print ÇÏ°í, 7°ú 9ÀÇ ¹è¼ö¸¦ 1È¸¸¸ Âï´Â for, if ¹®ÀÇ Á¶ÇÕ
-
-for(int j=1;j<100;j++) {
-	if ((j % 7 == 0) && (j % 9 == 0)) {
-		System.out.println("-----------------------");
-		System.out.println("7°ú 9 µ¿½Ã ¹è¼ö : "+j);
-		System.out.println("-----------------------");
-		break;
-	}
-}
-
-for(int i=1;i<100;i++) {
-	if((i % 7 == 0) || (i % 9 == 0)) {
-		
-		System.out.println("7 ¶Ç´Â 9ÀÇ ¹è¼ö : "+i);
-		System.out.println("-----------------------");				
-	}
-}
-*/

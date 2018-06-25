@@ -1,14 +1,12 @@
 /*
-¹®Á¦ 05-13
-ÁßÃ¸ for¹®À» ÀÌ¿ëÇÏ¿© ±¸±¸´Ü ÀüÃ¼¸¦ Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ½Ã¿À.
-´Ü °¡·ÎÇü, ¼¼·ÎÇü µÑ´Ù ¸¸µé¾î¾ßÇÔ.
-
+ì¤‘ì²© forë¬¸ì„ ì´ìš©í•˜ì—¬ êµ¬êµ¬ë‹¨ ì „ì²´ë¥¼ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ëž¨ì„ ìž‘ì„±í•˜ì‹œì˜¤.
+ë‹¨ ê°€ë¡œí˜•, ì„¸ë¡œí˜• ë‘˜ë‹¤ ë§Œë“¤ì–´ì•¼í•¨.
  */
 public class Quiz13 {
 
 	public static void main(String[] args) {
 		
-			//°¡·Î
+			//ï¿½ï¿½ï¿½ï¿½
 			for(int j=1;j<10;j++) {
 				for (int i=2;i<10;i++) {
 					System.out.print(i+"*"+j+"="+(i*j)+'\t');

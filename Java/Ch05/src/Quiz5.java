@@ -1,7 +1,8 @@
 /* 
-¹®Á¦ 05-05
-±¸±¸´ÜÀ» Ãâ·ÂÇÏµÇ Â¦¼ö´Ü¸¸ Ãâ·ÂÇÏµµ·Ï ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ¶ó.
-´Ü, 2´ÜÀº 2*2±îÁö¸¸, 4´ÜÀº 4*4±îÁö¸¸....8´ÜÀº 8*8±îÁö¸¸ Ãâ·ÂÇØ¾ß ÇÑ´Ù.
+êµ¬êµ¬ë‹¨ì„ ì¶œë ¥í•˜ë˜ ì§ìˆ˜ë‹¨ë§Œ ì¶œë ¥í•˜ë„ë¡ í”„ë¡œê·¸ëž¨ì„ ìž‘ì„±í•˜ë¼.
+ë‹¨, 2ë‹¨ì€ 2*2ê¹Œì§€ë§Œ, 4ë‹¨ì€ 4*4ê¹Œì§€ë§Œ....8ë‹¨ì€ 8*8ê¹Œì§€ë§Œ ì¶œë ¥í•´ì•¼ í•œë‹¤.
+( ë‹¨, forë¬¸ì—ì„œ 2ì”© ì¦ê°€í•˜ëŠ” ê²ƒ ì•ˆë¨ !!!!)
+
  */
 public class Quiz5 {
 	public static void main(String[] args) {
@@ -16,11 +17,3 @@ public class Quiz5 {
 		}
 	}
 }
-/* for ¹®¿¡¼­ ¾Æ¿¹ Â¦¼ö¸¸ ³ÖÀ»¼öµµ ÀÖÀ½
-		for (int i=2;i<10;i=i+2) {
-			for (int j=1;j<=i;j++) {
-				System.out.println(i+" * "+j+" = "+(i*j));
-			}
-			System.out.println();
-		}
-*/

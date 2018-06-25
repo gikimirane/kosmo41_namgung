@@ -1,8 +1,8 @@
 /*
-¹®Á¦ 05-08
-»ç¿ëÀÚ·ÎºÎÅÍ 5°³ÀÇ Á¤¼ö¸¦ ÀÔ·Â¹Þ¾Æ¼­ ÇÕÀ» ±¸ÇÏ¿© Ãâ·ÂÇÑ´Ù.
-¸¸¾à ÀÔ·Â¹Þ´Â ¼ýÀÚ°¡ 1¹Ì¸¸ÀÇ ¼ýÀÚ¶ó¸é ÀçÀÔ·ÂÀ» ¿ä±¸ÇØ¾ß ÇÑ´Ù. 
-±×·¡¼­ 1ÀÌ»óÀÇ Á¤¼ö 5°³¸¦ ÀÔ·Â¹Þ¾Æ¾ß ÇÁ·Î±×·¥ÀÌ ¿Ï¼ºµÈ´Ù.
+ë¬¸ì œ 05-08
+ì‚¬ìš©ìžë¡œë¶€í„° 5ê°œì˜ ì •ìˆ˜ë¥¼ ìž…ë ¥ë°›ì•„ì„œ í•©ì„ êµ¬í•˜ì—¬ ì¶œë ¥í•œë‹¤.
+ë§Œì•½ ìž…ë ¥ë°›ëŠ” ìˆ«ìžê°€ 1ë¯¸ë§Œì˜ ìˆ«ìžë¼ë©´ ìž¬ìž…ë ¥ì„ ìš”êµ¬í•´ì•¼ í•œë‹¤. ê·¸ëž˜ì„œ 1ì´ìƒì˜ ì •ìˆ˜ 5ê°œë¥¼ ìž…ë ¥ë°›ì•„ì•¼ í”„ë¡œê·¸ëž¨ì´ ì™„ì„±ëœë‹¤.
+
  */
 import java.util.Scanner;
 public class Quiz8 {
@@ -11,15 +11,15 @@ public class Quiz8 {
 		
 		int sum=0,num;
 		for (int i=0;i<5;i++) {
-			System.out.println("1¹Ì¸¸ ¼ö¸¦ Á¦¿ÜÇÑ ¼ö 5°³ ÀÔ·Â");
+			System.out.println("5ê°œ ì •ìˆ˜ ìž…ë ¥í•˜ì‹œì˜¤");
 			num = s.nextInt();
 			if(num <0) {
 				i=i-1;
-				System.out.println("1¹Ì¸¸! ´Ù½Ã ÀÔ·Â");
+				System.out.println("1ë¯¸ë§Œì´ë¼ ìž¬ìž…ë ¥");
 			}
 			sum = sum+num;
 		}
-		System.out.println(" ÀÔ·ÂÇÑ ¼öÀÇ ÇÕÀº : "+sum);
+		System.out.println("ìˆ˜ì˜ í•©ì€ : "+sum);
 	}
 }
 
@@ -28,16 +28,16 @@ public class Quiz8 {
 int nNum;
 int nSum = 0;
 for(int i=0;i<5;i++) {
-	System.out.println("¼ýÀÚ¸¦ ÃÑ 5°³ ÀÔ·ÂÇÏ¼¼¿ä.");
+	System.out.println("5ê°œ ì •ìˆ˜ ìž…ë ¥í•˜ì‹œì˜¤");
 	nNum = s.nextInt();
 	if(nNum > 0) {
 		nSum = nSum + nNum;
 	}
 	else if (nNum <= 0){
-		System.out.println("´Ù½Ã");
+		System.out.println("ï¿½Ù½ï¿½");
 		i=i-1;
 	}
 }
-System.out.println("5°³ ¼ýÀÚÀÇ ÇÕÀº : "+nSum);
+System.out.println("5ê°œ ì •ìˆ˜ ìž…ë ¥í•˜ì‹œì˜¤");
  */
 

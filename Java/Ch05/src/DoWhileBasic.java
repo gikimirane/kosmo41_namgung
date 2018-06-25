@@ -13,13 +13,3 @@ public class DoWhileBasic {
 	}
 
 }
-
-
-/* -------------------------Test-------------------------
-
-int num2 = 0;
-
-do {
-	System.out.println("일단 한번은 돌아보자");
-} while(num2 != 0);
-*/

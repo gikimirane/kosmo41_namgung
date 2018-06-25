@@ -9,28 +9,18 @@ public class BreakBasic {
 		
 		while (num < 100) {
 			if ((num % 5 == 0) && (num % 7 == 0)) {
-				search = true;       //true¿Í Break ¹® °°ÀÌ ¾²´Â°Å ÁÁÀºµí!
-				break;               //while ¹®À» ºüÁ®³ª°¨, ¹Ýº¹¹®À» ³ª°¡´Â °ÍÀÓ
+				search = true;      
+				break;            
 			}
 			num++;
 		}
 		
-		if (search)                  //Boolean ÇüÀÌ¶ó if ¹® ³» Á¶°Çµµ µû·Î ¾ÈÇØµµ µÊ
+		if (search)                 
 		{
-			System.out.println("Ã£´Â Á¤¼ö : "+num);
+			System.out.println(num);
 		}
-		else System.out.println("5¿Í 7ÀÇ °ø¹è¼ö ¸øÃ£¾Ò¾î¿ä");
+		else System.out.println("5ì™€ 7ì˜ ë°°ìˆ˜ ì•„ë‹˜");
 		
 		
 	}
 }
-/*
-¹üÀ§ ³» 5ÀÇ ¹è¼ö 7ÀÇ ¹è¼ö¸¦ ¸ðµÎ print ÇÔ
-
-while (num < 100) {
-	if ((num % 5 ==0) && (num % 7 == 0)) {
-		System.out.println(num);
-	}
-	num++;
-}
-*/

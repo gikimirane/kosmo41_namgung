@@ -1,8 +1,9 @@
 /*
-¹®Á¦ 05-10
-»ç¿ëÀÚ·ÎºÎÅÍ 2°³ÀÇ Á¤¼ö¸¦ ÀÔ·Â¹Ş´Â´Ù. 
-°¡·É 2¿Í 6À» ÀÔ·Â¹Ş¾Ò´Ù¸é 2+3+4+5+6À» ±¸ÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ¶ó.
-´Ü 6°ú 2¸¦ ÀÔ·Â¹Ş´Â´Ù¸é 6+5+4+3+2¸¦ ±¸ÇØ¾ß ÇÑ´Ù.
+ë¬¸ì œ 05-10
+ì‚¬ìš©ìë¡œë¶€í„° 2ê°œì˜ ì •ìˆ˜ë¥¼ ì…ë ¥ë°›ëŠ”ë‹¤. ê°€ë ¹ 2ì™€ 6ì„ ì…ë ¥ë°›ì•˜ë‹¤ë©´
+2+3+4+5+6ì„ êµ¬í•˜ëŠ” í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•˜ë¼.
+ë‹¨ 6ê³¼ 2ë¥¼ ì…ë ¥ë°›ëŠ”ë‹¤ë©´ 6+5+4+3+2ë¥¼ êµ¬í•´ì•¼ í•œë‹¤. 
+
  */
 import java.util.Scanner;
 public class Quiz10 {
@@ -10,9 +11,9 @@ public class Quiz10 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("Ã¹ ¹øÂ° ¼ö ÀÔ·Â");
+		System.out.println("ê°’ 1");
 		int nNum1 = s.nextInt();
-		System.out.println("µÎ ¹øÂ° ¼ö ÀÔ·Â");		
+		System.out.println("ê°’ 2");		
 		int nNum2 = s.nextInt();
 		int nSum = 0;
 		
@@ -29,6 +30,6 @@ public class Quiz10 {
 					i++;
 			}
 		}
-		System.out.println("ÇÕÀº : "+nSum);	
+		System.out.println("ê²°ê³¼ : "+nSum);	
 	}
 }

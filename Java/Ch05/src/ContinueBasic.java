@@ -12,9 +12,9 @@ public class ContinueBasic {
 				continue;
 			}
 			count++;
-			System.out.println("5 ¶Ç´Â 7ÀÇ ¹è¼ö : "+num);
+			System.out.println("5 ë˜ëŠ” 7ì˜ ë°°ìˆ˜ : "+num);
 		}
-		System.out.println("100 »çÀÌÀÇ 5 ¶Ç´Â 7ÀÇ ¹è¼ö : "+count);
+		System.out.println("ëª‡ê°œëƒë©´ : "+count);
 	}
 }
 

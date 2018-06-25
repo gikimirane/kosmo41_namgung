@@ -1,6 +1,6 @@
 /*
-¹®Á¦ 1 : 03-01
-»ç¿ëÀÚ·ÎºÎÅÍ µÎ°³ÀÇ Á¤¼ö¸¦ ÀÔ·Â¹Ş¾Æ¼­ »çÄ¢¿¬»ê¿¡ ´ëÇÑ °á°ú¸¦ Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ¶ó.
+ë¬¸ì œ 1 : 03-01
+ì‚¬ìš©ìë¡œë¶€í„° ë‘ê°œì˜ ì •ìˆ˜ë¥¼ ì…ë ¥ë°›ì•„ì„œ ì‚¬ì¹™ì—°ì‚°ì— ëŒ€í•œ ê²°ê³¼ë¥¼ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•˜ë¼
 */
 
 import java.util.Scanner;
@@ -12,26 +12,25 @@ public class Quiz1 {
 		
 		int sum=0;
 		
-		System.out.println("Ã¹ ¹øÂ° ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.println("1ë²ˆ ìˆ«ì");
 		int num1 = s.nextInt();
 		
-		System.out.println("µÎ ¹øÂ° ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.println("2ë²ˆ ìˆ«ì");
 		int num2 = s.nextInt();
 		
-		System.out.println("µ¡¼ÀÀÇ °á°ú : " + (num1+num2));
+		System.out.println("í•© : " + (num1+num2));
 		
-		// if ¹®À¸·Î ÇØº½
+		
 	
 		if (num1 > num2 ){
-			System.out.println("»¬¼ÀÀÇ °á°ú : " + (num1-num2));
+			System.out.println("ë¹¼ê¸° : " + (num1-num2));
 		}
-		else System.out.println("»¬¼ÀÀÇ °á°ú : " + (num2-num1));
+		else System.out.println("ë¹¼ê¸° : " + (num2-num1));
 
-		// »ïÇ× ¿¬»êÀÚ·Î È°¿ë
 		//sum = num1 > num2 ? (num1-num2) : (num2 - num1);
-		System.out.println("»¬¼ÀÀÇ °á°ú : " + sum);
-		System.out.println("°ö¼ÀÀÇ °á°ú : " + (num1*num2));
-		System.out.println("³ª´°¼ÀÀÇ °á°ú : " + (num1/num2));
+		System.out.println("í•© : " + sum);
+		System.out.println("ê³±ì…ˆ : " + (num1*num2));
+		System.out.println("ë‚˜ëˆ—ì…ˆ : " + (num1/num2));
 
 	}
 

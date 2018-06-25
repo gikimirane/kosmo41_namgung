@@ -5,13 +5,13 @@ public class InputNum {
 		
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("Ã¹ ¹øÂ° ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.println("ì²«ë²ˆì§¸ ìˆ˜.");
 		int num1 = s.nextInt();
 		
-		System.out.println("µÎ ¹øÂ° ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.println("ë‘ë²ˆì§¸ ìˆ˜.");
 		int num2 = s.nextInt();
 		
-		System.out.println("´ç½ÅÀÌ ÀÔ·ÂÇÑ ¼ıÀÚ´Â "+num1 + ", " + num2);
+		System.out.println("ë”í•œê±° "+num1 + ", " + num2);
 		
 	}
 

@@ -1,9 +1,9 @@
 /*
-¹®Á¦ 05A-02
-»ç¿ëÀÚ·ÎºÎÅÍ ´ÙÀ½ ¼ø¼­´ë·Î Á¤¼ö¸¦ ÀÔ·Â¹ÞÀº ÈÄ Æò±ÕÀ» ±¸ÇÏ¿© Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ½Ã¿À.
-¸î°³ÀÇ Á¤¼ö¸¦ ÀÔ·ÂÇÒ Áö »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·Â¹Þ´Â´Ù.
-ÀÔ·Â¹ÞÀº ¼ýÀÚ¸¸Å­ Á¤¼ö¸¦ ÀÔ·Â¹Þ´Â´Ù.(1¿¡¼­ 3ÀÌ¶ó°í ÀÔ·ÂÇß´Ù¸é 3°³ÀÇ Á¤¼ö¸¦ ÀÔ·Â¹Þ¾Æ¾ß ÇÑ´Ù)
-ÀÔ·Â¹ÞÀº ¼ýÀÚµéÀÇ Æò±Õ°ªÀ» ±¸ÇÏ¿© Ãâ·ÂÇÑ´Ù. Æò±Õ°ªÀº ¼Ò¼öÁ¡ ÀÌÇÏ±îÁö °è»êÇØ¾ß ÇÑ´Ù.
+ì‚¬ìš©ìžë¡œë¶€í„° ë‹¤ìŒ ìˆœì„œëŒ€ë¡œ ì •ìˆ˜ë¥¼ ìž…ë ¥ë°›ì€ í›„ í‰ê· ì„ êµ¬í•˜ì—¬ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ëž¨ì„ ìž‘ì„±í•˜ì‹œì˜¤.
+ëª‡ê°œì˜ ì •ìˆ˜ë¥¼ ìž…ë ¥í•  ì§€ ì‚¬ìš©ìžë¡œë¶€í„° ìž…ë ¥ë°›ëŠ”ë‹¤
+ìž…ë ¥ë°›ì€ ìˆ«ìžë§Œí¼ ì •ìˆ˜ë¥¼ ìž…ë ¥ë°›ëŠ”ë‹¤.(ì¡°ê±´1ì—ì„œ 3ì´ë¼ê³  ìž…ë ¥í–ˆë‹¤ë©´ 3ê°œì˜ ì •ìˆ˜ë¥¼ ìž…ë ¥ë°›ì•„ì•¼ í•œë‹¤)
+ìž…ë ¥ë°›ì€ ìˆ«ìžë“¤ì˜ í‰ê· ê°’ì„ êµ¬í•˜ì—¬ ì¶œë ¥í•œë‹¤. í‰ê· ê°’ì€ ì†Œìˆ˜ì  ì´í•˜ê¹Œì§€ ê³„ì‚°í•´ì•¼ í•œë‹¤.
+
 */
 
 import java.util.Scanner;
@@ -12,73 +12,21 @@ public class Quiz2 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		
-		//ÀÌ°Ç for ¹®À¸·Î Â®¾î
-		int sum= 0; // ÇÕ°è º¯¼ö
-		int jum = 0; //Á¡¼ö º¯¼ö
-		double avg;  //Æò±ÕÀ» ´ãÀ» º¯¼ö
 		
-		System.out.println("¸î°³ÀÇ Á¡¼ö¸¦ ³ÖÀ¸½Ã°Ú½À´Ï±î?");
+		int sum= 0;
+		int jum = 0;
+		double avg;  
+		
+		System.out.println("ëª‡ê°œ ìž…ë ¥í• ëž˜?");
 		int count = s.nextInt();
 		
 		for (int i=1;i<=count;i++) {
-			System.out.println(i+"¹øÂ° Á¡¼ö¸¦ ³ÖÀ¸¼¼¿ä.");
+			System.out.println(i+"ë²ˆì§¸ ê°’ ìž…ë ¥");
 			jum = s.nextInt();
 			sum = sum + jum;
 		}
 		avg = sum/count;
-		System.out.println("ÀÔ·ÂÇÑ Á¡¼öÀÇ Æò±ÕÀº : "+avg);
+		System.out.println("í‰ê· : "+avg);
 	}
 
 }
-
-/*do while ¹®À¸·Î Â®À½
-int nsum=0;
-int i=1;
-double navg;
-
-System.out.println("¸î¹ø ÀÔ·Â¹ÞÀ»²¨¾ß");
-int count = s.nextInt();
-
-do {
-	
-	System.out.println("Á¡¼öºÎÅÍ ÀÔ·ÂÇØ");
-	int njum = s.nextInt();
-	nsum = nsum + njum;
-	i++;
-	
-}while(i<=count);
-
-navg = nsum / count;
-System.out.println("Æò±ÕÀ» ³»ÁÖ°Ú´Ù : "+ navg);
-
-*/
-
-/* ÀÌ°Ç While ¹®À¸·Î Â®¾î
-int i=1;
-int nsum=0;
-double davg;
-
-System.out.println("¸î¹ø ÀÔ·Â¹ÞÀ»²¨¾ß");
-int count = s.nextInt();
-
-while (i<=count) {
-	System.out.println("¸îÁ¡ÀÌ¾ß, È½¼ö¸¸Å­ µîÀå");
-	int njum = s.nextInt();
-	nsum = nsum + njum;
-	i++;
-}
-
-davg = nsum / count;
-System.out.println("ÀÔ·ÂÇÑ°Å Æò±Õ³»ÁÙ°Ô : "+davg);
-*/
-
-
-/* ¼³°èÇÏ´Â »ç°í ¹æ¹ýÀ» ¾Ë¾Æ¾ß ÇÔ!
-
-3¹ø °¡·® ¹Ýº¹ÇÑ´Ù°í °¡Á¤À» ÇÏ°í ÀÏÀÏÀÌ ´ëÃæ ½áº¸±â
-3¹øÀÌ µ¹¾Æ°¡°Ô²û¸¸ ÄÚµùÇÏ°í
-±× ´ÙÀ½¿¡ º¯¼ö¸¦ ³Ö°í ´õ¿í ¼¼¼¼ÇÏ°Ô °¡°øÇÏ±â
-
-Ã³À½ºÎÅÍ ³ª¿Ã¸®°¡ ¾ø´Ù!
-º¯¼ö ¾Õ¿¡ ¼±¾ðÇÑ º¯¼öÇüÅÂÀÇ ¾ÕÀÚ¸®¸¦ ºÙÈ÷¸é À¯¿ë, È¸»ç¸¶´Ù ³×ÀÌ¹Ö¿¡ ´ëÇÑ RuleÀº ÀÖÀ½
-*/

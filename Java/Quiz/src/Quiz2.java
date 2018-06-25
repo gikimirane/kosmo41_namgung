@@ -1,7 +1,8 @@
 /*
-¹®Á¦ 2 : 03-02
-ÇÏ³ªÀÇ Á¤¼ö¸¦ ÀÔ·Â¹Ş¾Æ¼­ ±× ¼öÀÇ Á¦°öÀ» Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥À» ÀÛ¼ºÇÏ¶ó. 
-°¡·É 5¸¦ ÀÔ·Â¹Ş¾Ò´Ù¸é 25°¡ Ãâ·ÂµÇ¾î¾ß ÇÑ´Ù.
+ë¬¸ì œ 2 : 03-02
+í•˜ë‚˜ì˜ ì •ìˆ˜ë¥¼ ì…ë ¥ë°›ì•„ì„œ ê·¸ ìˆ˜ì˜ ì œê³±ì„ ì¶œë ¥í•˜ëŠ” í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•˜ë¼. 
+ê°€ë ¹ 5ë¥¼ ì…ë ¥ë°›ì•˜ë‹¤ë©´ 25ê°€ ì¶œë ¥ë˜ì–´ì•¼ í•œë‹¤.
+
  */
 
 import java.util.Scanner;
@@ -11,10 +12,10 @@ public class Quiz2 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("ÇÏ³ªÀÇ Á¤¼ö¸¦ ÀÔ·ÂÇÏ¸é Á¦°öÇØ µå¸³´Ï´Ù.");
+		System.out.println("ì…ë ¥");
 		int num1 = s.nextInt();
 		
-		System.out.println("ÀÔ·ÂÇÑ ¼ö¸¦ Á¦°öÇÑ °ªÀº : " + (num1*num1));
+		System.out.println("ì œê³± : " + (num1*num1));
 
 	}
 
