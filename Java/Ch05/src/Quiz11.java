@@ -11,7 +11,7 @@ public class Quiz11 {
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("���丮�� �� �� �Է��ϼ���.");
+		System.out.println("입력 ㄱㄱ.");
 		int nNum1 = s.nextInt();
 		int nNum2 = 1;
 		
@@ -19,6 +19,6 @@ public class Quiz11 {
 			nNum2 = nNum2 * nNum1;
 			nNum1 = nNum1-1;
 		}
-		System.out.println("�Է� ������ ���� ���丮�� ��� : "+nNum2);
+		System.out.println("결과 : "+nNum2);
 	}
 }
