@@ -14,7 +14,7 @@ public class Quiz3 {
 
 	public static void main(String[] args) {
 		
-		int[] sr = new int[10];
+		/*int[] sr = new int[10];
 		Scanner s = new Scanner(System.in);
 		
 		for(int i=0;i<10;i++) {
@@ -35,27 +35,48 @@ public class Quiz3 {
 				hCount++;
 			}
 		}
-		
-		System.out.println(hCount);
-		System.out.println(sCount);
+		*/
+		Scanner sc = new Scanner(System.in);
+		int sr[] = new int[10];
+		//int total[] = new int[10];
+		int[] sA = new int [10];
+		int[] hA = new int [10];
+		//값을 10개 받기
+		for(int i=0;i<sr.length;i++) {
+			System.out.println("정수를 입력하세요. 총 10개");
+			sr[i] = sc.nextInt();
+		}
+		int s=0;
+		int h=0;
+		for(int i=0;i<10;i++) {
+			if(sr[i]%2==0) {
+				sA[s]=sr[i]; //기존 배열을 짝수배열로 배치
+				s++; 	     //홀수의 개수
+			}
+			else if(sr[i]%2==1) {
+				hA[h]=sr[i]; //기존 배열을 홀수배열로 배치
+				h++; 	     //홀수 배열 위치 이동
+			}
+		}
+		System.out.println("확인용 : "+s+" / "+h);
 		
 		System.out.println("짝수 출력 : ");
 		for(int i=0;i<10;i++) {
-			if((i+1)<sCount) {
-				System.out.print(s_sr[i]+", ");
+			if(i<(s-1)) {      // -1의 이유는 배열 주소는 0부터 시작하지만, length는 1부터 n개까지 n개로 표현하기 때문
+				System.out.print(sA[i]+", ");
 				
-			}else if((i+1)==sCount) {
-				System.out.print(s_sr[i]);
+			}else if(i==(s-1)) {
+				System.out.print(sA[i]);
 			}
 		}
 		System.out.println();
 		System.out.println("홀수 출력 : ");
 		for(int i=0;i<10;i++) {
-			if((i+1)<(hCount)) {
-				System.out.print(h_sr[i]+", ");
+			if(i<(h-1)) {
+				System.out.print(hA[i]+", ");
 				
-			}else if ((i+1)==(hCount)){
-				System.out.print(h_sr[i]);
+			}else if (i==h-1){
+				System.out.print(hA[i]);
 			}
 		}		
 	}

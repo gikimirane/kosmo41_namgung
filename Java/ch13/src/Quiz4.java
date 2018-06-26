@@ -10,28 +10,25 @@ import java.util.Scanner;
 public class Quiz4 {
 
 	public static void main(String[] args) {
-		Scanner s = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		int sr[] = new int[10];
 		int total[] = new int[10];
-		int s_sr[] = new int[10];
-		int h_sr[] = new int[10];
 		
 		//값을 10개 받기
 		for(int i=0;i<sr.length;i++) {
 			System.out.println("정수를 입력하세요. 총 10개");
-			sr[i] = s.nextInt();
+			sr[i] = sc.nextInt();
 		}
-		int s_j=0;
-		int h_j=9;
-		
+		int s=0;
+		int h=9;
 		for(int i=0;i<10;i++) {
 			if(sr[i]%2==0) {
-				total[s_j]=sr[i]; //짝수
-				s_j++;
+				total[s]=sr[i]; //짝수
+				s++;
 			}
 			else if(sr[i]%2==1) {
-				total[h_j]=sr[i];
-				h_j--;
+				total[h]=sr[i]; //홀수
+				h--;
 			}
 		}
 		
