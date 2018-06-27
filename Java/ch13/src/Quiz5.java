@@ -12,12 +12,30 @@ public class Quiz5 {
 		for(int i=0;i<array_word.length;i++){ //스트링을 한글자씩 끊어 배열에 저장
 			array_word[i] = Character.toString(word.charAt(i));
 		}
+		
+		int nMax1 = array_word.length;
+		int nMax2 = array_word.length/2;
+		
+		for(int i =0;i<nMax2;i++) {
+			if(!array_word[i].equals(array_word[nMax1-1-i])){
+				System.out.println("회문이 아닙니다.");
+			}else System.out.println("회문입니다.");break;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		/* 내가 푼거
 		int leng = array_word.length;
 		int n = 1;
 		int count =0;
 		for (int i=0;i<leng;i++) {
 			if(array_word[i].equals(array_word[leng-n])) { 
-				//ex)배열은 0~4, length는 5로 인해 -1를 시작으로 1개씩 깍아가면서 비교 
+																			//ex)배열은 0~4, length는 5로 인해 -1를 시작으로 1개씩 깍아가면서 비교 
 				System.out.println(array_word[i]+" / "+array_word[leng-n]);
 				n++;
 				count = count+1;
@@ -27,7 +45,7 @@ public class Quiz5 {
 			}
 		}
 		if(leng==count) {
-			System.out.println("회문입니다.");
-		}
+			System.out.println("회문 입니다.");
+		}*/
 	}
 }

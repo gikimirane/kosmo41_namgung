@@ -19,16 +19,16 @@ public class Quiz4 {
 			System.out.println("정수를 입력하세요. 총 10개");
 			sr[i] = sc.nextInt();
 		}
-		int s=0;
-		int h=9;
+		int s=9;
+		int h=0;
 		for(int i=0;i<10;i++) {
 			if(sr[i]%2==0) {
 				total[s]=sr[i]; //짝수
-				s++;
+				s--;
 			}
 			else if(sr[i]%2==1) {
 				total[h]=sr[i]; //홀수
-				h--;
+				h++;
 			}
 		}
 		

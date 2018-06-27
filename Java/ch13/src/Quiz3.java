@@ -14,31 +14,8 @@ public class Quiz3 {
 
 	public static void main(String[] args) {
 		
-		/*int[] sr = new int[10];
-		Scanner s = new Scanner(System.in);
-		
-		for(int i=0;i<10;i++) {
-			System.out.println("총 10개의 값 입력하세요.");
-			sr[i] = s.nextInt();
-		}
-		
-		int[] s_sr = new int[10]; // 짝
-		int[] h_sr = new int[10]; // 홀
-		int sCount = 0;
-		int hCount = 0;
-		for(int i=0;i<sr.length;i++) {
-			if(sr[i]%2 ==0) {
-				s_sr[sCount]=sr[i];
-				sCount++;
-			}else {
-				h_sr[hCount]=sr[i];
-				hCount++;
-			}
-		}
-		*/
 		Scanner sc = new Scanner(System.in);
 		int sr[] = new int[10];
-		//int total[] = new int[10];
 		int[] sA = new int [10];
 		int[] hA = new int [10];
 		//값을 10개 받기
@@ -73,11 +50,37 @@ public class Quiz3 {
 		System.out.println("홀수 출력 : ");
 		for(int i=0;i<10;i++) {
 			if(i<(h-1)) {
-				System.out.print(hA[i]+", ");
-				
-			}else if (i==h-1){
+				System.out.print(hA[i]+", ");				
+			}
+			else if (i==h-1)
+			{
 				System.out.print(hA[i]);
 			}
 		}		
 	}
 }
+
+/*
+ 		/*int[] sr = new int[10];
+		Scanner s = new Scanner(System.in);
+		
+		for(int i=0;i<10;i++) {
+			System.out.println("총 10개의 값 입력하세요.");
+			sr[i] = s.nextInt();
+		}
+		
+		int[] s_sr = new int[10]; // 짝
+		int[] h_sr = new int[10]; // 홀
+		int sCount = 0;
+		int hCount = 0;
+		for(int i=0;i<sr.length;i++) {
+			if(sr[i]%2 ==0) {
+				s_sr[sCount]=sr[i];
+				sCount++;
+			}else {
+				h_sr[hCount]=sr[i];
+				hCount++;
+			}
+		}
+		*/
+
