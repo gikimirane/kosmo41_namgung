@@ -21,8 +21,5 @@ public class Quiz7 {
 			}
 			System.out.println();
 		}
-		
-
 	}
-
 }
