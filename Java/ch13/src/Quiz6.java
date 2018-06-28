@@ -15,11 +15,8 @@ public class Quiz6 {
 				int n2=j+1;
 				ar2[i][j] = n1*n2;
 				System.out.print(n1+"*"+n2+"="+ar2[i][j]+"\t");
-			}
-			
+			}	
 			System.out.println();
-		}
-		
+		}	
 	}
-
 }
