@@ -35,10 +35,12 @@ public class Quiz8 {
 		//첫번째 줄 이름 및 구분,총점 찍기 완료
 		
 		//과목과 점수 찍기
-		for(int j=0;j<lJum.length;j++) {
+		for(int i=0;i<lJum.length;i++) {
+			
 			int sum=0;
-			System.out.print(ar_sub[j]+"\t");  //줄 바뀔 시 다시 과목 찍어줌
-			for(int i=0;i<lJum.length;i++) {
+			System.out.print(ar_sub[i]+"\t");  //줄 바뀔 시 다시 과목 찍어줌
+			
+			for(int j=0;j<lJum.length;j++) {
 				System.out.print(lJum[i][j]+"\t");
 				sum=sum+lJum[i][j];
 			}

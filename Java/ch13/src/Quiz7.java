@@ -12,12 +12,9 @@ public class Quiz7 {
 				ar2[j][i] = ar1[i][j];	
 			}
 		}
-	
 		for(int j=0;j<4;j++) {
 			for(int i=0;i<2;i++) {
-				
 				System.out.print(ar2[j][i]+"\t");
-				
 			}
 			System.out.println();
 		}
