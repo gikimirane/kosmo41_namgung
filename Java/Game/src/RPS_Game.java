@@ -8,7 +8,7 @@
 */
 import java.util.Random;
 import java.util.Scanner;
-public class Quiz9 {
+public class RPS_Game {
 
 	public static void main(String[] args) {
 		Random r = new Random();

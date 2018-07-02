@@ -3,7 +3,6 @@
 abstract class Human {
 	abstract void print();  //추상메소드
 }
-
 class Man extends Human {
 	String str;
 	
@@ -15,7 +14,6 @@ class Man extends Human {
 		System.out.println(str + " 생성2");
 	}
 }
-
 class Woman extends Human {
 	String str;
 	Woman(String str){

@@ -10,7 +10,6 @@ import java.util.Scanner;
 숫자3개가 모두 일치하지 않으면  out으로 판정한다.
 3 strike 가 되면 게임은 종료된다.
 시도한 횟수를 표시한다.
-
 */
 
 public class Baseball {
