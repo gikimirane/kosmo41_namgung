@@ -57,6 +57,7 @@ public class Baseball {
 			if(sCount==3) {
 				System.out.println("YOU WIN");
 				System.out.println(sCount+"Strike\t"+bCount+"ball");
+				System.out.println(n1+""+n2+""+n3);
 				break;
 			}else {
 				System.out.println(sCount+" Strike\t"+bCount+" ball");
