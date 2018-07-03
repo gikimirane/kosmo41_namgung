@@ -11,7 +11,7 @@ public class Quiz6 {
 		System.out.println("원하는 구구단의 단 입력");
 		int nDan = s.nextInt();
 
-		for (int i=9;i>1;i=i-1) {
+		for (int i=9;i>0;i=i-1) {
 			
 			System.out.println(nDan+" * "+i+" = "+(nDan*i));
 		}
