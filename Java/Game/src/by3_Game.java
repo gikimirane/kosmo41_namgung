@@ -9,12 +9,12 @@ class Move {
 		for(int i=2;i>0;i--) {
 			for(int j=0;j<3;j++) {
 				if(i==0 && arr[i][j].equals("x")) {
-					temp[i+n][j] = arr[i+n][j]; //i,j에 x값을 넣음
+					temp[i+n][j] = arr[i+n][j]; 
 					arr[i+n][j] = arr[i][j];
 					arr[i][j] = temp[i+n][j];	
 				}
 				else if(arr[i-n][j].equals("x")) {
-					temp[i-n][j] = arr[i-n][j]; //i,j에 x값을 넣음
+					temp[i-n][j] = arr[i-n][j]; 
 					arr[i-n][j] = arr[i][j];
 					arr[i][j] = temp[i-n][j];
 				}	
@@ -30,7 +30,7 @@ class Move {
 			for(int j=0;j<3;j++) {
 				if(i==2) n=0;
 				if(arr[i+n][j].equals("x")) {
-					temp[i+n][j] = arr[i+n][j]; //i,j에 x값을 넣음
+					temp[i+n][j] = arr[i+n][j]; 
 					arr[i+n][j] = arr[i][j];
 					arr[i][j] = temp[i+n][j];	
 				}
@@ -45,13 +45,13 @@ class Move {
 			for(int j=0;j<3;j++) {
 				n=1;
 				if(j==2 && arr[i][j].equals("x")) {
-					temp[i][j-n] = arr[i][j-n]; //i,j에 x값을 넣음
+					temp[i][j-n] = arr[i][j-n]; 
 					arr[i][j-n] = arr[i][j];
 					arr[i][j] = temp[i][j-n];
 					break;
 				}
-				else if(j<2 && arr[i][j+n].equals("x")) {     //내 앞이 비어 있으면
-					temp[i][j+n] = arr[i][j+n]; //i,j에 x값을 넣음
+				else if(j<2 && arr[i][j+n].equals("x")) {     
+					temp[i][j+n] = arr[i][j+n]; 
 					arr[i][j+n] = arr[i][j];
 					arr[i][j] = temp[i][j+n];
 					break;
@@ -135,10 +135,9 @@ class Suffle {
 
 
 public class by3_Game {
-
+	
 	public static void main(String[] args) {
-		//Scanner s = new Scanner(System.in);
-		
+				
 		Scanner s = new Scanner(System.in);
 		Move move = new Move();
 		Check check = new Check();
@@ -148,6 +147,7 @@ public class by3_Game {
 		Board=suf.Suf();  //Suffle 후 Board에 대입
 
 		while(check.Match(Board)!=9) {
+			
 			check.Print(Board);
 			System.out.println("[ Move ] a:Left  s:Right  w:Up  z:Down");
 			System.out.println("[ Exit ] k:Exit");
