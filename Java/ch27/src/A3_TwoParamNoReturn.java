@@ -6,6 +6,7 @@ public class A3_TwoParamNoReturn {
 	public static void main(String[] args) {
 		Calculate c;
 		
+		//연산결과가 안남는다! 찍고 끝!
 		c = (a,b) -> System.out.println(a+b);
 		c.cal(4, 3);
 		
