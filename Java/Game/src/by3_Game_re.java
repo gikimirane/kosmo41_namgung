@@ -7,7 +7,7 @@ public class by3_Game_re {
 		String ar1[][] = {{"1","2","3"},{"4","5","6"},{"7","8","x"}};
 		int count=0;
 		for(int i=0;i<3;i++) {
-			for(int j=0;j<0;j++) {
+			for(int j=0;j<3;j++) {
 				if(ar1[i][j].equals(ar[i][j])) {
 					count++;
 				}
@@ -86,6 +86,7 @@ public class by3_Game_re {
 		int count=0;
 		ar = suffle();
 		print(ar);
+		System.out.println(checkMatch(ar));
 		
 		while(count!=9) {
 			int x=0;int y=0;
@@ -103,23 +104,19 @@ public class by3_Game_re {
 			if(uNum == 6) {
 				moveR(ar,x,y);
 				print(ar);
-				count =checkMatch(ar);
-				System.out.println(count);
+				count=checkMatch(ar);
 			}else if(uNum == 4) {
 				moveL(ar,x,y);
 				print(ar);
 				count=checkMatch(ar);
-				System.out.println(count);
 			}else if(uNum == 8) {
 				moveU(ar,x,y);
 				print(ar);
 				count=checkMatch(ar);
-				
 			}else if(uNum == 2) {
 				moveD(ar,x,y);
 				print(ar);
 				count=checkMatch(ar);
-				System.out.println(count);
 			}else if(uNum ==0) {
 				s.close();
 				break;
