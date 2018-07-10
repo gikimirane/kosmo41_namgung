@@ -17,7 +17,5 @@ public class A4_Read7FromFile2 {
 				in.close();
 			}
 		}
-
 	}
-
 }
