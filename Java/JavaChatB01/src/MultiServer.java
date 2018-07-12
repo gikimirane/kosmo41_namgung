@@ -24,6 +24,7 @@ public class MultiServer {
 			out = new PrintWriter(socket.getOutputStream(),true);
 			in = new BufferedReader(new InputStreamReader(
 										socket.getInputStream()));
+			
 			s = in.readLine();
 			System.out.println(s);
 			out.println(s);
@@ -43,6 +44,6 @@ public class MultiServer {
 		}
 	}
 }
-
+//telnet localhost 9999
 //telnet 192.168.0.112 9999
 //telnet ip주소 포트번호 입력하기
