@@ -3,10 +3,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class MultiServer6 {
 
@@ -57,14 +59,30 @@ public class MultiServer6 {
 		
 		Iterator<String> itr = clientMap.keySet().iterator();
 		String keys="";
+		int num=1;
 		while(itr.hasNext()) {
-			keys += (String)itr.next()+"\t";
+			keys += num+"번째 손님 "+(String)itr.next()+"\t";
+			num++;
 		}
 		out.println(keys);
 	}
 	
-	public void singleChat(String name, PrintWriter out) {
-//		아놔 모르겄따~~
+	public void singleChat(String name,String index) {
+		StringTokenizer st = new StringTokenizer(index," ");
+		ArrayList<String> arr = new ArrayList<>();
+		PrintWriter address=null;
+		
+		while(st.hasMoreTokens()) {
+			arr.add(st.nextToken());
+		}
+		for(String a : arr) {
+			if(clientMap.containsKey(arr.get(1))) {
+				address = clientMap.get(arr.get(1));
+			}else System.out.println("해당 사용자가 없습니다.");
+		}
+
+		address.println(name+"님의 귓속말 :"+index.substring(index.indexOf(" ",4)));
+		
 	}
 //	해시맵에서 키값올라와찌
 //	out을 찾아서… HashMap에 보면은 요렇게 생겼으니까 =>>  <User이름,키값(주소)> 두번째 키값에 해당되는 애들한테만 메시지를 쏴 줘, 
@@ -72,6 +90,8 @@ public class MultiServer6 {
 //	첫글짜가 슬래시인지를 봐 
 //	그다음에 공백까지가 명령어인데 to면 귓속말 OK! 두번째 공백~세번째 공백사이가 User이름이자나~ subString 으로 다 쪼개야돼~~
 	
+	
+
 	public static void main(String[] args) {
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
@@ -105,15 +125,19 @@ public class MultiServer6 {
 				String s ="";
 				while(in!=null) {
 					s = in.readLine();
-					System.out.println(s);
+					System.out.println(name+"=>"+ s);
 										
 					if(s.equals("q")|| s.equals("Q")) {
 						break;
 					}
-					if(s.equals("/list")) {
+					
+					if(s.indexOf("/")==0) {
+						singleChat(name,s);
+					}					
+					else if(s.equals("/list")) {
 						list(out);	
 					}
-					else sendAllMsg(s);
+					else sendAllMsg(name+"=>"+ s);
 				}
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);

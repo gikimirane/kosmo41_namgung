@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-
+//서버로 전달하는애
 public class Sender5 extends Thread{
 	Socket socket;
 	PrintWriter out = null;
@@ -29,12 +29,17 @@ public class Sender5 extends Thread{
 					if(s2.equals("q")||s2.equals("Q")) {
 						out.println(s2);
 						break;
-					}					
-					if(s2.equals("/list")) {
+					}
+					
+					if(s2.indexOf("/")==0) {
+						out.println(s2);
+					}
+					
+					else if(s2.equals("/list")) {
 						out.println(s2);
 					}
 					else {
-						out.println(name+" => "+s2);
+						out.println(s2);
 					}
 					
 				}catch(Exception e) {

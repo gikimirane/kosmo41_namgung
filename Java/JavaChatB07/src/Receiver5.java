@@ -24,7 +24,7 @@ public class Receiver5 extends Thread {
 		while(in!=null) {
 			try {
 //				서버로 부터 받은 내용을 출력한다
-				System.out.println("Thread Receive : "+in.readLine());
+				System.out.println(in.readLine());
 				
 //			소켓에 문제 있음 break 해라~
 			}catch(java.net.SocketException ne) {   

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 /*
 문제 2 : 03-02
 하나의 정수를 입력받아서 그 수의 제곱을 출력하는 프로그램을 작성하라. 
@@ -12,7 +15,7 @@ public class Quiz2_re {
 				
 		num1 = in.UserIn(1);
 		System.out.println("제곱 : "+calc.Squ(num1));
-
+		
 	}
 
 }

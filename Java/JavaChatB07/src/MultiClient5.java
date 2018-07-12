@@ -11,8 +11,8 @@ public class MultiClient5 {
 		String s_name = s.nextLine();
 		
 		try {
-//			String ServerIP = "localhost";
-			String ServerIP = args[0];
+			String ServerIP = "localhost";
+//			String ServerIP = args[0];
 			Socket socket = new Socket(ServerIP,9999);
 			System.out.println("서버에 연결되었습니다...");
 			
