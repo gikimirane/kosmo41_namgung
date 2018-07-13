@@ -44,54 +44,60 @@ public class MultiServer6 {
 		}
 	}
 
-	public void sendAllMsg(String msg) {
+	public void sendAllMsg(String user,String msg) {
 		Iterator it = clientMap.keySet().iterator();
 		while(it.hasNext()) {
 			try {
 				PrintWriter it_out = (PrintWriter)clientMap.get(it.next());
-				it_out.println(msg);
+				if(user.equals("")) {
+					it_out.println(msg);
+				}else {
+					it_out.println("["+user+"] "+msg);
+				}
+				
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);
 			}
 		}
 	}
 	public void list(PrintWriter out) {
-		
+				
 		Iterator<String> itr = clientMap.keySet().iterator();
-		String keys="";
-		int num=1;
+		String keys="사용자 리스트 [";
+		
 		while(itr.hasNext()) {
-			keys += num+"번째 손님 "+(String)itr.next()+"\t";
-			num++;
+			keys += (String)itr.next()+",";
 		}
+		keys = keys.substring(0,keys.length()-1)+"]";
 		out.println(keys);
 	}
-	
-	public void singleChat(String name,String index) {
-		StringTokenizer st = new StringTokenizer(index," ");
-		ArrayList<String> arr = new ArrayList<>();
-		PrintWriter address=null;
-		
-		while(st.hasMoreTokens()) {
-			arr.add(st.nextToken());
-		}
-		for(String a : arr) {
-			if(clientMap.containsKey(arr.get(1))) {
-				address = clientMap.get(arr.get(1));
-			}else System.out.println("해당 사용자가 없습니다.");
-		}
+	public void commendInput(PrintWriter out, String s, String name) {
+		String str = s; //클라이언트에서 받은 text가 됨
+		String com= ""; 
 
-		address.println(name+"님의 귓속말 :"+index.substring(index.indexOf(" ",4)));
+		try {
+			com = str.substring(1, str.indexOf(" "));
+		}catch(Exception e){
+			com = str.substring(1);
+		}
+		System.out.println(com);
 		
+		if(com.equals("to")) {
+			singleChat(str,name);
+		}else if(com.equals("list")) {
+			list(out);
+		}
 	}
-//	해시맵에서 키값올라와찌
-//	out을 찾아서… HashMap에 보면은 요렇게 생겼으니까 =>>  <User이름,키값(주소)> 두번째 키값에 해당되는 애들한테만 메시지를 쏴 줘, 
-//	이름을 찾아서 그 이름에 해당되는 주소에만 쏴줘~그게 귓속말이야~~
-//	첫글짜가 슬래시인지를 봐 
-//	그다음에 공백까지가 명령어인데 to면 귓속말 OK! 두번째 공백~세번째 공백사이가 User이름이자나~ subString 으로 다 쪼개야돼~~
-	
-	
+	public void singleChat(String input, String outname) {
+		String str = input;
+		String temp = str.substring(str.indexOf(" ")+1);
+		String friendName = temp.substring(0,temp.indexOf(" "));
+		String txt = temp.substring(temp.indexOf(" ")+1);
 
+		PrintWriter address = clientMap.get(friendName);
+		address.println(outname+"님의 귓속말 :"+txt);
+	}
+	
 	public static void main(String[] args) {
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
@@ -118,32 +124,28 @@ public class MultiServer6 {
 			try {
 				name = in.readLine();
 				
-				sendAllMsg(name +"님이 입장하셨습니다.");
+				sendAllMsg("",name +"님이 입장하셨습니다.");
 				clientMap.put(name, out);
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				
 				String s ="";
 				while(in!=null) {
 					s = in.readLine();
-					System.out.println(name+"=>"+ s);
-										
+					System.out.println("["+name+"] "+ s);
+					
 					if(s.equals("q")|| s.equals("Q")) {
 						break;
 					}
-					
-					if(s.indexOf("/")==0) {
-						singleChat(name,s);
-					}					
-					else if(s.equals("/list")) {
-						list(out);	
+					if(s.startsWith("/")) {
+						commendInput(out,s,name);
 					}
-					else sendAllMsg(name+"=>"+ s);
+					else sendAllMsg(name,s);
 				}
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);
 			}finally {
 				clientMap.remove(name);
-				sendAllMsg(name+"님이 퇴장하셨습니다.");
+				sendAllMsg("",name+"님이 퇴장하셨습니다.");
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				
 				try {
@@ -157,5 +159,4 @@ public class MultiServer6 {
 			}
 		}
 	}
-
 }

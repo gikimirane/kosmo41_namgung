@@ -26,22 +26,14 @@ public class Sender5 extends Thread{
 			while(out!=null) {
 				try {
 					String s2 = s.nextLine();
+
 					if(s2.equals("q")||s2.equals("Q")) {
-						out.println(s2);
+//						out.println(s2);
 						break;
-					}
-					
-					if(s2.indexOf("/")==0) {
-						out.println(s2);
-					}
-					
-					else if(s2.equals("/list")) {
-						out.println(s2);
 					}
 					else {
 						out.println(s2);
-					}
-					
+					}					
 				}catch(Exception e) {
 					System.out.println("예외S1 : "+e);
 				}
