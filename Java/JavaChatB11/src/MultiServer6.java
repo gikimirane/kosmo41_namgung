@@ -3,12 +3,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class MultiServer6 {
 
@@ -45,7 +43,7 @@ public class MultiServer6 {
 	}
 
 	public void sendAllMsg(String user,String msg) {
-		Iterator it = clientMap.keySet().iterator();
+		Iterator<String> it = clientMap.keySet().iterator();
 		while(it.hasNext()) {
 			try {
 				PrintWriter it_out = (PrintWriter)clientMap.get(it.next());
@@ -59,9 +57,9 @@ public class MultiServer6 {
 				System.out.println("예외 : "+e);
 			}
 		}
+		
 	}
 	public void list(PrintWriter out) {
-				
 		Iterator<String> itr = clientMap.keySet().iterator();
 		String keys="사용자 리스트 [";
 		
@@ -80,7 +78,6 @@ public class MultiServer6 {
 		}catch(Exception e){
 			com = str.substring(1);
 		}
-		System.out.println(com);
 		
 		if(com.equals("to")) {
 			singleChat(str,name);
@@ -88,14 +85,20 @@ public class MultiServer6 {
 			list(out);
 		}
 	}
-	public void singleChat(String input, String outname) {
+	public void singleChat(String input, String name) {
+		
 		String str = input;
 		String temp = str.substring(str.indexOf(" ")+1);
 		String friendName = temp.substring(0,temp.indexOf(" "));
 		String txt = temp.substring(temp.indexOf(" ")+1);
-
+		
+//		이건 귓속말 시작한 사람한테 띄워줌
+		PrintWriter myAdd = clientMap.get(name);
+		myAdd.println(friendName+"님께 귓속말 전송 : "+txt);
+		
+//		친구한테 메시지 전송
 		PrintWriter address = clientMap.get(friendName);
-		address.println(outname+"님의 귓속말 :"+txt);
+		address.println(name+"님의 귓속말 :"+txt);
 	}
 	
 	public static void main(String[] args) {

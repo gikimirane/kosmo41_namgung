@@ -4,7 +4,6 @@
 	import java.io.IOException;
 	import java.io.PrintWriter;
 	import java.net.Socket;
-
 	import javax.swing.JFrame;
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
@@ -51,14 +50,18 @@
 	        } catch(Exception e) {
 	            System.out.println("예외S3:"+e);
 	        }
-
 		}
-		
 		//Inner Class TextHandler
 		class TextHandler implements ActionListener {
-
+			boolean fixed=false;
+			String iName="";
+			String add ="";
+			
 			public void actionPerformed(ActionEvent e) {
+				
 				String msg = tf.getText();
+				String temp = msg.substring(msg.indexOf(" ")+1);
+
 				if ("".equals(msg)) return;
 				
 				if ( msg.equals("q") || msg.equals("Q") ) {
@@ -69,18 +72,31 @@
 					}
 				}
 				
-//				if(msg.equals("/to "+name)) {
-//					out.println("/to "+name+" "+msg);
-//				}else if(msg.equals(name)) {
-//					out.println(msg);
-//				}
-				else {
-					out.println(msg);
+//				/to로 시작하는지 확인
+				if(msg.startsWith("/to")) {
+					int space=0;
+//					공백이 1개면 고정, 2개 이상이면 한번만 하는 귓속말
+					for(int i=0;i<msg.length();i++) {
+						if(msg.charAt(i)==' ') {
+							space++;
+						}
+					}
+//					한번인지 고정인지 확인하고 계속고정시켜야 함
+//					고정인지 확인하고 계속 고정하기 위해 값을 초기화 시키면 안 됨 그래서 메소드 밖에서 변수 선언함
+					if(space==1) {
+						fixed = true;
+						iName = temp.substring(temp.indexOf(" ")+1);
+					}
+				}else {
+					if(fixed==true) {
+						if(msg.equals(iName)) {
+							fixed=false;
+						}else out.println("/to "+iName+" "+msg);
+						
+					}else out.println(msg);
 				}
-
-		        tf.setText("");
+				tf.setText("");
 			}
 		}
 
 	}
-

@@ -26,5 +26,6 @@ public class MultiClient6 {
 		}catch(Exception e) {
 			System.out.println("예외 [MultiClient class] : "+e);
 		}
+		s.close();
 	}
 }
