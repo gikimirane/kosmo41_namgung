@@ -55,8 +55,7 @@
 		class TextHandler implements ActionListener {
 			boolean fixed=false;
 			String iName="";
-			String add ="";
-			
+						
 			public void actionPerformed(ActionEvent e) {
 				
 				String msg = tf.getText();
