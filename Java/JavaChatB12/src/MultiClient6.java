@@ -1,18 +1,59 @@
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class MultiClient6 {
-
-	public static void main(String[] args) throws UnknownHostException, IOException {
-		System.out.println("이름을 입력하세요.");
-		Scanner s = new Scanner(System.in);
-		String s_name = s.nextLine();
-		
+	
+	static {
 		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		}catch(ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
+
+		Connection con =null;
+		PreparedStatement pstmt=null;
+		String sql = null;
+		Scanner s = new Scanner(System.in);
+		String s_name = "";
+		boolean sw = true;
+		int updateCount=0;
+		
+		con = DriverManager.getConnection(
+				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+				"scott",
+				"tiger");
+		
+		while(sw) {
+			try {		
+				System.out.println("이름을 입력하세요.");
+				s_name = s.nextLine();
+				sql = "insert into emp values (eno.nextVal, "+"'"+s_name+"'"+", 0)";
+				pstmt = con.prepareStatement(sql);
+				updateCount = pstmt.executeUpdate();
+				System.out.println("insert Count : "+updateCount);
+				if(updateCount>0) {
+					sw = false;
+					con.commit();
+				}
+			}catch(SQLException sqle) {
+				System.out.println("이름이 중복됩니다.");
+				continue;
+			}
+		}		
+		try {
+//			String ServerIP = "ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com";
 			String ServerIP = "localhost";
-//			String ServerIP = args[0];
 			Socket socket = new Socket(ServerIP,9999);
 			System.out.println("서버에 연결되었습니다...");
 			
@@ -20,12 +61,12 @@ public class MultiClient6 {
 			receiver.start();
 			
 			new ChatWin(socket,s_name);
-			
-//			Thread sender = new Sender5(socket,s_name);
-//			sender.start();
+
 		}catch(Exception e) {
 			System.out.println("예외 [MultiClient class] : "+e);
+			if(pstmt!=null) pstmt.close();
+			if(pstmt != null)pstmt.close();
+			if(con!=null) con.close();
 		}
-		s.close();
 	}
 }

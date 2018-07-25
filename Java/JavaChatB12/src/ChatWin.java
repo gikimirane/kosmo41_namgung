@@ -8,6 +8,7 @@
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
 
+//sender 영역
 	public class ChatWin extends JFrame {
 
 		private static final long serialVersionUID = 1L;
@@ -85,6 +86,9 @@
 					if(space==1) {
 						fixed = true;
 						iName = temp.substring(temp.indexOf(" ")+1);
+						out.println("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.");
+					}else {
+						out.println(msg);
 					}
 				}else {
 					if(fixed==true) {

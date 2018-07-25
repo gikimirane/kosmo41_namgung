@@ -9,7 +9,7 @@ public class Receiver6 extends Thread {
 	public Receiver6(Socket socket) {
 		this.socket = socket;
 		try {
-			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream(),"utf-8"));
 		}catch(Exception e) {
 			System.out.println("예외 : "+e);
 		}

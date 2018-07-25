@@ -3,17 +3,29 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class MultiServer6 {
-
 	ServerSocket serverSocket = null;
 	Socket socket =null;
 	Map<String, PrintWriter> clientMap;
 	
+	static {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		}catch(ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+	}
+
 	public MultiServer6() {
 		clientMap = new HashMap<String, PrintWriter>();
 		Collections.synchronizedMap(clientMap);
@@ -100,8 +112,23 @@ public class MultiServer6 {
 		PrintWriter address = clientMap.get(friendName);
 		address.println(name+"님의 귓속말 :"+txt);
 	}
-	
-	public static void main(String[] args) {
+	public boolean checkName(String name) {
+		int count =0;
+		Iterator<String> itr = clientMap.keySet().iterator();
+		while(itr.hasNext()) {
+			if(itr.next().equals(name)) {
+				count++;
+			}
+		}		
+		if(count==0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public static void main(String[] args) throws SQLException {
+
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
 	}
@@ -116,21 +143,38 @@ public class MultiServer6 {
 			try {
 				out = new PrintWriter(this.socket.getOutputStream(),true);
 				in = new BufferedReader(new InputStreamReader(
-						this.socket.getInputStream()));
+						this.socket.getInputStream(),"utf-8"));
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);
 			}
 		}
-		
+
 		public void run() {
+			
+			Connection con =null;
+			try {
+				con = DriverManager.getConnection(
+						"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+						"scott",
+						"tiger");
+				System.out.println("DB 연결 완료!");
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+				System.out.println("Server Run 에서 DB 연결 실패");
+			}
+			
+			PreparedStatement pstmt=null;
+			String sql = null;
+			
 			String name ="";
 			try {
 				name = in.readLine();
+				name = URLDecoder.decode(name,"UTF-8");
 				
 				sendAllMsg("",name +"님이 입장하셨습니다.");
 				clientMap.put(name, out);
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-				
+
 				String s ="";
 				while(in!=null) {
 					s = in.readLine();
@@ -149,13 +193,31 @@ public class MultiServer6 {
 			}finally {
 				clientMap.remove(name);
 				sendAllMsg("",name+"님이 퇴장하셨습니다.");
+				
+				try {
+					sql = "delete from emp where name ="+"'"+name+"'";
+					pstmt = con.prepareStatement(sql);
+					int updateCount = pstmt.executeUpdate();
+					con.commit();
+					
+					System.out.println("delete Count : "+updateCount);
+					
+					
+				}catch(Exception e) {
+					System.out.println("여기서 에러인가용?");
+					e.printStackTrace();
+				}
+				
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				
 				try {
 					in.close();
 					out.close();
-					
 					socket.close();
+					if(pstmt!=null) pstmt.close();
+					if(pstmt != null)pstmt.close();
+					if(con!=null) con.close();
+					
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
