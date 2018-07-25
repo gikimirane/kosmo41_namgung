@@ -90,3 +90,8 @@ hs_err_pid*
 
 
 # End of https://www.gitignore.io/api/java,eclipse
+putty/PUTTY.HLP
+putty/PUTTY.CNT
+putty/PUTTY.CHM
+putty/Key/aws-yh9189_2.ppk
+putty/Key/aws-yh9189_2.pem

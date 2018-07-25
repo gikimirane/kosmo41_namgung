@@ -19,11 +19,14 @@ public class MultiClient6 {
 		}
 	}
 	
+	
+	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 
 		Connection con =null;
 		PreparedStatement pstmt=null;
 		String sql = null;
+		ResultSet rs = null;
 		Scanner s = new Scanner(System.in);
 		String s_name = "";
 		boolean sw = true;
@@ -33,14 +36,33 @@ public class MultiClient6 {
 				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
 				"scott",
 				"tiger");
-		
+
 		while(sw) {
 			try {		
 				System.out.println("이름을 입력하세요.");
 				s_name = s.nextLine();
+				String cName="";
+				int bCount =0;
+				sql = "select * from blacklist";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					cName = rs.getString(1);
+					if(cName.equals(s_name)) {
+						System.out.println(cName);
+						bCount++;
+					}
+				}
+				if(bCount>=1){
+					System.out.println("Blacklist인 회원이름 입니다.");
+					continue;
+				}
+				
+				
 				sql = "insert into emp values (eno.nextVal, "+"'"+s_name+"'"+", 0)";
 				pstmt = con.prepareStatement(sql);
 				updateCount = pstmt.executeUpdate();
+				
 				System.out.println("insert Count : "+updateCount);
 				if(updateCount>0) {
 					sw = false;
@@ -50,7 +72,8 @@ public class MultiClient6 {
 				System.out.println("이름이 중복됩니다.");
 				continue;
 			}
-		}		
+		}	
+		
 		try {
 //			String ServerIP = "ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com";
 			String ServerIP = "localhost";
@@ -67,6 +90,7 @@ public class MultiClient6 {
 			if(pstmt!=null) pstmt.close();
 			if(pstmt != null)pstmt.close();
 			if(con!=null) con.close();
+			s.close();
 		}
 	}
 }

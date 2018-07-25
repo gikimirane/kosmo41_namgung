@@ -39,7 +39,6 @@ public class MultiServer6 {
 			while(true) {
 				socket = serverSocket.accept();
 				System.out.println(socket.getInetAddress()+" : "+socket.getPort());
-				
 				Thread mst = new MultiServerT(socket);
 				mst.start();
 			}
@@ -81,7 +80,7 @@ public class MultiServer6 {
 		keys = keys.substring(0,keys.length()-1)+"]";
 		out.println(keys);
 	}
-	public void commendInput(PrintWriter out, String s, String name) {
+	public void commendInput(PrintWriter out, String s, String name) throws SQLException {
 		String str = s; //클라이언트에서 받은 text가 됨
 		String com= ""; 
 
@@ -95,7 +94,30 @@ public class MultiServer6 {
 			singleChat(str,name);
 		}else if(com.equals("list")) {
 			list(out);
+		}else if(com.equals("setblack")) {
+			blacklist(str);
 		}
+	}
+	public static void Connect(String iSql) throws SQLException {
+		Connection con;
+		con = DriverManager.getConnection(
+				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+				"scott",
+				"tiger");
+		PreparedStatement pstmt=null;
+		String sql = iSql;
+		pstmt = con.prepareStatement(sql);
+		int updateCount=pstmt.executeUpdate();
+		con.commit();
+		System.out.println("update Count : "+updateCount);
+	}
+	public void blacklist (String str1) throws SQLException {
+		String str = str1;
+		String temp = str.substring(str.indexOf(" "));
+		String friendName = temp.substring(1,temp.length());
+		Connect("insert into blacklist values ('"+friendName+"')");
+		System.out.println(friendName+"님을 Blacklist에 추가했습니다.");
+		
 	}
 	public void singleChat(String input, String name) {
 		
@@ -112,21 +134,7 @@ public class MultiServer6 {
 		PrintWriter address = clientMap.get(friendName);
 		address.println(name+"님의 귓속말 :"+txt);
 	}
-	public boolean checkName(String name) {
-		int count =0;
-		Iterator<String> itr = clientMap.keySet().iterator();
-		while(itr.hasNext()) {
-			if(itr.next().equals(name)) {
-				count++;
-			}
-		}		
-		if(count==0) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-
+	
 	public static void main(String[] args) throws SQLException {
 
 		MultiServer6 ms = new MultiServer6();
@@ -143,7 +151,7 @@ public class MultiServer6 {
 			try {
 				out = new PrintWriter(this.socket.getOutputStream(),true);
 				in = new BufferedReader(new InputStreamReader(
-						this.socket.getInputStream(),"utf-8"));
+						this.socket.getInputStream(),"UTF-8"));
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);
 			}
@@ -173,11 +181,14 @@ public class MultiServer6 {
 				
 				sendAllMsg("",name +"님이 입장하셨습니다.");
 				clientMap.put(name, out);
+				
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-
+				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.");
+				
 				String s ="";
 				while(in!=null) {
 					s = in.readLine();
+					s = URLDecoder.decode(s, "UTF-8");
 					System.out.println("["+name+"] "+ s);
 					
 					if(s.equals("q")|| s.equals("Q")) {
@@ -188,27 +199,28 @@ public class MultiServer6 {
 					}
 					else sendAllMsg(name,s);
 				}
-			}catch(Exception e) {
-				System.out.println("예외 : "+e);
-			}finally {
-				clientMap.remove(name);
-				sendAllMsg("",name+"님이 퇴장하셨습니다.");
 				
+			}catch(Exception e) {
+				System.out.println("예외 1 : "+e);
+			}finally {
+	
 				try {
+					clientMap.remove(name);
+					sendAllMsg("",name+"님이 퇴장하셨습니다.");
+					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
+					
 					sql = "delete from emp where name ="+"'"+name+"'";
 					pstmt = con.prepareStatement(sql);
 					int updateCount = pstmt.executeUpdate();
 					con.commit();
 					
-					System.out.println("delete Count : "+updateCount);
-					
+					System.out.println("Server delete Count : "+updateCount);
 					
 				}catch(Exception e) {
 					System.out.println("여기서 에러인가용?");
 					e.printStackTrace();
 				}
 				
-				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				
 				try {
 					in.close();
@@ -217,7 +229,6 @@ public class MultiServer6 {
 					if(pstmt!=null) pstmt.close();
 					if(pstmt != null)pstmt.close();
 					if(con!=null) con.close();
-					
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
