@@ -1,12 +1,16 @@
 	import java.awt.FlowLayout;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
-	import java.io.IOException;
-	import java.io.PrintWriter;
-	import java.net.Socket;
-	import javax.swing.JFrame;
-	import javax.swing.JPanel;
-	import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 //sender 영역
 	public class ChatWin extends JFrame {
@@ -46,7 +50,7 @@
 	            this.name = name;
 	            
 		        //서버에 입력한 사용자이름을 보내준다.
-	            out.println(name);
+	            out.println(URLEncoder.encode(name,"UTF-8"));
 
 	        } catch(Exception e) {
 	            System.out.println("예외S3:"+e);
@@ -58,11 +62,14 @@
 			String iName="";
 						
 			public void actionPerformed(ActionEvent e) {
-				
+			try {
 				String msg = tf.getText();
+				msg = URLDecoder.decode(msg,"UTF-8");	
 				String temp = msg.substring(msg.indexOf(" ")+1);
-
-				if ("".equals(msg)) return;
+				
+				if ("".equals(msg)) {
+					return;
+				}
 				
 				if ( msg.equals("q") || msg.equals("Q") ) {
 					try {
@@ -99,7 +106,9 @@
 					}else out.println(msg);
 				}
 				tf.setText("");
+			}catch(Exception e1) {
+				System.out.println("ChatWin Error 발생"+e);
 			}
 		}
-
 	}
+}

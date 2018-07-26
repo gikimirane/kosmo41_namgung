@@ -18,9 +18,6 @@ public class MultiClient6 {
 			cnfe.printStackTrace();
 		}
 	}
-	
-	
-	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 
 		Connection con =null;
@@ -57,8 +54,7 @@ public class MultiClient6 {
 					System.out.println("Blacklist인 회원이름 입니다.");
 					continue;
 				}
-				
-				
+
 				sql = "insert into emp values (eno.nextVal, "+"'"+s_name+"'"+", 0)";
 				pstmt = con.prepareStatement(sql);
 				updateCount = pstmt.executeUpdate();
