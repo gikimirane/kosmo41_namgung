@@ -38,11 +38,23 @@ public class MultiClient6 {
 			try {		
 				System.out.println("이름을 입력하세요.");
 				s_name = s.nextLine();
+				int blank =0;
+				for(int i=0;i<s_name.length();i++) {
+					if(s_name.charAt(i) == ' ') {
+						blank++;
+					}
+				}
+				if(blank >0) {
+					System.out.println("이름에 공백을 허용하지 않습니다. 재입력 하세요.");
+					continue;
+				}
+				
 				String cName="";
 				int bCount =0;
 				sql = "select * from blacklist";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
+				
 				while(rs.next()) {
 					cName = rs.getString(1);
 					if(cName.equals(s_name)) {
@@ -84,7 +96,6 @@ public class MultiClient6 {
 		}catch(Exception e) {
 			System.out.println("예외 [MultiClient class] : "+e);
 			if(pstmt!=null) pstmt.close();
-			if(pstmt != null)pstmt.close();
 			if(con!=null) con.close();
 			s.close();
 		}
