@@ -91,18 +91,20 @@ import javax.swing.JTextField;
 //					한번인지 고정인지 확인하고 계속고정시켜야 함
 //					고정인지 확인하고 계속 고정하기 위해 값을 초기화 시키면 안 됨 그래서 메소드 밖에서 변수 선언함
 					if(space==1) {
-						fixed = true;
-						iName = temp.substring(temp.indexOf(" ")+1);
-						out.println("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.");
-					}else {
-						out.println(msg);
-					}
+						if(fixed == true) {
+							out.println("고정귓속말을 해제합니다.");
+							out.println(msg);
+						}
+						else {
+							fixed = true;
+							iName = temp.substring(temp.indexOf(" ")+1);
+							out.println("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.");
+						}	
+					}else out.println(msg);
+					
 				}else {
 					if(fixed==true) {
-						if(msg.equals(iName)) {
-							fixed=false;
-						}else out.println("/to "+iName+" "+msg);
-						
+						out.println("/to "+iName+" "+msg);
 					}else out.println(msg);
 				}
 				tf.setText("");

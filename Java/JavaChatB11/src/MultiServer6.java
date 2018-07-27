@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
@@ -21,6 +22,8 @@ public class MultiServer6 {
 	Socket socket =null;
 	Map<String, PrintWriter> clientMap;
 	Map<String, PrintWriter> blockClient;
+	static Connection con=null;
+	
 	static {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -28,6 +31,9 @@ public class MultiServer6 {
 			cnfe.printStackTrace();
 		}
 	}
+	
+	
+	 
 
 	public MultiServer6() {
 		clientMap = new HashMap<String, PrintWriter>();
@@ -56,96 +62,37 @@ public class MultiServer6 {
 		}
 	}
 	//현재 대기실에 있는 사용자들에게 메시지를 뿌려주는 영역
-	public void sendAllMsg(String user,String msg,PrintWriter out) throws SQLException{
-		ArrayList<String> arr = new ArrayList<>();
+	public void sendAllMsg(String user,String msg) throws SQLException, UnsupportedEncodingException{
+		
 		Iterator<String> it = clientMap.keySet().iterator();
-		Connection con =null;
 		PreparedStatement pstmt=null;
-		String sql = null;
-		ResultSet rs = null;
-		con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
-					"scott",
-					"tiger");
-		
-		
+		String sql=null;
+		ResultSet rs=null;
+		PrintWriter it_out=null;
  		while(it.hasNext()) {
  			try {
- 				PrintWriter it_out = (PrintWriter)clientMap.get(it.next());
- 				int count = 0;
  				String bName = it.next();
+ 				it_out = (PrintWriter)clientMap.get(bName);
+ 				int count = 0;
+ 				
  				sql = "select count(*) from block where oname = '"+bName+"' and bname = '"+user+"'";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
-				while(rs.next()) { 
-					count = rs.getInt(1);
-				}
+				while(rs.next()) count = rs.getInt(1);
 				
-				if(count == 1) {
-					continue;
-				}
-				else if(user.equals("")) {
- 					it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
- 				}else {
- 					it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
- 				}
- 				
+				if(count>0)	continue;
+				
+				if(user.equals(""))	it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
+				else 				it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
+				
+								
  			}catch(Exception e) {
- 				System.out.println("예외 : "+e);
+ 				
+ 			}finally {
+ 				if(rs!=null) rs.close();
+ 				if(pstmt!=null) pstmt.close();
  			}
  		}
-	}
-			
-	
-		//차단자가 나와 같으면 continue;
-		//현재 이터레이터 가르키는 애 (key)가 나를 차단했는지 확인하는거야..
-		
-		
-		//select oname from block where 차단한 애 = user;
-		// 그랬을 때 rs 사이즈가 0보다 크면 continue;
-		//result set Size가 0보다 크면 continue 시킨다..
-		
-//		for(String a : arr) {
-//			
-//		}
-//		if(count>0) {
-//			System.out.println("차단 메시지");
-//			continue;
-//		}
-		
-		
-	public ArrayList blockClient(String user) throws SQLException {
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		//나를 차단한 애들 찾아서 arr로 반환함
-		ArrayList<String> arr = new ArrayList<>();
-		try {
-			con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
-					"scott",
-					"tiger");
-
-			String sql = "select * from block where bname = '"+user+"'";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
-
-			while (rs.next()) {			
-				arr.add(rs.getString("bname"));
-				arr.add(rs.getString("oname"));
-			}
-			con.commit();			
-		}catch(Exception e) {
-			System.out.println("blockClient error"+e);
-		}finally {
-			try {
-				if(rs!=null) rs.close();
-				if(pstmt !=null) pstmt.close();
-				if(con!=null) con.close();
-			}catch(SQLException sqle) {}
-		}
-		return arr;
 	}
 	// '/'로 시작할 경우 명령어라고 생각하고 메소드를 호출함, 이 영역 내에서 각각 메소드를 호출시킴
 	public void commendInput(PrintWriter out, String s, String name) throws SQLException {
@@ -351,6 +298,7 @@ public class MultiServer6 {
 
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
+		con.close();
 	}
 	
 	class MultiServerT extends Thread {
@@ -371,30 +319,28 @@ public class MultiServer6 {
 
 		public void run() {
 			
-			Connection con =null;
 			try {
 				con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
 						"scott",
 						"tiger");
 				System.out.println("DB 연결 완료!");
+				
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();
 				System.out.println("Server Run 에서 DB 연결 실패");
-			}
-			
-			PreparedStatement pstmt=null;
-			String sql = null;
+			}	
 			String name ="";
+
 			try {
 				name = in.readLine();
 				name = URLDecoder.decode(name,"UTF-8");
 				
-				sendAllMsg("",name +"님이 입장하셨습니다.",out);
+				sendAllMsg("",name +"님이 입장하셨습니다.");
 				clientMap.put(name, out);
 				
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.",out);
+				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				
 				String s ="";
 				
@@ -411,7 +357,7 @@ public class MultiServer6 {
 						commendInput(out,s,name);
 					}
 					else {
-						sendAllMsg(name,s,out);
+						sendAllMsg(name,s);
 					}
 				}
 				
@@ -419,43 +365,53 @@ public class MultiServer6 {
 				System.out.println("예외 1 : "+e);
 				//이게 원래 잡히는지도 확인해봐야 함...ㅜ.ㅜ
 			}finally {
-	
 				try {
-					sendAllMsg("",name+"님이 퇴장하셨습니다.",out);
+					sendAllMsg("",name+"님이 퇴장하셨습니다.");
 					clientMap.remove(name);
 					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 					
+					
+					String sql = "";
+					
 					int updateCount=0;
-
+					
+					
+					PreparedStatement pstmt;
 					sql = "delete from block where oname ="+"'"+name+"'";
 					pstmt = con.prepareStatement(sql);
 					updateCount = pstmt.executeUpdate();
-					con.commit();
 					System.out.println("Server block delete Count : "+updateCount);
+					pstmt.clearParameters();
 					
 					sql = "delete from emp where name ="+"'"+name+"'";
 					pstmt = con.prepareStatement(sql);
 					updateCount = pstmt.executeUpdate();
 					con.commit();
 					System.out.println("Server emp delete Count : "+updateCount);
+					pstmt.clearParameters(); //pstmt close안하고 또 쓸수 있는 메소드!
+					
+					
+					sql = "delete from block where oname ="+"'"+name+"'";
+					pstmt = con.prepareStatement(sql);
+					updateCount = pstmt.executeUpdate();
+					con.commit();
+					System.out.println("Server block delete Count : "+updateCount);
+					pstmt.close();
 					
 				}catch(Exception e) {
 					System.out.println("여기서 에러인가용?");
 					e.printStackTrace();
-				}finally {
+				}finally {	
 					try {
 						in.close();
 						out.close();
 						socket.close();
-						
-						if(pstmt !=null) pstmt.close();
-						if(con!=null) con.close();
-						
 					}catch(Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}
+						
 		}
 	}
 }

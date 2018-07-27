@@ -38,6 +38,7 @@ public class MultiClient6 {
 			try {		
 				System.out.println("이름을 입력하세요.");
 				s_name = s.nextLine();
+				
 				int blank =0;
 				for(int i=0;i<s_name.length();i++) {
 					if(s_name.charAt(i) == ' ') {
