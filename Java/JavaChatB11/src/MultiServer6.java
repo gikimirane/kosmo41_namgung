@@ -59,29 +59,32 @@ public class MultiServer6 {
 	public void sendAllMsg(String user,String msg,PrintWriter out) throws SQLException{
 		ArrayList<String> arr = new ArrayList<>();
 		Iterator<String> it = clientMap.keySet().iterator();
-		arr = blockClient(user);
-		int count =0;
+		Connection con =null;
+		PreparedStatement pstmt=null;
+		String sql = null;
+		ResultSet rs = null;
+		con = DriverManager.getConnection(
+					"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+					"scott",
+					"tiger");
+		
+		
  		while(it.hasNext()) {
  			try {
  				PrintWriter it_out = (PrintWriter)clientMap.get(it.next());
- 				//차단자가 나와 같으면 continue;
- 				//현재 이터레이터 가르키는 애 (key)가 나를 차단했는지 확인하는거야..
- 				
- 				
- 				//select oname from block where 차단한 애 = user;
- 				// 그랬을 때 rs 사이즈가 0보다 크면 continue;
- 				//result set Size가 0보다 크면 continue 시킨다..
- 				
-// 				for(String a : arr) {
-// 					
-// 				}
-// 				if(count>0) {
-// 					System.out.println("차단 메시지");
-// 					continue;
-// 				}
- 				
- 				
- 				if(user.equals("")) {
+ 				int count = 0;
+ 				String bName = it.next();
+ 				sql = "select count(*) from block where oname = '"+bName+"' and bname = '"+user+"'";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()) { 
+					count = rs.getInt(1);
+				}
+				
+				if(count == 1) {
+					continue;
+				}
+				else if(user.equals("")) {
  					it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
  				}else {
  					it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
@@ -93,6 +96,24 @@ public class MultiServer6 {
  		}
 	}
 			
+	
+		//차단자가 나와 같으면 continue;
+		//현재 이터레이터 가르키는 애 (key)가 나를 차단했는지 확인하는거야..
+		
+		
+		//select oname from block where 차단한 애 = user;
+		// 그랬을 때 rs 사이즈가 0보다 크면 continue;
+		//result set Size가 0보다 크면 continue 시킨다..
+		
+//		for(String a : arr) {
+//			
+//		}
+//		if(count>0) {
+//			System.out.println("차단 메시지");
+//			continue;
+//		}
+		
+		
 	public ArrayList blockClient(String user) throws SQLException {
 		Connection con=null;
 		PreparedStatement pstmt=null;

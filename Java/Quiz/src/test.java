@@ -41,7 +41,7 @@ public class test {
 		
 		String s_name = "인 덱 스";
 		
-		System.out.println(s_name.indexOf(' '));
+		System.out.println("select count(*) from block where oname = '"+"현재 이터레이터'"+" and bname = '"+"나"+"'");
 			
 	}
 }
