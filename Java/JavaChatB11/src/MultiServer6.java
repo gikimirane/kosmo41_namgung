@@ -31,15 +31,10 @@ public class MultiServer6 {
 			cnfe.printStackTrace();
 		}
 	}
-	
-	
-	 
-
 	public MultiServer6() {
 		clientMap = new HashMap<String, PrintWriter>();
 		Collections.synchronizedMap(clientMap);
 	}
-	
 	public void init() {
 		try {
 			serverSocket = new ServerSocket(9999);
@@ -74,18 +69,30 @@ public class MultiServer6 {
  				String bName = it.next();
  				it_out = (PrintWriter)clientMap.get(bName);
  				int count = 0;
- 				
+ 				//양 방향으로 차단시킴
  				sql = "select count(*) from block where oname = '"+bName+"' and bname = '"+user+"'";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
+				
 				while(rs.next()) count = rs.getInt(1);
+				if(count>0) {
+					continue;
+				}
+				rs.close();
 				
-				if(count>0)	continue;
-				
-				if(user.equals(""))	it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
-				else 				it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
-				
+				pstmt.clearParameters();
+				sql = "select count(*) from block where oname = '"+user+"' and bname = '"+bName+"'";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				pstmt.clearParameters();
+				while(rs.next()) count = rs.getInt(1);
+				if(count>0) {
+					continue;
+				}
 								
+				if(user.equals(""))	it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
+				else				it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
+			
  			}catch(Exception e) {
  				
  			}finally {
@@ -117,6 +124,8 @@ public class MultiServer6 {
 			setBlock(str,name,out);
 		}else if(com.equalsIgnoreCase("setbadword")) {
 			setBadWord(str,name,out);
+		}else if(com.equalsIgnoreCase("unsetBlock")) {
+			unsetBlock(str,name,out);
 		}
 	}
 	//현재 대기실의 사용자 list를 요청할 경우 list를 뿌려줌
@@ -190,6 +199,24 @@ public class MultiServer6 {
 		sqlCall("insert into block values ('"+name+"','"+friendName+"')");
 		System.out.println(name+"님이 "+friendName+"님을 차단목록에 추가했습니다.");
 		out.println(name+"님이 "+friendName+"님을 차단목록에 추가했습니다.");
+	}
+	public void unsetBlock(String str1, String name1, PrintWriter out) throws SQLException {
+		String str = str1;
+		String name = name1;
+		String temp = str.substring(str.indexOf(" "));
+		String friendName = temp.substring(1,temp.length());
+		int count=0;
+		System.out.println("지워줘 block");
+		
+		count = updateCount("delete from block where oname = '"+name+"' and bname ='"+friendName+"'");
+		if(count > 0) {
+			System.out.println(name+"님이 등록했던 "+friendName+"님을 차단 해제 합니다.");
+			out.println(name+"님이 등록했던 "+friendName+"님을 차단 해제 합니다.");
+		}else {
+			System.out.println(name+"님이 차단한 사람이 아닙니다.");
+			out.println(name+"님이 차단한 사람이 아닙니다.");
+		}
+		
 	}
 	//블랙리스트 등록메소드
 	public void setBlack (String str1,String name1, PrintWriter out) throws SQLException {
@@ -374,8 +401,7 @@ public class MultiServer6 {
 					String sql = "";
 					
 					int updateCount=0;
-					
-					
+
 					PreparedStatement pstmt;
 					sql = "delete from block where oname ="+"'"+name+"'";
 					pstmt = con.prepareStatement(sql);
@@ -410,8 +436,7 @@ public class MultiServer6 {
 						e.printStackTrace();
 					}
 				}
-			}
-						
+			}	
 		}
 	}
 }
