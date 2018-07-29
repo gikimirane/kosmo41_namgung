@@ -21,8 +21,7 @@ public class MultiServer6 {
 	ServerSocket serverSocket = null;
 	Socket socket =null;
 	Map<String, PrintWriter> clientMap;
-	Map<String, PrintWriter> blockClient;
-	static Connection con=null;
+	static Connection con;
 	
 	static {
 		try {
@@ -58,46 +57,58 @@ public class MultiServer6 {
 	}
 	//현재 대기실에 있는 사용자들에게 메시지를 뿌려주는 영역
 	public void sendAllMsg(String user,String msg) throws SQLException, UnsupportedEncodingException{
-		
+
 		Iterator<String> it = clientMap.keySet().iterator();
 		PreparedStatement pstmt=null;
+		Connection con;
 		String sql=null;
 		ResultSet rs=null;
+		ResultSet rs1=null;
 		PrintWriter it_out=null;
+		
+		con = DriverManager.getConnection(
+				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+				"scott",
+				"tiger");
+	
  		while(it.hasNext()) {
  			try {
  				String bName = it.next();
  				it_out = (PrintWriter)clientMap.get(bName);
  				int count = 0;
- 				//양 방향으로 차단시킴
+ 				int count1 = 0;
+ 				
  				sql = "select count(*) from block where oname = '"+bName+"' and bname = '"+user+"'";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
-				
-				while(rs.next()) count = rs.getInt(1);
-				if(count>0) {
-					continue;
+				while(rs.next()) {
+					count = rs.getInt(1);
 				}
 				rs.close();
-				
 				pstmt.clearParameters();
+				
 				sql = "select count(*) from block where oname = '"+user+"' and bname = '"+bName+"'";
 				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				pstmt.clearParameters();
-				while(rs.next()) count = rs.getInt(1);
-				if(count>0) {
-					continue;
+				rs1 = pstmt.executeQuery();
+				while(rs1.next()) {
+					count1 = rs1.getInt(1);
 				}
-								
-				if(user.equals(""))	it_out.println(URLDecoder.decode(badWordCheck(msg),"UTF-8"));
-				else				it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg),"UTF-8"));
-			
+				
+				if(count>0 || count1 >0) {
+					continue;
+				}								
+				else if(user.equals("")) {
+					it_out.println(URLDecoder.decode(badWordCheck(msg,user),"UTF-8"));
+				}else {
+					it_out.println(URLDecoder.decode("["+user+"] "+badWordCheck(msg,user),"UTF-8"));
+				}
+				
  			}catch(Exception e) {
  				
  			}finally {
- 				if(rs!=null) rs.close();
+ 				if(rs1!=null) rs1.close();
  				if(pstmt!=null) pstmt.close();
+ 				if(con!=null) con.close();
  			}
  		}
 	}
@@ -140,38 +151,41 @@ public class MultiServer6 {
 		out.println(keys);
 	}
 	//나쁜말인지 체크하는 메소드, sendAllmsg와 whisper에서 확인함
-	public String badWordCheck(String str) throws SQLException {
+	public String badWordCheck(String str,String name) throws SQLException {
 		
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
-				"scott",
-				"tiger");
+		PreparedStatement pstmt;
+		ResultSet rs;
 
-		String sql = "select * from offen_lang";
+		String sql = "select offen from offen_lang where owner = 'server' or owner = '"+name+"'";
+				
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
 		con.commit();
 		
 		ArrayList<String> arr = new ArrayList<String>();
-		
-		while(rs.next()) {
-			 arr.add(rs.getString(1));
+		try {
+			while(rs.next()) {
+				 arr.add(rs.getString(1));
+			}
+		}catch(Exception e) {
+ 			return str;
 		}
+		
 		for(String a : arr) {
 			if(str.contains(a)) {
-
-				str = str.replace(a, "*나쁜말*");
+				String star="";
+				for(int i=0;i<a.length();i++) {
+					star = star+"*";
+				}
+				str = str.replace(a, star);
 				return str;
 			}
 		}
+		
 		try {
 			if(rs!=null) rs.close();
 			if(pstmt !=null) pstmt.close();
-			if(con!=null) con.close();
+//			if(con!=null) con.close();
 		}catch(SQLException sqle) {}
 		return str;
 	}
@@ -181,13 +195,42 @@ public class MultiServer6 {
 		String name = name1;
 		String temp = str.substring(str.indexOf(" "));
 		String word = temp.substring(1,temp.length());
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+//		con = DriverManager.getConnection(
+//				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
+//				"scott",
+//				"tiger");
 		
 		try{
-			sqlCall("insert into offen_lang values ('"+word+"')");
-			System.out.println(name+"님이 "+word+"를 나쁜말 목록에 추가했습니다.");
-			out.println(name+"님이 "+word+"를 나쁜말 목록에 추가했습니다.");
+			int[] arr = new int[1];
+			String sql="select count(*) from offen_lang where offen = '"+word+"' and owner = '"+name+"'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				arr[0] = rs.getInt(1);
+			}else {
+				out.println("else 문 : 이미 등록된 나쁜말 입니다.");
+			}
+			
+			if(arr[0]>0) {
+				out.println(name+"님이 이미 등록된 나쁜말 입니다.");
+				return;
+			}else {
+				sqlCall("insert into offen_lang values ('"+word+"'"+",'"+name+"')");
+				System.out.println(name+"님이 "+word+"를 나쁜말 목록에 추가했습니다.");
+				out.println(name+"님이 "+word+"를 나쁜말 목록에 추가했습니다.");
+			}
+			
 		}catch(Exception e) {
 			out.println("이미 등록된 나쁜말 입니다.");
+			return;
+		}finally {
+			if(rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();	
+//			if(con!=null) con.close();
 		}
 	}
 	//사용자가 친구를 차단하는 영역
@@ -259,11 +302,11 @@ public class MultiServer6 {
 			
 //			이건 귓속말 시작한 사람한테 띄워줌
 			PrintWriter myAdd = clientMap.get(name);
-			myAdd.println(friendName+"님께 귓속말 전송 : "+badWordCheck(txt));
+			myAdd.println(friendName+"님께 귓속말 전송 : "+badWordCheck(txt,name));
 			
 //			친구한테 메시지 전송
 			PrintWriter address = clientMap.get(friendName);
-			address.println(name+"님의 귓속말 :"+badWordCheck(txt));
+			address.println(name+"님의 귓속말 :"+badWordCheck(txt,name));
 		}
 	
 	//-----------DB접근 메소드 영역---------
@@ -325,9 +368,11 @@ public class MultiServer6 {
 
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
-		con.close();
+		
 	}
 	
+	
+	//inner class
 	class MultiServerT extends Thread {
 		Socket socket;
 		PrintWriter out = null;
@@ -356,7 +401,15 @@ public class MultiServer6 {
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();
 				System.out.println("Server Run 에서 DB 연결 실패");
-			}	
+				
+			}finally {
+				if(con!=null)
+					try {
+						con.close();
+					} catch (SQLException e) {
+						System.out.println("run 첫번째 Error "+e);
+					}
+			}
 			String name ="";
 
 			try {
@@ -396,8 +449,6 @@ public class MultiServer6 {
 					sendAllMsg("",name+"님이 퇴장하셨습니다.");
 					clientMap.remove(name);
 					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-					
-					
 					String sql = "";
 					
 					int updateCount=0;
@@ -422,6 +473,7 @@ public class MultiServer6 {
 					updateCount = pstmt.executeUpdate();
 					con.commit();
 					System.out.println("Server block delete Count : "+updateCount);
+					
 					pstmt.close();
 					
 				}catch(Exception e) {
@@ -432,6 +484,7 @@ public class MultiServer6 {
 						in.close();
 						out.close();
 						socket.close();
+						if(con!=null) con.close();
 					}catch(Exception e) {
 						e.printStackTrace();
 					}

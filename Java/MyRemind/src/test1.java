@@ -3,7 +3,7 @@ public class test1 {
 
 	public static void main(String[] args) {
 		
-		System.out.println("delete from block where oname = '"+"차단한오너"+"' and bname ='"+"지울친구"+"'");
+		System.out.println("select offen from offen_lang where owner = 'server' or owner = '"+"유니"+"'");
 		
 	}
 
