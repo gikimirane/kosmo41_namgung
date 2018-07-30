@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class test {
 	
 	
@@ -39,9 +41,13 @@ public class test {
 //	}
 	public static void main(String[] args) {
 		
-		String s_name = "인 덱 스";
+		String msg = "/createroom lock 1243";
+		String[] str1 = msg.split(" ");
+			
+		System.out.println(str1[0]);
+		System.out.println(str1[1]);
+		System.out.println(str1[2]);
 		
-		System.out.println("select count(*) from block where oname = '"+"현재 이터레이터'"+" and bname = '"+"나"+"'");
 			
 	}
 }

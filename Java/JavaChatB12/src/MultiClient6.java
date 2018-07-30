@@ -22,8 +22,9 @@ public class MultiClient6 {
 
 		Connection con =null;
 		PreparedStatement pstmt=null;
-		String sql = null;
 		ResultSet rs = null;
+		
+		String sql = null;
 		Scanner s = new Scanner(System.in);
 		String s_name = "";
 		boolean sw = true;
@@ -68,7 +69,7 @@ public class MultiClient6 {
 					continue;
 				}
 
-				sql = "insert into emp values (eno.nextVal, "+"'"+s_name+"'"+", 0)";
+				sql = "insert into emp values ('"+s_name+"','0')";
 				pstmt = con.prepareStatement(sql);
 				updateCount = pstmt.executeUpdate();
 				

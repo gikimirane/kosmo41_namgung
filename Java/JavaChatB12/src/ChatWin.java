@@ -78,7 +78,7 @@ import javax.swing.JTextField;
 					} catch (IOException e1) {
 					}
 				}
-				
+								
 //				/to로 시작하는지 확인
 				if(msg.startsWith("/to")) {
 					int space=0;
