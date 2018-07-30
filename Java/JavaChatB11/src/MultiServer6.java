@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -56,9 +57,6 @@ public class MultiServer6 {
 		}
 	}
 	public void createRoom(String user,String str,PrintWriter out) throws SQLException {
-	
-		int iCount=0;
-		int uCount=0;
 		String sql ="";
 		String[] str1 = str.split(" ");
 		sql = "select count(*) from room where room_owner = '"+user+"'";
@@ -76,22 +74,73 @@ public class MultiServer6 {
 		
 		try {
 			if (str1[1].equalsIgnoreCase("lock")) {
-				iCount = updateCount("insert into room values (rno.nextVal,'5','n','"+str1[2]+"','"+user+"')");
-				uCount = updateCount("update emp set room =rno.CURRVAL where name='"+user+"'");
-				System.out.println("비밀방이 만들어 졌습니다. insert/update count : "+iCount+", "+uCount);
+				sqlCall("insert into room values (rno.nextVal,'5','n','"+str1[2]+"','"+user+"')");
+				sqlCall("update emp set room =rno.CURRVAL where name='"+user+"'");
+				System.out.println("비밀방이 만들어 졌습니다.");
 				out.println("비밀방이 만들어 졌습니다.");
 			}
 			else if(str1[1].equalsIgnoreCase("unlock")){
-				iCount = updateCount("insert into room values (rno.nextVal,'5','y',' ','"+user+"')");
-				uCount = updateCount("update emp set room =rno.CURRVAL where name='"+user+"'");
-				System.out.println("오픈방이 만들어 졌습니다. insert/update count : "+iCount+", "+uCount);
+				sqlCall("insert into room values (rno.nextVal,'5','y',' ','"+user+"')");
+				sqlCall("update emp set room =rno.CURRVAL where name='"+user+"'");
+				System.out.println("오픈방이 만들어 졌습니다.");
 				out.println("오픈방이 만들어 졌습니다.");
 			}
+			roomNoCheck(user,out);
 		}catch(Exception e) {
-			System.out.println("/createroom (lock/unlock) 으로 기재해주세요.");
+			out.println("/createroom (lock/unlock) password 순으로 기재해주세요.");
 		}finally {
 			if(rs!=null)rs.close();
 			if(pstmt!=null)pstmt.close();
+			if(con!=null) con.close();
+		}
+	
+	}
+	public int roomNoReturn (String user) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs =null;
+		int roomNo = 0;
+		try {
+			String sql = "select room from emp where name ='"+user+"'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				roomNo = rs.getInt("room");
+			}
+			
+		}catch(Exception e) {
+			System.out.println("RoomNumber Check 중 Error" + e);
+		}finally {
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+			if(con!=null) con.close();
+		}
+		return roomNo;
+	}
+	//나의 현재방 위치를 출력해줌
+	public void roomNoCheck (String user, PrintWriter out) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs =null;
+		try {
+			String sql = "select room from emp where name ='"+user+"'";
+			int roomNo = 0;
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				roomNo = rs.getInt("room");
+			}
+			
+			System.out.println("현재 당신의 위치는 "+roomNo+"번방 입니다.");
+			out.println("현재 당신의 위치는 "+roomNo+"번방 입니다.");
+			
+		}catch(Exception e) {
+			System.out.println("RoomNumber Check 중 Error" + e);
+		}finally {
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
 			if(con!=null) con.close();
 		}
 	}
@@ -194,7 +243,7 @@ public class MultiServer6 {
 		return count;
 	}
 	// '/'로 시작할 경우 명령어라고 생각하고 메소드를 호출함, 이 영역 내에서 각각 메소드를 호출시킴
-	public void commendInput(PrintWriter out, String s, String name) throws SQLException {
+	public void commendInput(PrintWriter out, String s, String name) throws SQLException, UnsupportedEncodingException, IOException {
 		String str = s; //클라이언트에서 받은 text가 됨
 		String com= ""; 
 		
@@ -223,12 +272,79 @@ public class MultiServer6 {
 			createRoom(name,str,out);
 		}else if(com.equals("noticeall")) {
 			noticeAll(name,str);
+		}else if(com.equals("roommemberlist")) {
+			roomMemberList(name,out);
+		}else if(com.equalsIgnoreCase("joinroom")) {
+			joinRoom(name,str,out);
+		}else if(com.equals("roomnocheck")) {
+			roomNoCheck(name, out);
 		}else if(com.equals("roomlist")) {
-			roomList(name,out);
+			roomlist(name,out);
+		}else if(com.equalsIgnoreCase("waitingRoomList")) {
+			waitingRoomList(name,out);
+		}else if(com.equals("mymember")) {
+			myMemberList(name,out);
+		}
+	}
+	public void myMemberList(String name, PrintWriter out) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		try {
+			String sql="select name from emp where room = (select rno from room where room_owner = '"+name+"')";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			
+			String keys="내가 만든 대화방 참여자 리스트 [ ";
+			while(rs.next()) {
+				keys += (String)rs.getString(1)+",";
+			}
+			keys = keys.substring(0,keys.length()-1)+" ]";
+			out.println(keys);
+		}
+		catch(Exception e) {
+			System.out.println("내 방 참여자가 없습니다.");
+			System.out.println("myRoomMemberList에서 에러 : "+e);
+		}finally { 
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+			if(con!=null) con.close();
+		}
+	}
+	public void roomlist(String name,PrintWriter out) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		try {
+			String sql="select distinct rno from room";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			String keys="대화방 목록 [";
+			while(rs.next()) {
+				keys += (String)rs.getString(1)+",";
+			}
+			keys = keys.substring(0,keys.length()-1)+"]";
+			out.println(keys);
+		}catch(Exception e) {
+			System.out.println("대화방 목록에서 에러 : "+e);
+		}finally { 
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+			if(con!=null) con.close();
 		}
 	}
 	
-	//현재 대기실의 사용자 list를 요청할 경우 list를 뿌려줌
+	public void joinRoom(String name, String str, PrintWriter out) throws SQLException, UnsupportedEncodingException, IOException {
+		String str1 = str;
+		String name1 = name;
+		String temp = str1.substring(str1.indexOf(" "));
+		String roomNo = temp.substring(1,temp.length());
+						
+		sqlCall("update emp set room = '"+roomNo+"' where name = '"+name1+"'");
+		out.println(roomNo+"방에 입장했습니다.");
+	}
+	
+	//전체 사용자 list를 요청할 경우 list를 뿌려줌
 	public void allList(PrintWriter out) {
 		Iterator<String> itr = clientMap.keySet().iterator();
 		String keys="사용자 리스트 [";
@@ -239,7 +355,30 @@ public class MultiServer6 {
 		keys = keys.substring(0,keys.length()-1)+"]";
 		out.println(keys);
 	}
-	public void roomList(String name,PrintWriter out) throws SQLException {
+	
+	public void waitingRoomList (String name, PrintWriter out) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		try {
+			String sql="select name from emp where room = '0'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			String keys="대기실에 있는 사용자 리스트 [";
+			while(rs.next()) {
+				keys += (String)rs.getString(1)+",";
+			}
+			keys = keys.substring(0,keys.length()-1)+"]";
+			out.println(keys);
+		}catch(Exception e) {
+			System.out.println("waitingRoomList에서 에러 : "+e);
+		}finally { 
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+			if(con!=null) con.close();
+		}
+	}
+	public void roomMemberList(String name,PrintWriter out) throws SQLException {
 		Connection con = ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
@@ -442,7 +581,7 @@ public class MultiServer6 {
 		String sql = iSql;
 		try {
 			pstmt = con.prepareStatement(sql);
-			updateCount=pstmt.executeUpdate();
+			updateCount=pstmt.executeUpdate(sql);
 				
 			System.out.println("update Count : "+updateCount);
 			return updateCount;

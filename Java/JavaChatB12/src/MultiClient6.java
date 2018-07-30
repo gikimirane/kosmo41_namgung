@@ -69,7 +69,7 @@ public class MultiClient6 {
 					continue;
 				}
 
-				sql = "insert into emp values ('"+s_name+"','0')";
+				sql = "insert into emp values ('"+s_name+"','0','대화중')";
 				pstmt = con.prepareStatement(sql);
 				updateCount = pstmt.executeUpdate();
 				

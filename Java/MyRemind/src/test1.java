@@ -2,8 +2,12 @@
 public class test1 {
 
 	public static void main(String[] args) {
-		
-		System.out.println("select offen from offen_lang where owner = 'server' or owner = '"+"유니"+"'");
+		String str1 = "/joinroom 1";
+		String name1 = "유니";
+		String temp = str1.substring(str1.indexOf(" "));
+		String friendName = temp.substring(1,temp.length());
+		System.out.println(temp);
+		System.out.println(friendName);
 		
 	}
 
