@@ -7,6 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -59,58 +62,60 @@ import javax.swing.JTextField;
 		//Inner Class TextHandler
 		class TextHandler implements ActionListener {
 			boolean fixed=false;
-			String iName="";
-						
+			String iName;
+	
 			public void actionPerformed(ActionEvent e) {
-			try {
-				String msg = tf.getText();
-				msg = URLDecoder.decode(msg,"UTF-8");	
-				String temp = msg.substring(msg.indexOf(" ")+1);
-				
-				if ("".equals(msg)) {
-					return;
-				}
-				
-				if ( msg.equals("q") || msg.equals("Q") ) {
-					try {
-						out.close();
-						socket.close();
-					} catch (IOException e1) {
-					}
-				}
-								
-//				/to로 시작하는지 확인
-				if(msg.startsWith("/to")) {
-					int space=0;
-//					공백이 1개면 고정, 2개 이상이면 한번만 하는 귓속말
-					for(int i=0;i<msg.length();i++) {
-						if(msg.charAt(i)==' ') {
-							space++;
-						}
-					}
-//					한번인지 고정인지 확인하고 계속고정시켜야 함
-//					고정인지 확인하고 계속 고정하기 위해 값을 초기화 시키면 안 됨 그래서 메소드 밖에서 변수 선언함
-					if(space==1) {
-						if(fixed == true) {
-							out.println(URLEncoder.encode("고정귓속말을 해제합니다.","UTF-8"));
-							out.println(URLEncoder.encode(msg,"UTF-8"));
-						}
-						else {
-							fixed = true;
-							iName = temp.substring(temp.indexOf(" ")+1);
-							out.println(URLEncoder.encode("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.","UTF-8"));
-						}	
-					}else out.println(URLEncoder.encode(msg,"UTF-8"));
+				try {
 					
-				}else {
-					if(fixed==true) {
-						out.println(URLEncoder.encode("/to "+iName+" "+msg,"UTF-8"));
-					}else out.println(URLEncoder.encode(msg,"UTF-8"));
+					String msg = tf.getText();
+					msg = URLDecoder.decode(msg,"UTF-8");	
+					String temp = msg.substring(msg.indexOf(" ")+1);
+					
+					
+					if ("".equals(msg)) {
+						return;
+					}
+					
+					if ( msg.equals("q") || msg.equals("Q") ) {
+						try {
+							out.close();
+							socket.close();
+						} catch (IOException e1) {
+						}
+					}
+									
+	//				/to로 시작하는지 확인
+					if(msg.startsWith("/to")) {
+						int space=0;
+	//					공백이 1개면 고정, 2개 이상이면 한번만 하는 귓속말
+						for(int i=0;i<msg.length();i++) {
+							if(msg.charAt(i)==' ') {
+								space++;
+							}
+						}
+	//					한번인지 고정인지 확인하고 계속고정시켜야 함
+	//					고정인지 확인하고 계속 고정하기 위해 값을 초기화 시키면 안 됨 그래서 메소드 밖에서 변수 선언함
+						if(space==1) {
+							if(fixed == true) {
+								out.println(URLEncoder.encode("고정귓속말을 해제합니다.","UTF-8"));
+								out.println(URLEncoder.encode(msg,"UTF-8"));
+							}
+							else {
+								fixed = true;
+								iName = temp.substring(temp.indexOf(" ")+1);
+								out.println(URLEncoder.encode("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.","UTF-8"));
+							}	
+						}else out.println(URLEncoder.encode(msg,"UTF-8"));
+						
+					}else {
+						if(fixed==true) {
+							out.println(URLEncoder.encode("/to "+iName+" "+msg,"UTF-8"));
+						}else out.println(URLEncoder.encode(msg,"UTF-8"));
+					}
+					tf.setText("");
+				}catch(Exception e1) {
+					System.out.println("ChatWin Error 발생"+e);
 				}
-				tf.setText("");
-			}catch(Exception e1) {
-				System.out.println("ChatWin Error 발생"+e);
-			}
 		}
 	}
 }

@@ -69,7 +69,7 @@ public class MultiClient6 {
 					continue;
 				}
 
-				sql = "insert into emp values ('"+s_name+"','0','대화중')";
+				sql = "insert into emp values ('"+s_name+"','0','connect','0')";
 				pstmt = con.prepareStatement(sql);
 				updateCount = pstmt.executeUpdate();
 				
@@ -79,7 +79,7 @@ public class MultiClient6 {
 					con.commit();
 				}
 			}catch(SQLException sqle) {
-				System.out.println("이름이 중복됩니다.");
+				System.out.println("이름이 중복됩니다."+sqle);
 				continue;
 			}
 		}	

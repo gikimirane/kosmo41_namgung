@@ -56,7 +56,44 @@ public class MultiServer6 {
 			}
 		}
 	}
-	public void breakDownRoom (String user,String str,PrintWriter out) throws SQLException, UnsupportedEncodingException, IOException {
+	//owner 지정하고 변경하는 영역 (방장 승계, /changeowner user명
+	public void ownerChange(String user,String msg, PrintWriter out) throws UnsupportedEncodingException, SQLException, IOException {
+		int myRoom=roomNoReturn(user);
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		String owner ="";
+		String str = msg;
+		String temp = str.substring(str.indexOf(" "));
+		String newOwner = temp.substring(1,temp.length());
+		int newRoom = roomNoReturn(newOwner);
+		//이 방의 owner가 누구인지 확인함.
+		String sql = "select room_owner from room where rno = '"+myRoom+"'";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery(sql);
+		while (rs.next()) {
+			owner = rs.getString(1);
+		}
+		pstmt.clearParameters();
+		
+		//오너가 맞으면 -> 새로 지정한 사용자랑 나랑 같은 방이면 -> 방장 변경해줌
+		if(user.equalsIgnoreCase(owner)) {
+			if(myRoom == newRoom) {
+				
+				sqlCall("update room set room_owner = '"+newOwner+"' where rno = '"+myRoom+"'");
+				out.println("방장을 "+newOwner+"님으로 변경했습니다.");
+				PrintWriter nOwner = clientMap.get(newOwner);
+				nOwner.println(user+"님이 방장으로 지목했습니다.");
+			}else {
+				out.println("같은방에 있는 사용자가 아닙니다.");
+			}
+		
+		}else {
+			out.println("방장이 아니기 때문에 방장을 변경할 수 없습니다.");
+		}
+	}	
+	//방 폭파하는 메소드, 방장만 가능한지 체크함
+	public void breakDownRoom (String user,PrintWriter out) throws SQLException, UnsupportedEncodingException, IOException {
 		Connection con = ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
@@ -91,9 +128,10 @@ public class MultiServer6 {
 	}
 	//방 나가서 대기실로 이동하는 메소드
 	public void roomExit(String user,PrintWriter out) throws UnsupportedEncodingException, SQLException, IOException {
-		joinRoom(user,"/joinroom 0",out);
+		joinRoom(user,"/joinroom 0");
 		System.out.println("방을 나갔습니다.");
 		out.println("방을 나가 대기실로 이동했습니다.");
+		roomNoCheck(user,out);
 	}
 	//방 만드는 영역, /createroom unlock or /createroom lock 1234
 	public void createRoom(String user,String str,PrintWriter out) throws SQLException {
@@ -251,7 +289,7 @@ public class MultiServer6 {
 		
 		Connection con = ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
-		ResultSet rs = null;
+		ResultSet rs = null; 
 		int count = 0;
 		int count1 = 0;
 		
@@ -328,7 +366,18 @@ public class MultiServer6 {
 		}else if(com.equalsIgnoreCase("forceExit")) {
 			forceExit(name, str,out);
 		}else if(com.equalsIgnoreCase("BreakRoom")) {
-			breakDownRoom(name,str,out);
+			breakDownRoom(name,out);
+		}else if(com.equalsIgnoreCase("changeowner")) {
+			ownerChange(name,str,out);
+		}else if(com.equalsIgnoreCase("invitation")) {
+			invitation(name,str,out);
+		}else if(com.equalsIgnoreCase("y")) {
+			invitationY(name, str,out);
+			sqlCall("update emp set status = 'connect' where status = 'invitation'");
+		}else if(com.equalsIgnoreCase("n")){
+			out.println("초대에 거절했습니다.");
+			sqlCall("update emp set status = 'connect' where status = 'invitation'");
+			return;
 		}
 	}
 	//내가 만든 방에 참여한 멤버를 보여주는 List 영역
@@ -442,14 +491,41 @@ public class MultiServer6 {
 		}
 	}
 	//원하는 대화방에 참여할 수 있는 메소드, 아직 password 있는 방에 대한 처리는 하지 않음.
-	public void joinRoom(String name, String str, PrintWriter out) throws SQLException, UnsupportedEncodingException, IOException {
-		String str1 = str;
-		String name1 = name;
-		String temp = str1.substring(str1.indexOf(" "));
-		String roomNo = temp.substring(1,temp.length());			
-		sqlCall("update emp set room = '"+roomNo+"' where name = '"+name1+"'");
+	public void joinRoom(String name, String msg, PrintWriter out) throws SQLException, UnsupportedEncodingException, IOException {
+		String str = msg;
+		String temp = str.substring(str.indexOf(" ")+1);
+		String roomNo = "";
+		String pwd = "";
+		roomNo = temp.substring(0,temp.indexOf(" "));
+		try {
+			pwd = temp.substring(temp.indexOf(" ")+1);
+		}catch(Exception e) {
+			pwd ="|";
+		}
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
 		
-		roomNoCheck(name,out);
+		System.out.println("룸 넘버는 : "+roomNo);
+		String sql = "select pwd from room where rno = '"+roomNo+"'";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery(sql);
+		String roompwd = "";
+		while(rs.next()) {
+			roompwd = rs.getString("pwd");
+		}
+		
+		if(pwd.equalsIgnoreCase(roompwd)) {
+			System.out.println("비밀번호 맞음! 입장 가능~");
+			sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
+			roomNoCheck(name,out);
+		}
+		
+		if(pwd.equalsIgnoreCase("|")) {
+			System.out.println("원래 open 방");
+			sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
+			roomNoCheck(name,out);
+		}
 	}
 	//오버로딩, 강퇴할때 사용함 소리없이 내보냄..
 	public void joinRoom(String name, String str) throws SQLException, UnsupportedEncodingException, IOException {
@@ -457,9 +533,10 @@ public class MultiServer6 {
 		String name1 = name;
 		String temp = str1.substring(str1.indexOf(" "));
 		String roomNo = temp.substring(1,temp.length());
-						
+		String pwd = temp.substring(temp.indexOf(" ")+1);
+		
 		sqlCall("update emp set room = '"+roomNo+"' where name = '"+name1+"'");
-		System.out.println("강퇴완료");
+		System.out.println("대기실로 강퇴완료");
 	}
 	//전체 사용자 list를 요청할 경우 list를 뿌려줌
 	public void allList(PrintWriter out) {
@@ -672,15 +749,48 @@ public class MultiServer6 {
 			PrintWriter address = clientMap.get(friendName);
 			address.println(name+"님의 귓속말 :"+badWordCheck(txt,name));
 		}
+	public void invitation(String name1,String str1, PrintWriter out) throws SQLException {
+		String str = str1;
+		String name = name1;
+		String temp = str.substring(str.indexOf(" "));
+		String friendName = temp.substring(1,temp.length());
+		PrintWriter f_out = clientMap.get(friendName);
+		int roomNo = roomNoReturn(name);
+		sqlCall("update emp set status = 'invitation' where name = '"+friendName+"'");
+		sqlCall("update emp set invi_num = '"+roomNo+"' where name ='"+friendName+"'");
+		out.println(friendName+"님께 초대 메시지를 전송했습니다.");
+		f_out.println(name+"님이 초대했습니다. 수락은 Y, 거절은 N을 눌러주세요.");
+	}
+	public void invitationY(String name,String str, PrintWriter out) throws SQLException {
+		Connection con = ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		String sql = "";
+		int invi_room =0;
+		try {
+			sql = "select invi_num from emp where name = '"+name+"'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery(sql);
+			while(rs.next()) invi_room = rs.getInt(1); 
+			sqlCall("update emp set room = '"+invi_room+"' where name ='"+name+"'");
+			out.println("초대에 응하여 "+invi_room+"방으로 이동합니다.");
+		}catch(Exception e) {
+			System.out.println("초대 수락 시! "+e);
+		}finally { 
+			if(rs !=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+			if(con!=null) con.close();
+		}		
+	}
 	
 	//-------------------DB접근 메소드 영역----------------//
 	//SQL 쿼리문 전송할 때 매번 필요한 내용들을 담아 메소드로 정의 함
 	public static void sqlCall(String iSql) throws SQLException {
 		Connection con = ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
-
+		
 		try {
-			String sql = iSql;
+			String sql = "delete from emp";
 			pstmt = con.prepareStatement(sql);
 			int updateCount=pstmt.executeUpdate();
 			System.out.println("update Count : "+updateCount);
@@ -738,11 +848,11 @@ public class MultiServer6 {
 		}
 				
 		//Thread 종료 시 삭제해야 하거나 update 할 거 있으면 호출하는 메소드
-		public void dbClear(String name) throws SQLException {
+		public void dbClear(String name,String str,PrintWriter out) throws SQLException {
 			con = ConnectionPool.getConnection("성공");
 			PreparedStatement pstmt =null;
 			try {
-				
+								
 				int updateCount=0;
 				String sql="";
 				sql = "delete from block where oname ="+"'"+name+"'";
@@ -757,12 +867,7 @@ public class MultiServer6 {
 				
 				System.out.println("Server emp delete Count : "+updateCount);
 				pstmt.clearParameters(); //pstmt close안하고 또 쓸수 있는 메소드!
-
-//				sql = "delete from block where oname ="+"'"+name+"'";
-//				pstmt = con.prepareStatement(sql);
-//				updateCount = pstmt.executeUpdate();
-//				System.out.println("Server block delete Count : "+updateCount);
-				
+		
 			}catch(Exception e) {
 				System.out.println("DB Clear 중 Error : "+e);
 			}finally { 
@@ -770,7 +875,31 @@ public class MultiServer6 {
 				if(con!=null) con.close();
 			}
 		}
-
+		public boolean status (String name) throws SQLException {
+			boolean sw = false;
+			con = ConnectionPool.getConnection("성공");
+			PreparedStatement pstmt =null;
+			ResultSet rs = null;
+			try {
+				String sql = "select status from emp where name ='"+name+"'";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery(sql);
+				String status ="";
+				while(rs.next()) {
+					status = rs.getString(1);
+				}
+				if(status.equalsIgnoreCase("invitation")) {
+					sw = true;
+				}else sw = false;
+			}catch(Exception e) {
+				System.out.println("status 확인 중 error : "+e);
+			}finally { 
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(con!=null) con.close();
+			}
+			return sw;
+		}
 		public void run() {
 			
 			String s ="";
@@ -789,6 +918,15 @@ public class MultiServer6 {
 					s = in.readLine();
 					s = URLDecoder.decode(s, "UTF-8");
 					
+					if(status(name)==true) {
+						if(s.equalsIgnoreCase("y") || s.equalsIgnoreCase("n")) {
+							s = "/"+s;
+						}
+						else {
+							out.println("초대 응답메시지가 아닙니다. Y or N 으로 입력하세요.");
+							continue;
+						}
+					}
 					System.out.println("["+name+"] "+ s);
 										
 					if(s.equals("q")|| s.equals("Q")) {
@@ -806,12 +944,11 @@ public class MultiServer6 {
 				System.out.println("예외 1 : "+e);
 				//이게 원래 잡히는지도 확인해봐야 함...ㅜ.ㅜ
 			}finally {
-				
 				try {
 					sendAllMsg("",name+"님이 퇴장하셨습니다.");
 					clientMap.remove(name);
 					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-					dbClear(name);
+					dbClear(name,s,out);
 					
 				}catch(Exception e) {
 					System.out.println("여기서 에러인가용?");

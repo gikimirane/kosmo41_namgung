@@ -40,14 +40,12 @@ public class test {
 //		}
 //	}
 	public static void main(String[] args) {
+		String str = "/ownerchange 유니";
 		
-		String msg = "/createroom lock 1243";
-		String[] str1 = msg.split(" ");
-			
-		System.out.println(str1[0]);
-		System.out.println(str1[1]);
-		System.out.println(str1[2]);
+		String temp = str.substring(str.indexOf(" "));
+		String friendName = temp.substring(1,temp.length());
 		
-			
+		System.out.println(temp);
+		System.out.println(friendName);
 	}
 }
