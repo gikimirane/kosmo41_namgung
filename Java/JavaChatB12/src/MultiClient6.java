@@ -83,7 +83,6 @@ public class MultiClient6 {
 				continue;
 			}
 		}	
-		
 		try {
 //			String ServerIP = "ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com";
 			String ServerIP = "localhost";
