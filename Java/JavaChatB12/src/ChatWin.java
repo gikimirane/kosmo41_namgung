@@ -96,18 +96,17 @@ import javax.swing.JTextField;
 	//					한번인지 고정인지 확인하고 계속고정시켜야 함
 	//					고정인지 확인하고 계속 고정하기 위해 값을 초기화 시키면 안 됨 그래서 메소드 밖에서 변수 선언함
 						if(space==1) {
-							if(fixed == true) {
-								out.println(URLEncoder.encode("고정귓속말을 해제합니다.","UTF-8"));
-								out.println(URLEncoder.encode(msg,"UTF-8"));
-							}
-							else {
-								fixed = true;
-								iName = temp.substring(temp.indexOf(" ")+1);
-								out.println(URLEncoder.encode("고정귓속말을 시작합니다. 해제하려면 상대방의 이름을 입력하세요.","UTF-8"));
-							}	
+							fixed = true;
+							iName = temp.substring(temp.indexOf(" ")+1);
+							System.out.println(iName+"님과 고정 귓속말 시작, 해제 시 /"+iName+"을 입력하세요.");
 						}else out.println(URLEncoder.encode(msg,"UTF-8"));
 						
-					}else {
+					} else if(msg.equalsIgnoreCase("/"+iName)&&fixed==true) {
+						fixed = false;
+						System.out.println(iName+"님과의 고정 귓속말을 해제합니다.");
+						iName ="";
+						out.println(URLEncoder.encode(msg,"UTF-8"));
+					} else {
 						if(fixed==true) {
 							out.println(URLEncoder.encode("/to "+iName+" "+msg,"UTF-8"));
 						}else out.println(URLEncoder.encode(msg,"UTF-8"));

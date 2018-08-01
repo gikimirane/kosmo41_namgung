@@ -20,20 +20,15 @@ public class MultiClient6 {
 	}
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 
-		Connection con =null;
-		PreparedStatement pstmt=null;
-		ResultSet rs = null;
-		
 		String sql = null;
 		Scanner s = new Scanner(System.in);
 		String s_name = "";
 		boolean sw = true;
 		int updateCount=0;
 		
-		con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe",
-				"scott",
-				"tiger");
+		Connection con=ConnectionPool.getConnection("성공");
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
 
 		while(sw) {
 			try {		
@@ -79,7 +74,7 @@ public class MultiClient6 {
 					con.commit();
 				}
 			}catch(SQLException sqle) {
-				System.out.println("이름이 중복됩니다."+sqle);
+				System.out.println("이름이 중복됩니다.");
 				continue;
 			}
 		}	
@@ -96,6 +91,7 @@ public class MultiClient6 {
 
 		}catch(Exception e) {
 			System.out.println("예외 [MultiClient class] : "+e);
+			if(rs!=null) rs.close();
 			if(pstmt!=null) pstmt.close();
 			if(con!=null) con.close();
 			s.close();
