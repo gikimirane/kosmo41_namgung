@@ -9,6 +9,7 @@ public class ConnectionPool {
 
     static {
         try {
+        	
             ods = new OracleDataSource();
             ods.setURL("jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe");
             ods.setUser("scott");

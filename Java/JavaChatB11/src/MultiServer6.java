@@ -61,15 +61,21 @@ public class MultiServer6 {
 		Connection con=ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		String owner ="";
-		String str = msg;
-		String temp = str.substring(str.indexOf(" "));
-		String newOwner = temp.substring(1,temp.length());
-		
+		String[] arr = msg.split(" ");
+		String newOwner;
+		String owner="";
+		int newRoom;
 		int myRoom=roomNoReturn(user);
-		int newRoom = roomNoReturn(newOwner);
-		//이 방의 owner가 누구인지 확인함.
 		try {
+			newOwner = arr[1];
+		}catch(Exception e) {
+			out.println("/ChangeOwner [user명] 과 같은 형식으로 입력하세요.");
+			return;
+		}
+		
+		//이 방의 owner가 누구인지 확인함.
+		try {			
+			newRoom = roomNoReturn(newOwner);
 			sql = "select room_owner from room where rno = '"+myRoom+"'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
@@ -98,9 +104,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("방장 변경 시 Error : "+e);
 		}finally { 
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}	
 	
@@ -144,9 +150,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("방장 변경 시 Error : "+e);
 		}finally { 
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}	
 	
@@ -237,9 +243,9 @@ public class MultiServer6 {
 			out.println("/createroom (비공개 or 공개) 정원수 password 순으로 기재해주세요.");
 			out.println("예 ) /createroom 비공개 5 1234");
 		}finally {
-			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	
 	}
@@ -262,9 +268,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("RoomNumber Check 중 Error" + e);
 		}finally {
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 		return roomNo;
 	}
@@ -290,9 +296,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("RoomNumber Check 중 Error" + e);
 		}finally {
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//현재 같은 방에 있는 사용자들에게 메시지를 뿌려주는 영역
@@ -333,9 +339,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("sendAllmsg 중 Error 1"+e);
 		}finally {
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//block 멤버 없이 무조건 다 메시지를 전송함
@@ -385,9 +391,9 @@ public class MultiServer6 {
 			count = rs.getInt("count(*)");				
 		}
  		
- 		if(rs!=null) rs.close();
- 		if(pstmt!=null)pstmt.close();
- 		if(con!=null)con.close();
+ 		rs.close();
+ 		pstmt.close();
+ 		con.close();
  		
 		return count;
 	}
@@ -484,9 +490,9 @@ public class MultiServer6 {
 			System.out.println("내 방 참여자가 없습니다.");
 			System.out.println("myRoomMemberList에서 에러 : "+e);
 		}finally { 
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//현재 있는 Room에 list를 보여줌
@@ -515,10 +521,10 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("대화방 목록에서 에러 : "+e);
 		}finally { 
-			if(rs!=null) rs.close();
-			if(rs1!=null) rs1.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			rs1.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//방장만 강퇴할 수 있음, 1차 체크 : 방장인지? 2차 체크 : 강퇴대상이 같은방에 있는지
@@ -578,9 +584,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("forceExit Error "+e);
 		}finally {
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//원하는 대화방에 참여할 수 있는 메소드, 아직 password 있는 방에 대한 처리는 하지 않음.
@@ -588,40 +594,62 @@ public class MultiServer6 {
 		String str = msg;
 		String temp = str.substring(str.indexOf(" "));
 		String[] arr = msg.split(" ");
-		String roomNo = arr[1];
-		int userRoom = roomNoReturn(name);
+		String changeroom = arr[1];
+		String nowroom = Integer.toString(roomNoReturn(name));
 		String openType ="";
 		Connection con=ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String limit = "";
-		String sql = "select open_type from room where rno ='"+roomNo+"'";
+		String sql="";
+		String owner ="";
+		//현재 유저가 진입하려는 방의 방장이면, 비밀번호 확인하지 않고 제한인원이 초과되어도 진입 시키도록 함
+		sql = "select room_owner from room where rno = '"+changeroom+"'";
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
-
+		while(rs.next()) owner=rs.getString(1);
+		if(name.equalsIgnoreCase(owner)) {
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
+			roomNoCheck(name,out);
+			return;
+		}
+		pstmt.clearParameters();
+		//바꿀 방의 공개/비공개 타입확인,소스하단에서 잠금타입에 따라 비밀번호 입력되었는지 확인하고 비번 입력을 유도하는 용도로 호출함
+		sql = "select open_type from room where rno ='"+changeroom+"'";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery(sql);
 		while(rs.next()) openType = rs.getString(1);
 		pstmt.clearParameters();
-		sql = "select user_limit from room where rno='"+roomNo+"'";
+		//이동할 방의 제한인원을 확인하고, 제한인원이 0명이면 진입되지 않도록 설정하기 위해 sql 호출
+		sql = "select user_limit from room where rno='"+changeroom+"'";
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
 		while(rs.next()) limit = rs.getString("user_limit");
 		
+		//제한인원이 0이면 입장불가
 		if(limit.equalsIgnoreCase("0")) {
 			out.println("정원 초과로 입장하실 수 없습니다.");
 			System.out.println("정원 초과로 입장 불가, 메소드 return");
 			return;
 		}
-		if(roomNo.equalsIgnoreCase("0")) {
-			sqlCall("update room set user_limit=user_limit+1 where rno = '"+userRoom+"'");
-			sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
+		//0방(대기실)이동을 시도할 경우 0번으로 유저의 방번호를 0번으로 바꿔주고, 기존 유저의 방에 limit을 +1 해줌
+		//대기실로 이동이기 때문에 기존 방에만 +1해주면 됨
+		if(changeroom.equalsIgnoreCase("0")) {
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
 			roomNoCheck(name,out);
 			return;
 		}
-	
+		//잠금타입 비교 open = y , lock = n
 		if(openType.equalsIgnoreCase("y")) {
-			sqlCall("update room set user_limit=user_limit-1 where rno = '"+roomNo+"'");
-			sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
 			roomNoCheck(name,out);
+		
+		//비밀번호 방인 경우, password 비교해야 함.
 		}else if(openType.equalsIgnoreCase("n")){
 			String pwd="";
 			try {
@@ -630,76 +658,123 @@ public class MultiServer6 {
 				out.println("비밀번호 방입니다. /joinroom 방번호 비밀번호 순으로 입력하세요.");
 				return;
 			}
-			sql = "select pwd from room where rno = '"+roomNo+"'";
+			
+			sql = "select pwd from room where rno = '"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			String roompwd = "";
 			while(rs.next()) {
 				roompwd = rs.getString("pwd");
 			}
+			
+			//바꿀방의 비밀번호를 확보하고 사용자가 입력한 비밀번호와 같을 시 방을 바꿔줌.
 			if(pwd.equalsIgnoreCase(roompwd)) {
-				System.out.println("비밀번호가 맞아 user 입장합니다.");
-				sqlCall("update room set user_limit=user_limit-1 where rno = '"+roomNo+"'");
-				sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
+				out.println("비밀번호가 확인되어 "+changeroom+"번방에 입장합니다.");
+				sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+				sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+				sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
 				roomNoCheck(name,out);
 			}else {
 				out.println("비밀번호가 틀립니다.");
 				return;
 			}		
 		}
-		if(rs!=null) rs.close();
-		if(pstmt!=null) pstmt.close();
-		if(con!=null) con.close();
+		rs.close();
+		pstmt.close();
+		con.close();
 	}
 	//오버로딩, 강퇴할때 사용함 소리없이 내보냄..
 	public void joinRoom(String name, String msg) throws SQLException, UnsupportedEncodingException, IOException {
 		String str = msg;
 		String temp = str.substring(str.indexOf(" "));
 		String[] arr = msg.split(" ");
-		String roomNo = arr[1];
-		
+		String changeroom = arr[1];
+		String nowroom = Integer.toString(roomNoReturn(name));
 		String openType ="";
 		Connection con=ConnectionPool.getConnection("성공");
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		
-		String sql = "select open_type from room where rno ='"+roomNo+"'";
+		String limit = "";
+		String sql="";
+		String owner ="";
+		//현재 유저가 진입하려는 방의 방장이면, 비밀번호 확인하지 않고 제한인원이 초과되어도 진입 시키도록 함
+		sql = "select room_owner from room where rno = '"+changeroom+"'";
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
+		while(rs.next()) owner=rs.getString(1);
 		
+		if(name.equalsIgnoreCase(owner)) {
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
+			
+			return;
+		}
+		pstmt.clearParameters();
+		//바꿀 방의 공개/비공개 타입확인,소스하단에서 잠금타입에 따라 비밀번호 입력되었는지 확인하고 비번 입력을 유도하는 용도로 호출함
+		sql = "select open_type from room where rno ='"+changeroom+"'";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery(sql);
 		while(rs.next()) openType = rs.getString(1);
 		pstmt.clearParameters();
+		//이동할 방의 제한인원을 확인하고, 제한인원이 0명이면 진입되지 않도록 설정하기 위해 sql 호출
+		sql = "select user_limit from room where rno='"+changeroom+"'";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery(sql);
+		while(rs.next()) limit = rs.getString("user_limit");
 		
+		//제한인원이 0이면 입장불가
+		if(limit.equalsIgnoreCase("0")) {
+			
+			System.out.println("정원 초과로 입장 불가, 메소드 return");
+			return;
+		}
+		//0방(대기실)이동을 시도할 경우 0번으로 유저의 방번호를 0번으로 바꿔주고, 기존 유저의 방에 limit을 +1 해줌
+		//대기실로 이동이기 때문에 기존 방에만 +1해주면 됨
+		if(changeroom.equalsIgnoreCase("0")) {
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
+
+			return;
+		}
+		//잠금타입 비교 open = y , lock = n
 		if(openType.equalsIgnoreCase("y")) {
-			sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
-//			roomNoCheck(name,out);
+			sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+			sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+			sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
+		
+		
+		//비밀번호 방인 경우, password 비교해야 함.
 		}else if(openType.equalsIgnoreCase("n")){
 			String pwd="";
 			try {
 				pwd = arr[2];
 			}catch(Exception e) {
-//				out.println("비밀번호 방입니다. /joinroom 방번호 비밀번호 순으로 입력하세요.");
 				return;
 			}
-			sql = "select pwd from room where rno = '"+roomNo+"'";
+			
+			sql = "select pwd from room where rno = '"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery(sql);
 			String roompwd = "";
 			while(rs.next()) {
 				roompwd = rs.getString("pwd");
 			}
+			
+			//바꿀방의 비밀번호를 확보하고 사용자가 입력한 비밀번호와 같을 시 방을 바꿔줌.
 			if(pwd.equalsIgnoreCase(roompwd)) {
-				System.out.println("비밀번호 맞음! 입장 가능~");
-				sqlCall("update emp set room = '"+roomNo+"' where name = '"+name+"'");
-//				roomNoCheck(name,out);
+				sqlCall("update room set user_limit=user_limit+1 where rno = '"+nowroom+"'");
+				sqlCall("update room set user_limit=user_limit-1 where rno = '"+changeroom+"'");
+				sqlCall("update emp set room = '"+changeroom+"' where name = '"+name+"'");
+
 			}else {
-//				out.println("비밀번호가 틀립니다.");
+
 				return;
 			}		
 		}
-		if(rs!=null) rs.close();
-		if(pstmt!=null) pstmt.close();
-		if(con!=null) con.close();
+		rs.close();
+		pstmt.close();
+		con.close();
 	}
 	//전체 사용자 list를 요청할 경우 list를 뿌려줌
 	public void allList(PrintWriter out) {
@@ -731,9 +806,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("waitingRoomList에서 에러 : "+e);
 		}finally { 
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 	//같은 룸에 있는 멤버 확인하는 메소드
@@ -1003,9 +1078,9 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("초대 수락 시! "+e);
 		}finally { 
-			if(rs !=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			rs.close();
+			pstmt.close();
+			con.close();
 		}		
 	}
 	
@@ -1044,8 +1119,8 @@ public class MultiServer6 {
 			return updateCount;
 		}finally {
 			try {
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				pstmt.close();
+				con.close();
 			}catch(SQLException sqle) {}
 		}
 	}
@@ -1097,8 +1172,9 @@ public class MultiServer6 {
 			}catch(Exception e) {
 				System.out.println("DB Clear 중 Error : "+e);
 			}finally { 
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				
+				pstmt.close();
+				con.close();
 			}
 		}
 		public boolean status (String name) throws SQLException {
@@ -1120,9 +1196,9 @@ public class MultiServer6 {
 			}catch(Exception e) {
 				System.out.println("status 확인 중 error : "+e);
 			}finally { 
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				rs.close();
+				pstmt.close();
+				con.close();
 			}
 			return sw;
 		}
@@ -1136,7 +1212,7 @@ public class MultiServer6 {
 				
 				sendAllMsg("",name +"님이 입장하셨습니다.");
 				clientMap.put(name, out);
-				
+								
 				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.");
 

@@ -88,13 +88,15 @@ public class MultiClient6 {
 			receiver.start();
 			
 			new ChatWin(socket,s_name);
-
+//			Thread.sleep(100);
 		}catch(Exception e) {
 			System.out.println("예외 [MultiClient class] : "+e);
-			if(rs!=null) rs.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
 			s.close();
+	
+		}finally {
+			rs.close();
+			pstmt.close();
+			con.close();
 		}
 	}
 }
