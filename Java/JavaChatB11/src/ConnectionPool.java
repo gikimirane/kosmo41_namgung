@@ -19,7 +19,7 @@ public class ConnectionPool {
 
             Properties cacheProps = new Properties();
             cacheProps.setProperty("MinLimit", "3");
-            cacheProps.setProperty("MaxLimit", "500");
+            cacheProps.setProperty("MaxLimit", "50000");
             cacheProps.setProperty("InitialLimit", "1");
             cacheProps.setProperty("ConnectionWaitTimeout", "5");
             cacheProps.setProperty("ValidateConnection", "true");
@@ -45,7 +45,7 @@ public class ConnectionPool {
     public static Connection getConnection(String env)
        throws SQLException
     {
-//        System.out.println("Request connection for " + env);
+        System.out.println("Request connection for " + env);
         if (ods == null) {
             throw new SQLException("OracleDataSource is null.");
         }
