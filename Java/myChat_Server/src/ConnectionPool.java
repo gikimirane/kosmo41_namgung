@@ -9,7 +9,6 @@ public class ConnectionPool {
 
     static {
         try {
-        	
             ods = new OracleDataSource();
             ods.setURL("jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe");
             ods.setUser("scott");
@@ -20,7 +19,7 @@ public class ConnectionPool {
 
             Properties cacheProps = new Properties();
             cacheProps.setProperty("MinLimit", "3");
-            cacheProps.setProperty("MaxLimit", "50000");
+            cacheProps.setProperty("MaxLimit", "500");
             cacheProps.setProperty("InitialLimit", "1");
             cacheProps.setProperty("ConnectionWaitTimeout", "5");
             cacheProps.setProperty("ValidateConnection", "true");
