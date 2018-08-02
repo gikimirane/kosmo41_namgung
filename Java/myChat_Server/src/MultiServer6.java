@@ -16,39 +16,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-//commit 되라!
+
 public class MultiServer6 {
-<<<<<<< HEAD
-	
-=======
 	ServerSocket serverSocket = null;
 	Socket socket =null;
 	Map<String, PrintWriter> clientMap;
 	Connection con=null;
 	
 
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 	static {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		}catch(ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}
-<<<<<<< HEAD
-	}
-	ServerSocket serverSocket = null;
-	Socket socket =null;
-	Map<String, PrintWriter> clientMap;
-	Connection con;
-		
-	public void dbConnect() throws SQLException {
-//		con=ConnectionPool.getConnection("성공");
-	}
-	
-	public void dbDisConnect() throws SQLException {
-		con.close();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 	}
 
 	public MultiServer6() {
@@ -71,13 +52,8 @@ public class MultiServer6 {
 			e.printStackTrace();
 		}finally {
 			try {
-<<<<<<< HEAD
-				serverSocket.close();
-				if(con!=null)con.close();
-=======
 				serverSocket.close();	
 				con.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -94,16 +70,11 @@ public class MultiServer6 {
 		String[] arr = msg.split(" ");
 		String newOwner="";
 		String owner="";
-<<<<<<< HEAD
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-=======
 		
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		try {
 			newOwner = arr[1];
 		}catch(Exception e) {
-			out.println("/방장승계 [user명] 과 같은 형식으로 입력하세요.");
+			out.println("/ChangeOwner [user명] 과 같은 형식으로 입력하세요.");
 			return;
 		}
 		//이 방의 owner가 누구인지 확인함.
@@ -112,21 +83,11 @@ public class MultiServer6 {
 			int newOwnerNo = roomNoReturn(newOwner);
 			sql = "select room_owner from room where rno = '"+myRoomNo+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()){
-				owner = rs.getString(1);
-			}else {
-				System.out.println("방주인이 없습니다.");
-				return;
-			}
-=======
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				owner = rs.getString(1);
 			}
 			pstmt.clearParameters();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			
 			//오너가 맞으면 -> 새로 지정한 사용자랑 나랑 같은 방이면 -> 방장 변경해줌
 			if(user.equalsIgnoreCase(owner)) {
@@ -145,24 +106,12 @@ public class MultiServer6 {
 			}
 		}catch(Exception e) {
 			System.out.println("방장 변경 시 Error : "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null) rs.close();
-			pstmt.close();
-=======
 		}finally {
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}	
 	
 	public void ownerChange(String user, String newOwner) throws UnsupportedEncodingException, SQLException, IOException {
-<<<<<<< HEAD
-		String sql;
-		PrintWriter out = clientMap.get(user);
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String sql="";
@@ -191,42 +140,22 @@ public class MultiServer6 {
 			}
 		}catch(Exception e) {
 			System.out.println("방장 변경 시 Error : "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-		}
-	}	
-	public String roomOwnerReturn (String user) throws SQLException {
-		dbConnect();
-=======
 		}finally {
 			rs.close(); pstmt.close();
 		}
 	}	
 	public String roomOwnerReturn (String user) throws SQLException {
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String owner="";
 		String sql = "select room_owner from room where rno = (select room from emp where name='"+user+"')";
 		pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-		rs = pstmt.executeQuery(sql);
-		if(rs.next()) {
-			owner = rs.getString("room_owner");
-		}
-		if(rs!=null) rs.close();
-		pstmt.close();
-=======
 		rs = pstmt.executeQuery();
 		pstmt.clearParameters();
 		
 		if(rs.next()) {
 			owner = rs.getString("room_owner");
 		}
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		
 		return owner;
 	}
@@ -260,34 +189,13 @@ public class MultiServer6 {
 		}else {
 			out.println("방장이 아니면 방을 폭파시킬 수 없습니다.");
 		}
-<<<<<<< HEAD
-		if(rs!=null) rs.close();
-		pstmt.close();
-		
-=======
 		rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 	}
 	//방 나가서 대기실로 이동하는 메소드
 	public void roomExit(String user,String msg,PrintWriter out) throws UnsupportedEncodingException, SQLException, IOException {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-<<<<<<< HEAD
-		String arr[] = msg.split(" ");
-		String owner="";
-		String sql = "select room_owner from room where rno = (select room from emp where name='"+user+"')";
-		PreparedStatement pstmt=null;
-		
-		pstmt = con.prepareStatement(sql);
-		rs = pstmt.executeQuery(sql);
-		if(rs.next()) {
-			owner = rs.getString("room_owner");
-		}
-		
-		String oChoice = "";
-=======
 		String owner=roomOwnerReturn(user);
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		String myRoomNo = Integer.toString(roomNoReturn(user));
 		
 		if(user.equalsIgnoreCase(owner)) {
@@ -300,15 +208,8 @@ public class MultiServer6 {
 			System.out.println("방을 나갔습니다.");
 			out.println("방을 나가 대기실로 이동했습니다.");
 			roomNoCheck(user,out);
-<<<<<<< HEAD
-		}
-		if(rs!=null) rs.close();
-		pstmt.close();
-		
-=======
 		}	
 		rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 	}
 	//방 만드는 영역, /createroom unlock or /createroom lock 1234
 	public void createRoom(String user,String str,PrintWriter out) throws SQLException {
@@ -317,25 +218,14 @@ public class MultiServer6 {
 		String sql ="";
 		String[] str1 = str.split(" ");
 		sql = "select count(*) from room where room_owner = '"+user+"'";
-		PreparedStatement pstmt=null;
 		pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-		rs = pstmt.executeQuery(sql);
-		
-		int count;
-		if(rs.next()) {
-=======
 		rs = pstmt.executeQuery();
 		pstmt.clearParameters();
 		
 		int count=0;
 		while(rs.next()) {
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			count = rs.getInt("count(*)");
-		}else {
-			count = 0;
 		}
-		
 		if(count>0) {
 			out.println("본인이 방장인 방이 이미 있습니다.");
 			return;
@@ -366,21 +256,11 @@ public class MultiServer6 {
 			out.println("/createroom (비공개 or 공개) 정원수 password 순으로 기재해주세요.");
 			out.println("예 ) /createroom 비공개 5 1234");
 		}finally {
-<<<<<<< HEAD
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//현재 내가 있는 Room No를 보여줌
 	public int roomNoReturn (String user) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		int roomNo = 0;
@@ -397,23 +277,12 @@ public class MultiServer6 {
 			
 		}catch(Exception e) {
 			System.out.println("RoomNumber Check 중 Error" + e);
-<<<<<<< HEAD
-		}finally {
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 		rs.close(); pstmt.close();
 		return roomNo;
 	}
 	//나의 현재방 위치를 출력해줌
 	public void roomNoCheck (String user, PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		try {
@@ -433,30 +302,16 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("RoomNumber Check 중 Error" + e);
 		}finally {
-<<<<<<< HEAD
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//현재 같은 방에 있는 사용자들에게 메시지를 뿌려주는 영역, 내가 설정한 나쁜말이 있는지 체크, 차단친구 체크
 	public void sendAllMsg(String user,String msg) throws SQLException, UnsupportedEncodingException{
 		PrintWriter it_out=null;
-<<<<<<< HEAD
-		dbConnect();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String it_name;
-		
-=======
 		String it_name;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 	
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		try {
 			String sql  ="select name from emp where room = (select room from emp where name = '"+user+"')";
 			pstmt = con.prepareStatement(sql);
@@ -487,17 +342,10 @@ public class MultiServer6 {
 					it_out = clientMap.get(user);	
 				}
 			}
-			
 		}catch(Exception e) {
 			System.out.println("sendAllmsg 중 Error 1"+e);
 		}finally {
-<<<<<<< HEAD
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	
@@ -554,39 +402,19 @@ public class MultiServer6 {
 	}
 	// 메시지를 뿌려주기 전에 block된 멤버가 있는지 확인하는 메소드
 	public int checkBlock (String user, String nowUser) throws SQLException {
-<<<<<<< HEAD
-		Iterator<String> it = clientMap.keySet().iterator();
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String sql = "";	
-		
 		int count = 0;
 		sql = "select count(*) from block where (oname = '"+nowUser+"' and bname = '"+user+"') or (oname = '"+user+"' and bname ='"+nowUser+"')";
-		
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery();
-<<<<<<< HEAD
-		if(rs.next()) {
-			count = rs.getInt("count(*)");
-		}else {
-			count=0;
-		}
-
- 		if(rs!=null)rs.close();
- 		pstmt.close();
- 		
- 		
-=======
 				
 		if(rs.next()) {
 			count = rs.getInt("count(*)");	
 		}
 
 		rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		return count;
 	}
 	// '/'로 시작할 경우 명령어라고 생각하고 메소드를 호출함, 이 영역 내에서 각각 메소드를 호출시킴
@@ -656,10 +484,6 @@ public class MultiServer6 {
 	}
 	//내가 만든 방에 참여한 멤버를 보여주는 List 영역
 	public void myMemberList(String name, PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		ResultSet rs1 =null;
@@ -695,22 +519,6 @@ public class MultiServer6 {
 			System.out.println("내 방 참여자가 없습니다.");
 			System.out.println("myRoomMemberList에서 에러 : "+e);
 		}finally { 
-<<<<<<< HEAD
-			if(rs!=null) rs.close();
-			if(rs1!=null) rs1.close();
-			pstmt.close();
-			
-		}
-		
-	}
-	//현재 있는 Room에 list를 보여줌
-	public void roomlist(String name,PrintWriter out) throws SQLException {
-		dbConnect();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		ResultSet rs1=null;
-	
-=======
 			rs.close(); pstmt.close();
 		}
 	}
@@ -719,7 +527,6 @@ public class MultiServer6 {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		ResultSet rs1=null;
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		try {
 			String sql="select distinct rno from room";
 			pstmt = con.prepareStatement(sql);			
@@ -741,25 +548,13 @@ public class MultiServer6 {
 			out.println(keys);
 		}catch(Exception e) {
 			System.out.println("대화방 목록에서 에러 : "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null) rs.close();
-			if(rs1!=null) rs1.close();
-			pstmt.close();
-			
-=======
 		}finally { 			
 			if(rs1!=null)rs1.close();
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//방장만 강퇴할 수 있음, 1차 체크 : 방장인지? 2차 체크 : 강퇴대상이 같은방에 있는지
 	public void forceExit(String name, String str, PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String[] arr = str.split(" ");
@@ -797,13 +592,7 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("forceExit Error "+e);
 		}finally {
-<<<<<<< HEAD
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//원하는 대화방에 참여할 수 있는 메소드, 아직 password 있는 방에 대한 처리는 하지 않음.
@@ -817,24 +606,6 @@ public class MultiServer6 {
 		String limit = "";
 		String sql="";
 		String owner ="";
-<<<<<<< HEAD
-		dbConnect();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		
-		try {
-			
-			
-			sql = "select room_owner from room where rno = '"+changeroom+"'";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				owner=rs.getString(1);
-			}else {
-				System.out.println("joinroom 방장없음!");
-			}
-			
-=======
 
 		try {		
 			sql = "select room_owner from room where rno = '"+changeroom+"'";
@@ -845,7 +616,6 @@ public class MultiServer6 {
 			}
 			
 			pstmt.clearParameters();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			//현재 유저가 진입하려는 방의 방장이면, 비밀번호 확인하지 않고 제한인원이 초과되어도 진입 시키도록 함
 			
 			if(name.equalsIgnoreCase(owner)) {
@@ -857,12 +627,8 @@ public class MultiServer6 {
 			//바꿀 방의 공개/비공개 타입확인,소스하단에서 잠금타입에 따라 비밀번호 입력되었는지 확인하고 비번 입력을 유도하는 용도로 호출함
 			sql = "select open_type from room where rno ='"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-=======
 			rs = pstmt.executeQuery();
 			
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			if(rs.next()) {
 				openType = rs.getString(1);
 			}
@@ -871,18 +637,11 @@ public class MultiServer6 {
 			//이동할 방의 제한인원을 확인하고, 제한인원이 0명이면 진입되지 않도록 설정하기 위해 sql 호출
 			sql = "select user_limit from room where rno='"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				limit = rs.getString("user_limit");
-			}
-=======
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				limit = rs.getString("user_limit");
 			}
 			pstmt.clearParameters();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			
 			//제한인원이 0이면 입장불가
 			if(limit.equalsIgnoreCase("0")) {
@@ -942,44 +701,18 @@ public class MultiServer6 {
 		}finally {
 			rs.close(); pstmt.close();
 		}
-<<<<<<< HEAD
-		finally {
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-		}	
-	}
-	//오버로딩, 강퇴할때 사용함 소리없이 내보냄..
-	public void joinRoom(String name, String msg) throws SQLException, UnsupportedEncodingException, IOException {
-	
-=======
 	}
 	//오버로딩, 강퇴할때 사용함 소리없이 내보냄..
 	public void joinRoom(String name, String msg) throws SQLException, UnsupportedEncodingException, IOException {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String nowroom = Integer.toString(roomNoReturn(name));
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		String[] arr = msg.split(" ");
 		String changeroom = arr[1];
 		String openType ="";
 		String limit = "";
 		String sql="";
 		String owner ="";
-<<<<<<< HEAD
-		dbConnect();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		try {
-			
-			sql = "select room_owner from room where rno = '"+changeroom+"'";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				owner=rs.getString(1);
-			}
-			
-=======
 
 		try {		
 			sql = "select room_owner from room where rno = '"+changeroom+"'";
@@ -989,7 +722,6 @@ public class MultiServer6 {
 				owner=rs.getString(1);
 			}
 			pstmt.clearParameters();	
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			//현재 유저가 진입하려는 방의 방장이면, 비밀번호 확인하지 않고 제한인원이 초과되어도 진입 시키도록 함
 			
 			if(name.equalsIgnoreCase(owner)) {
@@ -1002,11 +734,7 @@ public class MultiServer6 {
 			//바꿀 방의 공개/비공개 타입확인,소스하단에서 잠금타입에 따라 비밀번호 입력되었는지 확인하고 비번 입력을 유도하는 용도로 호출함
 			sql = "select open_type from room where rno ='"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-=======
 			rs = pstmt.executeQuery();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			if(rs.next()) {
 				openType = rs.getString(1);
 			}
@@ -1015,19 +743,11 @@ public class MultiServer6 {
 			//이동할 방의 제한인원을 확인하고, 제한인원이 0명이면 진입되지 않도록 설정하기 위해 sql 호출
 			sql = "select user_limit from room where rno='"+changeroom+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				limit = rs.getString("user_limit");
-			}
-			
-=======
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				limit = rs.getString("user_limit");
 			}
 			pstmt.clearParameters();	
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			//제한인원이 0이면 입장불가
 			if(limit.equalsIgnoreCase("0")) {
 //				out.println("정원 초과로 입장하실 수 없습니다.");
@@ -1083,16 +803,8 @@ public class MultiServer6 {
 			}
 		}catch(Exception e) {
 			System.out.println("joinroom에서 죽음 : "+e);
-<<<<<<< HEAD
-		}
-		finally {
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-=======
 		}finally {
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//전체 사용자 list를 요청할 경우 list를 뿌려줌
@@ -1108,10 +820,6 @@ public class MultiServer6 {
 	}
 	//대기실 멤버 list 확인 메소드
 	public void waitingRoomList (String name, PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		try {
@@ -1128,23 +836,12 @@ public class MultiServer6 {
 			out.println(keys);
 		}catch(Exception e) {
 			System.out.println("waitingRoomList에서 에러 : "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-=======
 		}finally {
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//같은 룸에 있는 멤버 확인하는 메소드
 	public void roomMemberList(String name,PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		try {
@@ -1161,24 +858,12 @@ public class MultiServer6 {
 			out.println(keys);
 		}catch(Exception e) {
 			System.out.println("roomList에서 에러 : "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-=======
 		}finally {
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	
 	public boolean badWordOwner(String name) throws SQLException {
-<<<<<<< HEAD
-		boolean sw=false;
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		boolean sw=false;
@@ -1186,21 +871,6 @@ public class MultiServer6 {
 		sql = "select count(offen) from offen_lang where owner ='"+name+"'";
 		try{
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				sw = true;
-			}else {
-				sw = false;
-			}
-		}catch(Exception e) {
-			System.out.println("badWordOwner Error "+e);
-		}finally {
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-		}	
-=======
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				sw = true;
@@ -1211,15 +881,10 @@ public class MultiServer6 {
 			System.out.println("badWordOwner Error "+e);
 		}
 		rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		return sw;
 	}
 	//server에만 있는 나쁜말 찾는 거
 	public String badWordAllCheck(String str) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String sql = "select offen from offen_lang where owner = 'server'";
@@ -1246,23 +911,10 @@ public class MultiServer6 {
 		}finally {
 			rs.close(); pstmt.close();
 		}
-<<<<<<< HEAD
-		try {
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-		}catch(SQLException sqle) {}
-		
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		return str;
 	}
 	//server + 본인이 설정한 나쁜말 찾는거, sendAllmsg와 whisper에서 확인함
 	public String badWordCheck(String str,String name) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		ArrayList<String> arr = new ArrayList<String>();
@@ -1289,15 +941,6 @@ public class MultiServer6 {
 		}finally {
 			rs.close(); pstmt.close();
 		}
-<<<<<<< HEAD
-		try {
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-		}catch(SQLException sqle) {}
-		
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		return str;
 	}
 	//사용자가 나쁜말을 직접 등록할 수 있는 메소드, /setbadword 나쁜말 을 입력 시 동작함
@@ -1308,13 +951,7 @@ public class MultiServer6 {
 		String name = name1;
 		String temp = str.substring(str.indexOf(" "));
 		String word = temp.substring(1,temp.length());
-<<<<<<< HEAD
-		dbConnect();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-=======
 		
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		try{
 			int[] arr = new int[1];
 			String sql="select count(*) from offen_lang where offen = '"+word+"' and owner = '"+name+"'";
@@ -1340,13 +977,7 @@ public class MultiServer6 {
 			out.println("이미 등록된 나쁜말 입니다.");
 			return;
 		}finally {
-<<<<<<< HEAD
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-=======
 			rs.close(); pstmt.close();
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		}
 	}
 	//사용자가 친구를 차단하는 영역
@@ -1462,10 +1093,6 @@ public class MultiServer6 {
 		
 	}
 	public void invitationY(String name,String str, PrintWriter out) throws SQLException {
-<<<<<<< HEAD
-		dbConnect();
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String sql = "";
@@ -1473,12 +1100,6 @@ public class MultiServer6 {
 		try {
 			sql = "select invi_num from emp where name = '"+name+"'";
 			pstmt = con.prepareStatement(sql);
-<<<<<<< HEAD
-			rs = pstmt.executeQuery(sql);
-			if(rs.next()) {
-				invi_room = rs.getInt(1); 
-			}
-=======
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -1487,22 +1108,13 @@ public class MultiServer6 {
 			
 			pstmt.clearParameters();	
 			
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 			sqlCall("update emp set room = '"+invi_room+"' where name ='"+name+"'");
 			out.println("초대에 응하여 "+invi_room+"번방으로 이동합니다.");
 		}catch(Exception e) {
 			System.out.println("초대 수락 시! "+e);
-<<<<<<< HEAD
-		}finally { 
-			if(rs!=null)rs.close();
-			pstmt.close();
-			
-		}		
-=======
 		}finally {
 			rs.close(); pstmt.close();
 		}
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 	}
 	
 	//-------------------DB접근 메소드 영역----------------//
@@ -1623,45 +1235,6 @@ public class MultiServer6 {
 				
 		//Thread 종료 시 삭제해야 하거나 update 할 거 있으면 호출하는 메소드
 		
-<<<<<<< HEAD
-			}catch(Exception e) {
-				System.out.println("DB Clear 중 Error : "+e);
-			}finally { 
-				pstmt.close();
-				
-			}
-		}
-		public boolean status (String name) throws SQLException {
-			boolean sw = false;
-			dbConnect();
-			PreparedStatement pstmt=null;
-			ResultSet rs=null;
-			try {
-				String sql = "select status from emp where name ='"+name+"'";
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery(sql);
-				String status ="";
-				if(rs.next()) {
-					status = rs.getString(1);
-				}else {
-					System.out.println("상태가 없습니다.");
-					sw=false;
-					return sw;
-				}
-				if(status.equalsIgnoreCase("invitation")) {
-					sw = true;
-				}else sw = false;
-			}catch(Exception e) {
-				System.out.println("status 확인 중 error : "+e);
-			}finally { 
-				rs.close();
-				pstmt.close();
-				
-			}
-			return sw;
-		}
-=======
->>>>>>> 18e8d275e04725eae40b4a3025f680238ab22a34
 		public void run() {
 			
 			String s ="";

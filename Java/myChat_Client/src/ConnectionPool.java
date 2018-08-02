@@ -20,7 +20,7 @@ public class ConnectionPool {
 
             Properties cacheProps = new Properties();
             cacheProps.setProperty("MinLimit", "3");
-            cacheProps.setProperty("MaxLimit", "50000");
+            cacheProps.setProperty("MaxLimit", "500");
             cacheProps.setProperty("InitialLimit", "1");
             cacheProps.setProperty("ConnectionWaitTimeout", "5");
             cacheProps.setProperty("ValidateConnection", "true");
