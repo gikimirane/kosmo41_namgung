@@ -6,13 +6,30 @@ import java.sql.*;
 public class ConnectionPool {
     private final  static String CACHE_NAME = "MYCACHE";
     private  static OracleDataSource ods = null;
+    private ConnectionPool() { }
 
+    public static Connection getConnection() throws SQLException {
+        return getConnection("env. unspecified");
+    }
+
+
+    public static Connection getConnection(String env)
+       throws SQLException
+    {
+        System.out.println("Request connection for " + env);
+        if (ods == null) {
+            throw new SQLException("OracleDataSource is null.");
+        }
+        return ods.getConnection();
+    }
     static {
         try {
             ods = new OracleDataSource();
             ods.setURL("jdbc:oracle:thin:@ec2-13-125-210-91.ap-northeast-2.compute.amazonaws.com:1521:xe");
             ods.setUser("scott");
             ods.setPassword("tiger");
+            
+//          ods.setURL("jdbc:oracle:thin:@localhost:1521:xe");
             // caching parms
             ods.setConnectionCachingEnabled(true);
             ods.setConnectionCacheName(CACHE_NAME);
@@ -31,26 +48,10 @@ public class ConnectionPool {
             e.printStackTrace();
         }
     }
-
     /**
      * private constructor for static class
      */
-    private ConnectionPool() { }
-
-    public static Connection getConnection() throws SQLException {
-        return getConnection("env. unspecified");
-    }
-
-
-    public static Connection getConnection(String env)
-       throws SQLException
-    {
-        System.out.println("Request connection for " + env);
-        if (ods == null) {
-            throw new SQLException("OracleDataSource is null.");
-        }
-        return ods.getConnection();
-    }
+   
 
     public static void closePooledConnections() throws SQLException{
         if (ods != null ) {

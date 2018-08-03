@@ -85,7 +85,7 @@ import javax.swing.JTextField;
 					}
 									
 	//				/to로 시작하는지 확인
-					if(msg.startsWith("/to")) {
+					if(msg.startsWith("/귓속말")) {
 						int space=0;
 	//					공백이 1개면 고정, 2개 이상이면 한번만 하는 귓속말
 						for(int i=0;i<msg.length();i++) {

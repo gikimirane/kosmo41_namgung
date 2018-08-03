@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-//commit 되라!
+
 public class MultiServer6 {
 	
 	static {
@@ -26,11 +26,6 @@ public class MultiServer6 {
 			cnfe.printStackTrace();
 		}
 	}
-	ServerSocket serverSocket = null;
-	Socket socket =null;
-	Map<String, PrintWriter> clientMap;
-	Connection con;
-		
 	public void dbConnect() throws SQLException {
 //		con=ConnectionPool.getConnection("성공");
 	}
@@ -38,6 +33,13 @@ public class MultiServer6 {
 	public void dbDisConnect() throws SQLException {
 		con.close();
 	}
+	
+	ServerSocket serverSocket = null;
+	Socket socket =null;
+	Connection con;
+	
+	
+	Map<String, PrintWriter> clientMap;
 
 	public MultiServer6() {
 		clientMap = new HashMap<String, PrintWriter>();
@@ -415,6 +417,7 @@ public class MultiServer6 {
 		out.println("[/전체공지 내용] : 대기실과 전체방에 메시지를 전송");
 		out.println("[/방만들기 (공개/비공개) 인원수 비밀번호] : 대화방 생성, 참여자간 메시지 전송");
 		out.println("[/방접속 방번호] : 입력한 방으로 들어가 대화 참여");
+		out.println("[/방나가기] : 현재 접속된 방에서 대기실로 이동");
 		out.println("[/현재방] : 자신이 위치한 방의 번호 확인");
 		out.println("[/방사용자목록] : 자신이 위치한 방의 사용자 목록");
 		out.println("[/방목록] : 전체 방 목록 확인");
@@ -537,6 +540,7 @@ public class MultiServer6 {
 			commendlist(out);
 		}
 		else {
+			out.println("올바른 명령어를 입력하세요.");
 			System.out.println("올바른 명령어를 입력하세요.");
 		}
 	}
@@ -1111,8 +1115,8 @@ public class MultiServer6 {
 		String friendName = temp.substring(1,temp.length());
 		int count=0;
 		System.out.println("지워줘 block");
-		
 		count = updateCount("delete from block where oname = '"+name+"' and bname ='"+friendName+"'");
+		con.commit();
 		if(count > 0) {
 			System.out.println(name+"님이 등록했던 "+friendName+"님을 차단 해제 합니다.");
 			out.println(name+"님이 등록했던 "+friendName+"님을 차단 해제 합니다.");
@@ -1272,7 +1276,6 @@ public class MultiServer6 {
 	}
 	//main 영역, Thread 시작!
 	public static void main(String[] args) throws SQLException {
-
 		MultiServer6 ms = new MultiServer6();
 		ms.init();
 	}
@@ -1292,9 +1295,71 @@ public class MultiServer6 {
 			}catch(Exception e) {
 				System.out.println("예외 : "+e);
 			}
-		}
+		}		
+		public void run() {
+			
+			String s ="";
+			String name ="";
+			try {
+				name = in.readLine();
+				name = URLDecoder.decode(name,"UTF-8");
 				
-		//Thread 종료 시 삭제해야 하거나 update 할 거 있으면 호출하는 메소드
+				sendAllMsg("",name +"님이 입장하셨습니다.");
+				clientMap.put(name, out);
+								
+				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
+				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.");
+
+				while(in!=null) {
+					s = in.readLine();
+					s = URLDecoder.decode(s, "UTF-8");
+					
+					if(status(name)==true) {
+						if(s.equalsIgnoreCase("y") || s.equalsIgnoreCase("n")) {
+							s = "/"+s;
+						}
+						else {
+							out.println("초대 응답메시지가 아닙니다. Y or N 으로 입력하세요.");
+							continue;
+						}
+					}
+					System.out.println("["+name+"] "+ s);
+										
+					if(s.equals("q")|| s.equals("Q")) {
+						break;
+					}
+					if(s.startsWith("/")) {
+						commendInput(out,s,name);
+					}
+					else {
+						sendAllMsg(name,s);
+					}
+				}
+
+			}catch(Exception e) {
+				System.out.println("예외 1 : "+e);
+			}finally {
+				try {
+					sendAllMsg("",name+"님이 퇴장하셨습니다.");
+					clientMap.remove(name);
+					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
+					dbClear(name,s,out);
+					
+				}catch(Exception e) {
+					System.out.println("Server Error : "+e);
+					e.printStackTrace();
+				}finally {	
+					try {
+						dbClear(name,s,out);
+						in.close();
+						out.close();
+						socket.close();
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}	
+		}
 		public void dbClear(String name,String str,PrintWriter out) throws SQLException {
 			dbConnect();
 			PreparedStatement pstmt=null;
@@ -1350,71 +1415,6 @@ public class MultiServer6 {
 				
 			}
 			return sw;
-		}
-		public void run() {
-			
-			String s ="";
-			String name ="";
-			try {
-				name = in.readLine();
-				name = URLDecoder.decode(name,"UTF-8");
-				
-				sendAllMsg("",name +"님이 입장하셨습니다.");
-				clientMap.put(name, out);
-								
-				System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-				sendAllMsg("","현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-
-				while(in!=null) {
-					s = in.readLine();
-					s = URLDecoder.decode(s, "UTF-8");
-					
-					if(status(name)==true) {
-						if(s.equalsIgnoreCase("y") || s.equalsIgnoreCase("n")) {
-							s = "/"+s;
-						}
-						else {
-							out.println("초대 응답메시지가 아닙니다. Y or N 으로 입력하세요.");
-							continue;
-						}
-					}
-					System.out.println("["+name+"] "+ s);
-										
-					if(s.equals("q")|| s.equals("Q")) {
-						break;
-					}
-					if(s.startsWith("/")) {
-						commendInput(out,s,name);
-					}
-					else {
-						sendAllMsg(name,s);
-					}
-				}
-
-			}catch(Exception e) {
-				System.out.println("예외 1 : "+e);
-				//이게 원래 잡히는지도 확인해봐야 함...ㅜ.ㅜ
-			}finally {
-				try {
-					sendAllMsg("",name+"님이 퇴장하셨습니다.");
-					clientMap.remove(name);
-					System.out.println("현재 접속자 수는 "+clientMap.size()+"명 입니다.");
-					dbClear(name,s,out);
-					
-				}catch(Exception e) {
-					System.out.println("여기서 에러인가용?");
-					e.printStackTrace();
-				}finally {	
-					try {
-						in.close();
-						out.close();
-						socket.close();
-						
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}	
 		}
 	}
 }
