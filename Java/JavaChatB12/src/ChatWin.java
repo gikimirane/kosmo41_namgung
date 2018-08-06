@@ -99,18 +99,25 @@ import javax.swing.JTextField;
 							fixed = true;
 							iName = temp.substring(temp.indexOf(" ")+1);
 							System.out.println(iName+"님과 고정 귓속말 시작, 해제 시 /"+iName+"을 입력하세요.");
-						}else out.println(URLEncoder.encode(msg,"UTF-8"));
+							tf.setText("");
+							return;
+						}else {
+							out.println(URLEncoder.encode(msg,"UTF-8"));
+							tf.setText("");
+							return;
+						}
 						
 					} else if(msg.equalsIgnoreCase("/"+iName)&&fixed==true) {
 						fixed = false;
 						System.out.println(iName+"님과의 고정 귓속말을 해제합니다.");
 						iName ="";
-						out.println(URLEncoder.encode(msg,"UTF-8"));
-					} else {
-						if(fixed==true) {
-							out.println(URLEncoder.encode("/to "+iName+" "+msg,"UTF-8"));
-						}else out.println(URLEncoder.encode(msg,"UTF-8"));
+						tf.setText("");
+						return;						
 					}
+
+					if(fixed==true) {
+						out.println(URLEncoder.encode("/귓속말 "+iName+" "+msg,"UTF-8"));
+					}else out.println(URLEncoder.encode(msg,"UTF-8"));
 					tf.setText("");
 				}catch(Exception e1) {
 					System.out.println("ChatWin Error 발생"+e);

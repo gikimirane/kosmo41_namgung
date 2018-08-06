@@ -2,10 +2,13 @@ import oracle.jdbc.pool.OracleDataSource;
 import oracle.jdbc.pool.OracleConnectionCacheManager;
 import java.util.Properties;
 import java.sql.*;
-
+// 전역객체, 싱글턴
+// 접속시간을 줄임, 시스템 자원을 낭비하지 않음 network나 시스템 메모리 등, 최소의 자원으로 최소효과를 내기 위함
+// connection하기 위해 걸리는 시간을 줄여줌
 public class ConnectionPool {
     private final  static String CACHE_NAME = "MYCACHE";
     private  static OracleDataSource ods = null;
+
     private ConnectionPool() { }
 
     public static Connection getConnection() throws SQLException {
@@ -36,7 +39,7 @@ public class ConnectionPool {
 
             Properties cacheProps = new Properties();
             cacheProps.setProperty("MinLimit", "3");
-            cacheProps.setProperty("MaxLimit", "50000");
+            cacheProps.setProperty("MaxLimit", "3");
             cacheProps.setProperty("InitialLimit", "1");
             cacheProps.setProperty("ConnectionWaitTimeout", "5");
             cacheProps.setProperty("ValidateConnection", "true");
