@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+	#logoDiv{
+		display:none;
+		position:absolute; left:0; top:0;
+		width:100%; height:100%;
+	}
+	
+</style>
+<script>
+window.onbeforeprint=function(e){
+	logoDiv=document.getElementById("logoDiv");
+	logoDiv.style.display="block";
+}
+
+window.onafterprint=hideLogo;
+
+function hideLogo(){
+	logoDiv=document.getElementById("logoDiv");
+	logoDiv.style.display="none";
+	logoDiv.style.zIndex=-1;
+}
+</script>
+</head>
+<body>
+<h3>onbeforeprint / onafterprint 예 </h3>
+<hr>
+
+<p> 프린트 메소드 호출 ㄱㄱㄱ 
+<p>
+<a href="javascript:window.print()">
+이곳을 누르면 프린트가 됩니다.</a><p>
+<input type="button" value="프린트" onclick="window.print()">
+
+<div id="logoDiv">
+	<img src = "media/logo.png" alt="이미지 없습니다.">
+</div>
+<p>안녕낭니ㅓ이ㅏ머ㅣ머ㅣ머마ㅣㅓ아ㅣㅓ아ㅣㅁ아
+ㅣㅏㅇ미ㅏㅓ이ㅏ머멍
+ㅁ어ㅏ미ㅓ아미ㅓㅁ
+ㅓㅇ</p>
+</body>
+</html>

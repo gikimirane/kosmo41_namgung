@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		$('div > h1').css('color','red');
+	});
+</script>
+</head>
+<body>
+	<div>
+		<ul>
+			<!-- 애는 후손이니까 적용되지 않음 DIV 아래 애만 먹힘 -->
+			<li><h1>Apple</h1></li>
+			<li>Bag</li>
+			<li>Cat</li>
+			<li>Dog</li>
+			<li>Elephant</li>
+		</ul>
+		<h1>Child h1</h1>
+	</div>
+</body>
+</html>

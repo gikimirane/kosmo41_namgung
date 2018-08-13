@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#header,#wrap,#footer{
+		border:1px solid #cccccc;
+		width:500px;
+	}
+	
+	div li {
+		background-color:red;
+	}
+	div p{
+		font-size:25px;
+	}
+	div > h1{
+		font-weight:bold;
+		color : yellow;
+	}
+</style>
+</head>
+<body>
+	<div id ="header">
+		<div class="logo">
+			<h1>LOGO</h1>
+		</div>
+		<div class="copy">
+			<h2>global company</h2>
+		</div>
+	</div>
+	<!-- div안에 ul안에 h1은 안먹음, div > h1 는 div 내 바로 아래 h1만 해당됨 -->
+	<div id="wrap">
+		<p> 서울시~~~~~~녹색산업 육성한대~~</p>
+		<ul>
+			<li><p>서울애니메이션센터</p></li>
+			<li><h1>서울애니메이션센터1</h1></li>
+			<li><p>DMC(디지털미디어시티)</p></li>
+			<li><h1>서울애니메이션센터1</h1></li>
+			<li><p>서울애니메이션센터</p></li>
+			<li><h1>서울애니메이션센터1</h1></li>
+			<li><p>서울애니메이션센터</p></li>
+			<li><h1>서울애니메이션센터1</h1></li>		
+		</ul>
+	</div>
+	<div id="footer">
+		YOONHEE~~~~~~~!!!!!!!!!
+	</div>
+</body>
+</html>

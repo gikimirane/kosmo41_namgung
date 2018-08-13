@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function (){
+		var object ={ };
+		//값 넣는 부분
+		$.extend(object,{
+			name:'RintIanTta',
+			gender:'Male',
+			part:'Second Guitar',
+			age : '23'
+		});
+		
+		//하나씩 꺼내서 output에 저장하고 한번에 alert 하는 부분
+		var output='';
+		$.each(object,function(key,item){
+			output += key+': '+item+'\n';
+		});
+		alert(output);
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

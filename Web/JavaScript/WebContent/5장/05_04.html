@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>텍스트가 자동회전되며 마우스로 클릭하며 중단</h3>
+<hr>
+<div><span id="div" style="background-color:yellow">자동 회전하는 텍스트입니다. </span></div>
+
+<script>
+var div = document.getElementById("div");
+var timerID = setInterval("doRotate()",200);
+
+div.onclick=function(e){
+	clearInterval(timerID);
+}
+
+function doRotate(){
+	var str = div.innerHTML;
+	var firstChar = str.substr(0,1); //자
+	var remains = str.substr(1,str.length-1); //동 회전하는 텍스트입니다.
+	str = remains+firstChar;
+	div.innerHTML = str;
+}
+</script>
+</body>
+</html>

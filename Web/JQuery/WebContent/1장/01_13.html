@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.item').css('color','orange');
+		$('h1.item').css('background','red');
+		$('p').css('background','skyblue');
+	});
+</script>
+</head>
+<body>
+<h1 class="item">Header-0</h1>
+<h1 class="item select">Header-1</h1>
+<h1 class="item">Header-2</h1>
+
+<p class="item">p라서 글자색만 바뀌지 </p>
+<!-- item이긴 한데 h1.item만 정의되어 있어 P는 적용되지 않음 -->
+</body>
+</html>

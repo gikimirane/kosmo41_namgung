@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function change(){
+	var spanArray = document.getElementsByTagName("span");
+	for(var i=0;i<spanArray.length;i++){
+		var span = spanArray[i];
+		span.style.color="red";
+		span.style.fontSize="20px";
+	}
+}
+
+function changeSnack(){
+	var spanArray = document.getElementsByClassName("snack");
+	for(var i=0;i<spanArray.length;i++){
+		var span = spanArray[i];
+		span.style.color="blue";
+		span.style.fontSize="20px";
+	}
+}
+</script>
+</head>
+<body>
+<h3>내가 좋아하는 과일
+<button onclick ="changeSnack()">과자 클래스 찾기 누르세요</button>
+<button onclick ="change()">span친구들 찾기 누르세요</button>
+</h3>
+<hr>
+<span class="fruit">사과0</span>
+<span class="fruit">사과1</span>
+<span class="fruit">사과2</span>
+<span class="fruit">사과3</span>
+<span class="fruit">사과4</span>
+<span class="snack">과자1</span>
+<span class="snack">과자2</span>
+<span class="snack">과자3</span>
+<span class="snack">과자4</span>
+<span class="snack">과자5</span>
+
+
+</body>
+</html>

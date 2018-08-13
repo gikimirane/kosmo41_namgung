@@ -1,0 +1,4 @@
+@charset "UTF-8";
+#wrap .content{
+	background-color: skyblue; color:white; padding:30px 10px;
+}
