@@ -118,51 +118,7 @@ public class MultiServer6 {
 		}
 	}	
 	
-	public void ownerChange(String user, String newOwner) throws UnsupportedEncodingException, SQLException, IOException {
-		String sql;
-		PrintWriter out = clientMap.get(user);
-		
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String owner ="";
 	
-		int myRoom=roomNoReturn(user);
-		int newRoom = roomNoReturn(newOwner);
-		//이 방의 owner가 누구인지 확인함.
-		try {
-			sql = "select room_owner from room where rno = '"+myRoom+"'";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
-			while (rs.next()) {
-				owner = rs.getString(1);
-			}
-			pstmt.clearParameters();
-			
-			//오너가 맞으면 -> 새로 지정한 사용자랑 나랑 같은 방이면 -> 방장 변경해줌
-			if(user.equalsIgnoreCase(owner)) {
-				if(myRoom == newRoom) {
-					
-					sqlCall("update room set room_owner = '"+newOwner+"' where rno = '"+myRoom+"'");
-					out.println("방장을 "+newOwner+"님으로 변경했습니다.");
-					PrintWriter nOwner = clientMap.get(newOwner);
-					nOwner.println(user+"님이 방장으로 지목했습니다.");
-				}else {
-					out.println("같은방에 있는 사용자가 아닙니다.");
-					return;
-				}
-			
-			}else {
-				out.println("방장이 아니기 때문에 방장을 변경할 수 없습니다.");
-				return;
-			}
-		}catch(Exception e) {
-			System.out.println("방장 변경 시 Error : "+e);
-		}finally { 
-			if(rs!=null) rs.close();
-			pstmt.close();
-			
-		}
-	}	
 	public String roomOwnerReturn (String user) throws SQLException {
 		
 		PreparedStatement pstmt=null;
