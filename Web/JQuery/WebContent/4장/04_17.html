@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	canvas {
+		border-width:3px;
+		border-style:solid;
+		border-color:black;
+		border-radius:10px;
+	}
+
+</style>
+<script src = "http://code.jquery.com/jquery-1.7.js"></script>
+<script>
+	$(document).ready(function() {
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		
+		$(canvas).toggle(function (event){
+			var position = $(this).offset();
+			var x = event.pageX - position.left;
+			var y = event.pageY - position.top;
+			
+			context.beginPath();
+			context.moveTo(x,y);
+		},
+		function(event){
+			var position = $(this).offset();
+			var x = event.pageX - position.left;
+			var y = event.pageY - position.top;
+			
+			context.lineTo(x,y);
+			context.stroke();
+		});
+	});
+	
+</script>
+</head>
+<body>
+	<canvas id = "canvas" width="500" height="300">
+	
+	</canvas>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function (event){
+		$(window).scroll(function(){
+			var scrollHeight = $(window).scrollTop() + $(window).height();
+			var documentHeight = $(document).height();
+			if(scrollHeight == documentHeight){
+				for(var i=0;i<10;i++){
+					$('<h1>Infinity Scroll</h1>').appendTo('body');
+				}
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	
+</body>
+</html>

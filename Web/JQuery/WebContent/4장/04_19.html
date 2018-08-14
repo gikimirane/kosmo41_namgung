@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').click(function(){
+			$(this).html(function(index,html){
+				return html+'★';
+			});
+		});
+		setInterval(function(){ $('h1').last().trigger('click'); },500);
+	});
+	
+</script>
+</head>
+<body>
+	<h1>Start: </h1>
+	<h1>Start: </h1>
+</body>
+</html>
