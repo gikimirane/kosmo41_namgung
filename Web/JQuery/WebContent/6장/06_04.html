@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script>
+	var request = new XMLHttpRequest();
+	request.open('GET','/jquery/data.html',false);
+	request.send();
+	
+	alert(request.responseText);
+</script>
+</body>
+</html>

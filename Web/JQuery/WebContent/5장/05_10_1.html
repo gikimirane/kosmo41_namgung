@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div {
+		width:100px; height:100px; 
+		background-color:skyblue;
+		position:relative;
+		border:3px solid;
+	}
+</style>
+<script src = "http://code.jquery.com/jquery.js"></script>
+
+<script>
+	$(document).ready(function(){
+		
+		$('div').click(function(){
+			if($(this).position().left<10){
+				
+				$(this).animate({
+					left:500},'slow');
+				
+			}
+			else {
+				
+				$(this).animate({
+					left:0
+				},'slow');
+				
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<div>1</div>
+	<div>2</div>
+	<div>3</div>
+</body>
+</html>

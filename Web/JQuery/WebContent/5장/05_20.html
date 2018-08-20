@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div {
+		width:50px; height:50px;
+		background-color:orange;
+		position:relative;
+	}
+</style>
+<script src = "http://code.jquery.com/jquery.js"></script>
+
+<script>
+//동시에 이루어짐 2초동안 옆으로 가고 2초동안 커지는 중에 
+//3초에서 clear가 되어 총 3초에 해당하는 애니메이션만 적용 됨
+
+	$(document).ready(function(){
+		$('button').click(function(){
+			var html=$(this).html();
+			var evalText="$('div')."+html;
+			eval(evalText);
+		});
+		
+		setInterval(function(){
+			$('div').animate({
+				left:'500'
+			}, 1000).animate({
+				left:'0'
+			},1000);
+		},2000);
+	});
+</script>
+</head>
+<body>
+	<button>stop()</button>
+	<button>stop(true)</button>
+	<button>stop(false,true)</button>
+	<button>stop(true,true)</button>
+	<div></div>
+</body>
+</html>

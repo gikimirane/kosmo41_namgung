@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		$.get('/jquery/data.html', function(data){
+				$('body').append(data);
+				alert('6번');
+		});
+	});
+</script>
+</head>
+<body>
+
+</body>
+</html>

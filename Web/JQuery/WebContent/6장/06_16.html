@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+
+</body>
+
+<script>
+	function createRequest(){
+		var request;
+		try{
+			return new XMLHttpRequest();
+		}catch(exception){
+			var versions = [
+			'Msxml2.XMLHTTP.6.0',
+			'Msxml2.XMLHTTP.5.0',
+			'Msxml2.XMLHTTP.4.0',
+			'Msxml2.XMLHTTP.3.0',
+			'Msxml2.XMLHTTP',
+			'Microsoft.XMLHttp'
+			];
+			
+			for(var i=0;i < versions.length;i++){
+				try{
+					return new ActiveXObject(versions[i]);
+				}catch(e){ }
+			}
+		}
+	}
+	//얘로 최소한의 json의 데이터를 데리고 옴 (pasing), [ ] 로 감싼 상태로 와야 속편하대용
+	//데이터를 만들어 달라고 요청할 때 [ ] <- 로 감싸서 달라고 요청해야 한대용
+	//어떤식으로 만들어져 있는지 확인해야 함!
+	var request = createRequest();
+	request.onreadystatechange = function(event){
+		if(request.readyState==4){
+	
+			if(request.status==200){	
+				var json = eval(request.responseText);
+				alert(json.length);
+				var output = '';
+				
+				for(var i=0;i<json.length;i++){
+					for(var key in json[i]){
+						output += i+' : '+key+' : '+json[i][key]+'<br>';
+					}
+				}
+				document.body.innerHTML += output;
+			};
+		};
+	};
+		
+	request.open('GET','/jquery/data.json',true);
+	request.send();
+	
+</script>
+</html>

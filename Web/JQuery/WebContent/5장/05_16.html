@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div {
+		width:50px; height:50px;
+		background-color:orange;
+		position:relative;
+	}
+</style>
+<script src = "http://code.jquery.com/jquery.js"></script>
+
+<script>
+//Queue 형식으로 하나씩 애니메이트를 한다
+	$(document).ready(function(){
+		$('div').click(function(){
+			$(this).animate({
+				left:'+=60'},2000).animate({
+				width:'+=60'},2000).animate({
+				height:'+=60'},2000);
+		});
+	});
+</script>
+</head>
+<body>
+	<div></div>
+</body>
+</html>
