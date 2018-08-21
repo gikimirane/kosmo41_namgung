@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "http://code.jquery.com/jquery.js"></script>
+<script>
+	function form_check(){
+		//여기서 비밀번호 길이나 아이디 중복 같은거 체크하고
+		//return 시키거나 alert을 시켜주면 효율적!
+		submit_ajax();
+	}
+	function submit_ajax(){
+		
+		//vName1,2랑 queryString1,2번은 Test용임!
+		//주로 queryString3과 같이 사용함
+		var vName1 = document.getElementById("name").value;
+		alert("aaaa: ["+vName1+"]");
+		var vName2 = $("#name").val();
+		alert("bbbb: ["+vName2+"]");
+		
+		var queryString1 = $("form[name=testForm]").serialize();
+		alert(queryString1);
+		var queryString2 = jQuery("#testForm").serialize();
+		alert(queryString2);
+		var queryString3 = $("#testForm").serialize();
+		alert(queryString3);
+		
+		$.ajax({
+			url : '/jquery/data.html',
+			type : 'GET',
+			data : queryString3,
+			datatype : 'json',
+			error : function(xhr,status,error){
+				alert(error);
+				alert("에러다");
+			},
+			success : function(json){
+				alert(json)
+			}
+		});
+	}
+	
+</script>
+</head>
+<body>
+	<form name="testForm" id="testForm">
+	이름 <input type="text" name="name" id="name" value="Hong Gil-Dong" /> <br>
+	아이디 <input type="text" name="id" id="id" value="1234567" /><br><p>
+	
+	<input type="button" value="Ajax 폼 전송" onclick="form_check()" />	
+	</form>
+</body>
+</html>
