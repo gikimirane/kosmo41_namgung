@@ -1,6 +1,5 @@
 package com.study.jsp05;
 
-import java.awt.print.Printable;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,13 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/HelloWorld")
-public class HelloWorld extends HttpServlet {
+@WebServlet("/postMethod")
+public class postMethod extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		System.out.println("Hello World");  //얘는 console로 나감
+		System.out.println("doGet");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException 
+	{
+		System.out.println("doPost");  //얘는 console로 나감
+		
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
 		
@@ -24,11 +30,10 @@ public class HelloWorld extends HttpServlet {
 		writer.println("<head>");
 		writer.println("</head>");
 		writer.println("<body>");
-		writer.println("<h1>안녕안녕한국어안녕</h1>");
+		writer.println("Post 방식입니다.<br> 따라서 doPost 메서드가 호출되었습니다.");
 		writer.println("</body>");
 		writer.println("</html>");
 		
 		writer.close();
 	}
-
 }

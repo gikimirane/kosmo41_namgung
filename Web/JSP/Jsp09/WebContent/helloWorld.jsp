@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>첫번째 JSP</title>
+<title>JSP09</title>
 </head>
 <body>
-!!!! Hello World !!!!
+	<h1>HelloWorld~~ !! </h1>
 </body>
 </html>
