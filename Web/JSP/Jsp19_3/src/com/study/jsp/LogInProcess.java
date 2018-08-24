@@ -1,6 +1,7 @@
 package com.study.jsp;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -48,6 +49,8 @@ public class LogInProcess extends HttpServlet {
 		gender= "";
 		
 		String query="select * from member where id=? and pw=?";
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
 		
 		try {
 			Class.forName(driver);
@@ -83,9 +86,13 @@ public class LogInProcess extends HttpServlet {
 			System.out.println(session.getAttribute("pw"));
 		
 			
-			response.sendRedirect("loginResult.jsp");
+			writer.println( "[{\"results\":\"ok\",\"desc\":\"흐앙\"}]" );
+			writer.close();
+			//response.sendRedirect("loginResult.jsp");
 			
 		}catch(Exception e) {
+			writer.println( "[{\"results\":\"fail\",\"desc\":\"흐앙\"}]" );
+			writer.close();
 			e.printStackTrace();
 		}finally {
 			try {

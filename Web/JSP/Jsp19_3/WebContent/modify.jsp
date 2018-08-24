@@ -21,6 +21,46 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery.js"></script>	
+	<script>
+		function form_check() {
+			submit_ajax();
+		}
+	
+		function submit_ajax(){
+			var queryString = $("#ModifyProcess").serialize() ;
+			$.ajax({
+				url : 'ModifyProcess',
+				type : 'POST',
+				data : queryString,
+				dataType : 'json',
+				success : function(json){
+					var results = eval(json);
+					var result1 = results[0].results;
+					alert(result1)
+					if(result1=="ok"){
+						alert(result1);
+						alert("업데이트 완료!");
+						window.location.replace("modifyResult.jsp");
+					}
+					else if(result1 =="fail"){
+						alert("업데이트 실패!");
+						alert(result1);
+					}
+					else if(result1 =="not"){
+						alert("비밀번호 안맞아요");
+						alert(result1);
+						window.location.replace("modify.jsp");
+					}else if(result1=="long"){
+						alert("길이가 너무 길어요!");
+					}
+					else {
+						alert("다 틀렸어 난 에러야!");
+					}
+				}
+			});
+		}
+	</script>
 </head>
 <body>
 
@@ -46,7 +86,7 @@
 		
 %>
 
-<form action ="ModifyProcess" method="post">
+<form name ="ModifyProcess" id="ModifyProcess">
 	아이디 : <%=id %><br>
 	비밀번호 : <input type="password" name="pw" size="10"><br>
 	이름 : <input type="text" name="name" size="10"><br>
@@ -73,7 +113,7 @@
 		<%
 			}
 		%>
-		<input type="submit" value="정보수정">
+		<input type="button" value="정보수정" onclick="form_check()"/>
 </form>
 
 </body>

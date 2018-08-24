@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%!
-    	String name, id, pw;
-    %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,16 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <%
-	name=(String)session.getAttribute("name");
-	id=(String)session.getAttribute("id");
-	pw=(String)session.getAttribute("pw");
+	String name = (String)session.getAttribute("name");
+	if(name==null || name.equals("")){
+		response.sendRedirect("login.jsp");
+	}else {
+%>		<%= name %>님의 회원정보 수정이 정상처리 되었습니다.<br><p>	
+<% 	}
 %>
-
-<%=name %>님 안녕하세요! <br><p>
-
-<a href="modify.jsp">회원정보 수정</a>
-
+	
+<a href="logout.jsp">로그아웃</a> &nbsp;&nbsp; <a href="modify.jsp">정보수정</a>
 </body>
 </html>

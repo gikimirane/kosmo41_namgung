@@ -1,6 +1,7 @@
 package com.study.jsp;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,7 +53,10 @@ public class ModifyProcess extends HttpServlet {
 		phone2=request.getParameter("phone2");
 		phone3=request.getParameter("phone3");
 		gender=request.getParameter("gender");
-				
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();		
+		
 		if(pwConfirm()) {
 			System.out.println("OK");
 			String query="update member set name=?,phone=?,gender=? where id=?";
@@ -69,15 +73,22 @@ public class ModifyProcess extends HttpServlet {
 				if(updateCount==1) {
 					System.out.println("update success");
 					session.setAttribute("name", name);
-					response.sendRedirect("modifyResult.jsp");
+
+					writer.println( "[{\"results\":\"ok\",\"desc\":\"1111\"}]" );
+					writer.close();
+					//response.sendRedirect("modifyResult.jsp");
 				}else {
-					System.out.println("update fail");
-					response.sendRedirect("modify.jsp");
+					writer.println( "[{\"results\":\"fail\",\"desc\":\"2222\"}]" );
+					//response.sendRedirect("modify.jsp");
 				}
+				
+				writer.close();
 			}catch(Exception e) {
+				writer.println( "[{\"results\":\"long\",\"desc\":\"4444\"}]" );
 				e.printStackTrace();
 			}finally {
 				try {
+					
 					if(pstmt!=null) pstmt.close();
 					if(con!=null) con.close();
 				}catch(Exception e1) {
@@ -86,7 +97,9 @@ public class ModifyProcess extends HttpServlet {
 			}
 		}else {
 			System.out.println("패스워드가 일치하지 않습니다!");
-			response.sendRedirect("modify.jsp");
+			System.out.println("update fail");
+			writer.println( "[{\"results\":\"not\",\"desc\":\"333\"}]" );
+			writer.close();
 		}
 	}
 	
