@@ -8,8 +8,35 @@
 		
 	<script src="http://code.jquery.com/jquery.js"></script>	
 	<script>
+		
+		var count =0;	
+		function duplication(){
+			
+			var id = document.getElementById("id");
+			$.ajax({
+				url : 'DuplicateProcess',
+				type : 'POST',
+				data : id,
+				dataType : 'json',
+				success : function(json){
+					var results = eval(json);
+					count++;
+					if(results[0].results == "ok"){
+						alert(results[0].desc);
+						
+					} else {
+						alert(results[0].desc);
+					}
+				}
+			});
+		}
+	
 		function form_check() {
-			submit_ajax();
+			if(count>0){
+				submit_ajax();
+			}else {
+				alert("아이디 중복확인이 필요합니다.");
+			}
 		}
 	
 		function submit_ajax(){
@@ -36,7 +63,7 @@
 	</head>
 	<body>
 		<form name="JoinProcess" id="JoinProcess" >
-			아&nbsp;이&nbsp;디 : <input type="text" name="id" size="10"><br/>
+			아&nbsp;이&nbsp;디 : <input type="text" name="id" size="10"><input type="button" value="중복체크" onclick="duplication()"><br/>
 			비밀번호 : <input type="text" name="pw" size="10"><br/>
 			이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름 : <input type="text" name="name" size="10"><br/>
 			전화번호 :  
