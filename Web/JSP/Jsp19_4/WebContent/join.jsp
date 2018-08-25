@@ -9,10 +9,12 @@
 	<script src="http://code.jquery.com/jquery.js"></script>	
 	<script>
 		
-		var count =0;	
+		var count =0;
 		function duplication(){
+			var id;
+			id = document.getElementById('id');
+			id = "id="+id.value;
 			
-			var id = document.getElementById("id");
 			$.ajax({
 				url : 'DuplicateProcess',
 				type : 'POST',
@@ -63,7 +65,7 @@
 	</head>
 	<body>
 		<form name="JoinProcess" id="JoinProcess" >
-			아&nbsp;이&nbsp;디 : <input type="text" name="id" size="10"><input type="button" value="중복체크" onclick="duplication()"><br/>
+			아&nbsp;이&nbsp;디 : <input type="text" id="id" name="id" size="10"><input type="button" value="중복체크" onclick="duplication()"><br/>
 			비밀번호 : <input type="text" name="pw" size="10"><br/>
 			이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름 : <input type="text" name="name" size="10"><br/>
 			전화번호 :  

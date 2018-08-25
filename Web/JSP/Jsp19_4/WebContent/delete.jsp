@@ -8,21 +8,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery.js"></script>	
-	<script>
-	
-	
-	
-	</script>
+<script>
+	function pwCheck(){
+		var pw;
+		pw = document.getElementById('pw');
+		pw = "pw="+pw.value;
+		
+		$.ajax({
+			url : 'passwordCheck',
+			type : 'POST',
+			data : pw,
+			dataType : 'json',
+			success : function(json){
+				var results = eval(json);
+				if(results[0].results == "ok"){
+					alert(results[0].desc);
+					//회원탈퇴 servlet 구동?
+				} else {
+					alert(results[0].desc);
+				}
+			}
+		});
+	}
+</script>
 </head>
 <body>
-<%
-	name=(String)session.getAttribute("name");
-	pw = (String)session.getAttribute("pw");
-	
-%>
-회원탈퇴를 위해 비밀번호를 입력하세요. <input text="text" name="pw">
-<input type="submit" value="비밀번호 확인">
 
+회원탈퇴를 위해 비밀번호를 입력하세요. <input text="text" name="pw" id="pw">
+<input type="button" value="비밀번호 확인" onclick="pwCheck()">
 
 </body>
+
 </html>

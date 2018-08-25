@@ -45,18 +45,19 @@ public class DuplicateProcess extends HttpServlet {
 		PrintWriter writer = response.getWriter();		
 		
 		String id = request.getParameter("id");
-		String sql = "select count(id) from member where id=?";
+		String sql = "select count(*) from member where id=?";
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, uid, upw);
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			
+						
 			if(rs.next()) {
 				int ch = Integer.parseInt(rs.getString(1));
-							
-				if(ch>0) {
+				System.out.println("이 아이디 개수 : "+ch);
+				System.out.println("올라온 아이디 : "+id);
+				if(ch==0) {
 					writer.println( "[{\"results\":\"ok\",\"desc\":\"아이디 등록 가능\"}]" );
 				}else {
 					writer.println( "[{\"results\":\"fail\",\"desc\":\"중복아이디 있음\"}]" );
