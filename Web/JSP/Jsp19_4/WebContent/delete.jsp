@@ -9,13 +9,13 @@
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery.js"></script>	
 <script>
-	function pwCheck(){
+	function DeleteProcess(){
 		var pw;
 		pw = document.getElementById('pw');
 		pw = "pw="+pw.value;
 		
 		$.ajax({
-			url : 'passwordCheck',
+			url : 'DeleteProcess',
 			type : 'POST',
 			data : pw,
 			dataType : 'json',
@@ -23,7 +23,6 @@
 				var results = eval(json);
 				if(results[0].results == "ok"){
 					alert(results[0].desc);
-					//회원탈퇴 servlet 구동?
 				} else {
 					alert(results[0].desc);
 				}
@@ -34,8 +33,8 @@
 </head>
 <body>
 
-회원탈퇴를 위해 비밀번호를 입력하세요. <input text="text" name="pw" id="pw">
-<input type="button" value="비밀번호 확인" onclick="pwCheck()">
+회원탈퇴를 위해 비밀번호를 입력하세요. <input type="text" name="pw" id="pw">
+<input type="button" value="비밀번호 확인" onclick="DeleteProcess()">
 
 </body>
 

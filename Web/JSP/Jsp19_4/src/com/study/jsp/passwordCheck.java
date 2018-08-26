@@ -31,11 +31,13 @@ public class passwordCheck extends HttpServlet {
 		
 		String userPW = request.getParameter("pw");
 		String sessionPW = (String)session.getAttribute("pw");
-		System.out.println(userPW);
-		System.out.println(sessionPW);
+		
 		if(userPW.equals(sessionPW)) {
+			//여기서 바로 db삭제하고..
 			writer.println( "[{\"results\":\"ok\",\"desc\":\"비밀번호가 일치합니다.\"}]" );
-			response.sendRedirect("DeleteProcess.java");
+			//팝업 띄워주게끔 json타입으로 정보 보내주고
+			//direct로 보내줌
+			
 		}else {
 			writer.println( "[{\"results\":\"fail\",\"desc\":\"비밀번호가 일치하지 않습니다.\"}]" );
 		}
