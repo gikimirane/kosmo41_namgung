@@ -58,7 +58,7 @@ public class DeleteProcess extends HttpServlet {
 				if(updateCount==1) {
 					System.out.println("삭제완료");
 					writer.println( "[{\"results\":\"ok\",\"desc\":\"비밀번호가 확인되어 탈퇴\"}]" );
-					response.sendRedirect("deleteResult.jsp");
+					
 				}
 			}else {
 				System.out.println("비밀번호가 맞지 않습니다.");

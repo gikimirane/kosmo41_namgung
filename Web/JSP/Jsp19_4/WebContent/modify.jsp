@@ -37,7 +37,7 @@
 				success : function(json){
 					var results = eval(json);
 					var result1 = results[0].results;
-					alert(result1)
+					
 					if(result1=="ok"){
 						alert(result1);
 						alert("업데이트 완료!");

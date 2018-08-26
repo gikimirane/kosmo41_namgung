@@ -8,7 +8,9 @@
 </head>
 <body>
 
-탈퇴가 완료되었습니다. <br></br>
+탈퇴가 완료되었습니다. <br/>
+다음에 다시 찾아주세요! <br/>
+
 <%
 	session.invalidate();
 %>

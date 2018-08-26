@@ -23,6 +23,7 @@
 				var results = eval(json);
 				if(results[0].results == "ok"){
 					alert(results[0].desc);
+					window.location.replace("deleteResult.jsp");
 				} else {
 					alert(results[0].desc);
 				}
