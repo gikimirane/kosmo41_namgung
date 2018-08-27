@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,8 +82,9 @@ public class MultiServer6 {
 		try {
 			int myRoomNo=roomNoReturn(user);
 			int newOwnerNo = roomNoReturn(newOwner);
-			sql = "select room_owner from room where rno = '"+myRoomNo+"'";
+			sql = "select room_owner from room where rno = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, myRoomNo);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				owner = rs.getString(1);
@@ -112,9 +114,7 @@ public class MultiServer6 {
 	}	
 	
 	public void ownerChange(String user, String newOwner) throws UnsupportedEncodingException, SQLException, IOException {
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="";
+		
 		String owner ="";
 		PrintWriter out = clientMap.get(user);
 		int myRoom=roomNoReturn(user);
@@ -125,7 +125,6 @@ public class MultiServer6 {
 			//오너가 맞으면 -> 새로 지정한 사용자랑 나랑 같은 방이면 -> 방장 변경해줌
 			if(user.equalsIgnoreCase(owner)) {
 				if(myRoom == newRoom) {
-					
 					sqlCall("update room set room_owner = '"+newOwner+"' where rno = '"+myRoom+"'");
 					out.println("방장을 "+newOwner+"님으로 변경했습니다.");
 					PrintWriter nOwner = clientMap.get(newOwner);
@@ -140,16 +139,15 @@ public class MultiServer6 {
 			}
 		}catch(Exception e) {
 			System.out.println("방장 변경 시 Error : "+e);
-		}finally {
-			rs.close(); pstmt.close();
 		}
 	}	
 	public String roomOwnerReturn (String user) throws SQLException {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String owner="";
-		String sql = "select room_owner from room where rno = (select room from emp where name='"+user+"')";
+		String sql = "select room_owner from room where rno = (select room from emp where name=?)";
 		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, user);
 		rs = pstmt.executeQuery();
 		pstmt.clearParameters();
 		
@@ -157,6 +155,12 @@ public class MultiServer6 {
 			owner = rs.getString("room_owner");
 		}
 		
+		try {
+			if(rs!=null) rs.close();
+			if(pstmt!=null) pstmt.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return owner;
 	}
 	//방 폭파하는 메소드, 방장만 가능한지 체크함
@@ -164,24 +168,26 @@ public class MultiServer6 {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		String owner="";
-		String sql = "select room_owner from room where rno = (select room from emp where name='"+user+"')";
+		String sql;
 		PrintWriter mem_out=null;
-		
-		owner = roomOwnerReturn(user);
-		
-		if(user.equalsIgnoreCase(owner)) {
-			sql = "select name from emp where room = (select rno from room where room_owner = '"+user+"')";
+
+		if(user.equalsIgnoreCase(roomOwnerReturn(user))) {
+			sql = "select name from emp where room = (select rno from room where room_owner = ?)";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user);
 			rs = pstmt.executeQuery();
 			pstmt.clearParameters();
+			
 			while(rs.next()) {
 				String name =rs.getString(1);
 				joinRoom(name,"/joinroom 0");
 				mem_out = clientMap.get(name);
 				mem_out.println("방장에 의해 방이 폭파되어 대기실로 이동합니다.");
 			}
-			sql = "delete from room where room_owner = '"+user+"'";
+			
+			sql = "delete from room where room_owner = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user);
 			int deletecount = pstmt.executeUpdate();
 			System.out.println("방삭제 Count : "+deletecount);
 			pstmt.clearParameters();
@@ -273,9 +279,7 @@ public class MultiServer6 {
 			if(rs.next()) {
 				roomNo = rs.getInt("room");
 			}
-			
-			
-		}catch(Exception e) {
+					}catch(Exception e) {
 			System.out.println("RoomNumber Check 중 Error" + e);
 		}
 		rs.close(); pstmt.close();
@@ -608,8 +612,9 @@ public class MultiServer6 {
 		String owner ="";
 
 		try {		
-			sql = "select room_owner from room where rno = '"+changeroom+"'";
+			sql = "select room_owner from room where rno = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, changeroom);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				owner=rs.getString(1);
@@ -625,8 +630,9 @@ public class MultiServer6 {
 			}
 	
 			//바꿀 방의 공개/비공개 타입확인,소스하단에서 잠금타입에 따라 비밀번호 입력되었는지 확인하고 비번 입력을 유도하는 용도로 호출함
-			sql = "select open_type from room where rno ='"+changeroom+"'";
+			sql = "select open_type from room where rno =?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, changeroom);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -635,8 +641,9 @@ public class MultiServer6 {
 			pstmt.clearParameters();
 			
 			//이동할 방의 제한인원을 확인하고, 제한인원이 0명이면 진입되지 않도록 설정하기 위해 sql 호출
-			sql = "select user_limit from room where rno='"+changeroom+"'";
+			sql = "select user_limit from room where rno=?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, changeroom);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				limit = rs.getString("user_limit");
@@ -675,8 +682,9 @@ public class MultiServer6 {
 					return;
 				}
 				
-				sql = "select pwd from room where rno = '"+changeroom+"'";
+				sql = "select pwd from room where rno = ?";
 				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, changeroom);
 				rs = pstmt.executeQuery();
 				String roompwd = "";
 				if(rs.next()) {
@@ -715,8 +723,9 @@ public class MultiServer6 {
 		String owner ="";
 
 		try {		
-			sql = "select room_owner from room where rno = '"+changeroom+"'";
+			sql = "select room_owner from room where rno = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, changeroom);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				owner=rs.getString(1);
@@ -1098,8 +1107,9 @@ public class MultiServer6 {
 		String sql = "";
 		int invi_room =0;
 		try {
-			sql = "select invi_num from emp where name = '"+name+"'";
+			sql = "select invi_num from emp where name = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -1120,39 +1130,38 @@ public class MultiServer6 {
 	//-------------------DB접근 메소드 영역----------------//
 	//SQL 쿼리문 전송할 때 매번 필요한 내용들을 담아 메소드로 정의 함
 	public void sqlCall(String iSql) throws SQLException {
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
+		Statement pstmt=null;
+		
 		try {
 			String sql = iSql;
-			pstmt = con.prepareStatement(sql);
-			int updateCount=pstmt.executeUpdate();
-			System.out.println("update Count : "+updateCount);
-			pstmt.clearParameters();	
+			pstmt= con.createStatement();
 			
+			int updateCount=pstmt.executeUpdate(sql);
+			System.out.println("update Count : "+updateCount);
+						
 		}catch(Exception e) {
 			System.out.println("쿼리 호출 시 Error "+e);
 		}finally {
-			rs.close(); pstmt.close();
+			pstmt.close();
 		}
 	}
 	//updateCount 반환하는 메소드
 	public int updateCount(String iSql) throws SQLException {	
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
+		Statement pstmt=null;
+		
 		int updateCount=0;
 		String sql = iSql;
 		try {
-			pstmt = con.prepareStatement(sql);
-			updateCount=pstmt.executeUpdate();
-			pstmt.clearParameters();	
-			
+			pstmt = con.createStatement();
+			updateCount=pstmt.executeUpdate(sql);
+						
 			System.out.println("update Count : "+updateCount);
 			return updateCount;
 		}catch(Exception e) {
 			System.out.println("update Count 가 없습니다.");
 			return updateCount;
 		}finally {
-			rs.close(); pstmt.close();
+			pstmt.close();
 		}
 	}
 	//main 영역, Thread 시작!
@@ -1163,18 +1172,20 @@ public class MultiServer6 {
 	}
 	public void dbClear(String name,String str,PrintWriter out) throws SQLException {
 		PreparedStatement pstmt=null;
-		ResultSet rs=null;
+		
 		try {				
 			int updateCount=0;
 			String sql="";
-			sql = "delete from block where oname ="+"'"+name+"'";
+			sql = "delete from block where oname =?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
 			updateCount = pstmt.executeUpdate();
 			System.out.println("Server block delete Count : "+updateCount);
 			pstmt.clearParameters();
 			
-			sql = "delete from emp where name ="+"'"+name+"'";
+			sql = "delete from emp where name =?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
 			updateCount = pstmt.executeUpdate();
 			pstmt.clearParameters(); //pstmt close안하고 또 쓸수 있는 메소드!
 			
@@ -1183,7 +1194,7 @@ public class MultiServer6 {
 		}catch(Exception e) {
 			System.out.println("DB Clear 중 Error : "+e);
 		}finally {
-			rs.close(); pstmt.close();
+			pstmt.close();
 		}
 	}
 	public boolean status (String name) throws SQLException {
@@ -1192,8 +1203,9 @@ public class MultiServer6 {
 		boolean sw = false;
 		String sql;
 		try {
-			sql = "select status from emp where name ='"+name+"'";
+			sql = "select status from emp where name =?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			pstmt.clearParameters();
 			
