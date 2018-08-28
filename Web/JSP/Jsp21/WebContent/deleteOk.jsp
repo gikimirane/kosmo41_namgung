@@ -12,13 +12,6 @@
 	MemberDao dao = MemberDao.getInstance();
 	int check = dao.deleteMember(dto);
 	
-	System.out.println(dto.getId());
-	System.out.println(dto.getName());
-	System.out.println(dto.getPw());
-	System.out.println(dto.geteMail());
-	System.out.println(dto.getrDate());
-	
-	
 	if(check==1){
 		session.invalidate();
 %>		<script language="javascript">
