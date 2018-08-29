@@ -76,6 +76,8 @@ public class FrontController extends HttpServlet {
 			command = new BReplyViewCommand();
 			command.execute(request, response);
 			viewPage="reply_view.jsp";
+		}else if(com.equals("reply.do")) {
+			
 		}
 			
 		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~

@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.Timestamp" %>
-<%@ page import="com.study.jsp1.*" %>
+<%@ page import="com.study.jsp2.*" %>
 
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
 
-<jsp:useBean id="dto" class="com.study.jsp1.BDto" />
+<jsp:useBean id="dto" class="com.study.jsp2.MemberDto" />
 <jsp:setProperty name="dto" property="*" />
 
 <%
 	dto.setrDate(new Timestamp(System.currentTimeMillis()));
-	BDao dao = BDao.getInstance();
+	MemberDao dao = MemberDao.getInstance();
 	
-	if(dao.confirmId(dto.getId())==BDao.MEMBER_EXISTENT){
+	if(dao.confirmId(dto.getId())==dao.MEMBER_EXISTENT){
 %>
 		<script language="javascript">
 			alert("아이디가 이미 존재합니다.");
@@ -23,7 +23,7 @@
 <%
 	}else {
 		int ri = dao.insertMember(dto);
-		if(ri ==BDao.MEMBER_JOIN_SUCCESS){
+		if(ri ==dao.MEMBER_JOIN_SUCCESS){
 	session.setAttribute("id",dto.getId());
 %>		<script language="javascript">
 			alert("회원가입을 축하합니다.");

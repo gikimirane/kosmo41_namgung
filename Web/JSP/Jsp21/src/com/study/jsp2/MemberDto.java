@@ -1,4 +1,4 @@
-package com.study.jsp1;
+package com.study.jsp2;
 
 import java.sql.Timestamp;
 

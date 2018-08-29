@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
 public class WsServer2 {
 	
 	//해쉬맵 역할을 해주는애
-	private static final java.util.Set<Session> sessions = 
+	static final java.util.Set<Session> sessions = 
 			java.util.Collections.synchronizedSet(new java.util.HashSet<Session>());
 	
 	@OnOpen
