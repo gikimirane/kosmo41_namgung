@@ -7,8 +7,8 @@
 %>
 <%
 	String id = (String)session.getAttribute("id");
-	MemberDao dao = MemberDao.getInstance();
-	MemberDto dto = dao.getMember(id);
+	BDao dao = BDao.getInstance();
+	BDto dto = dao.getMember(id);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

@@ -57,6 +57,7 @@ function updateInfoConfirm(){
 	}
 	document.reg_frm.submit();
 }
+
 function deleteInfoConfirm(){
 	if(document.reg_frm.pw.value==""){
 		alert("패스워드를 입력하세요.");

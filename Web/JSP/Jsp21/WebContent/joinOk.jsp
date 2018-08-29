@@ -7,14 +7,14 @@
 	request.setCharacterEncoding("UTF-8");
 %>
 
-<jsp:useBean id="dto" class="com.study.jsp1.MemberDto" />
+<jsp:useBean id="dto" class="com.study.jsp1.BDto" />
 <jsp:setProperty name="dto" property="*" />
 
 <%
 	dto.setrDate(new Timestamp(System.currentTimeMillis()));
-	MemberDao dao = MemberDao.getInstance();
+	BDao dao = BDao.getInstance();
 	
-	if(dao.confirmId(dto.getId())==MemberDao.MEMBER_EXISTENT){
+	if(dao.confirmId(dto.getId())==BDao.MEMBER_EXISTENT){
 %>
 		<script language="javascript">
 			alert("아이디가 이미 존재합니다.");
@@ -23,7 +23,7 @@
 <%
 	}else {
 		int ri = dao.insertMember(dto);
-		if(ri ==MemberDao.MEMBER_JOIN_SUCCESS){
+		if(ri ==BDao.MEMBER_JOIN_SUCCESS){
 	session.setAttribute("id",dto.getId());
 %>		<script language="javascript">
 			alert("회원가입을 축하합니다.");

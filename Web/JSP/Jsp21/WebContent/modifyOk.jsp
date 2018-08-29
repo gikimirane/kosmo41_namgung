@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.study.jsp1.MemberDao" %>
+<%@ page import="com.study.jsp1.BDao" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
 
-<jsp:useBean id="dto" class="com.study.jsp1.MemberDto" scope ="page"/>
+<jsp:useBean id="dto" class="com.study.jsp1.BDto" scope ="page"/>
 <jsp:setProperty name="dto" property="*"/>
 
-<% 
+<%
 	String id = (String)session.getAttribute("id");
 	dto.setId(id);
 	
-	MemberDao dao = MemberDao.getInstance();
+	BDao dao = BDao.getInstance();
 	int ri= dao.updateMember(dto);
 	if(ri==1){
 %>

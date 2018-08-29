@@ -8,7 +8,7 @@
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	
-	MemberDao dao = MemberDao.getInstance();
+	BDao dao = BDao.getInstance();
 
 	int checkNum = dao.userCheck(id, pw);
 	if(checkNum== -1){
@@ -23,8 +23,9 @@
 		alert("비밀번호가 틀립니다.");
 		history.go(-1);
 	</script>
-<% }else if(checkNum == 1){
-	MemberDto dto = dao.getMember(id);
+<%
+	}else if(checkNum == 1){
+	BDto dto = dao.getMember(id);
 		if(dto == null){
 %>
 	<script language="javascript">

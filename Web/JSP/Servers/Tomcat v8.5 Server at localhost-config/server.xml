@@ -150,7 +150,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 		
       
-      <Context docBase="Jsp20_1" path="/Jsp20_1" reloadable="true" source="org.eclipse.jst.jee.server:Jsp20_1"/><Context docBase="Jsp20_2" path="/Jsp20_2" reloadable="true" source="org.eclipse.jst.jee.server:Jsp20_2"/><Context docBase="Jsp21" path="/Jsp21" reloadable="true" source="org.eclipse.jst.jee.server:Jsp21"/><Context docBase="Jsp22" path="/Jsp22" reloadable="true" source="org.eclipse.jst.jee.server:Jsp22"/><Context docBase="Jsp23" path="/Jsp23" reloadable="true" source="org.eclipse.jst.jee.server:Jsp23"/><Context docBase="Jsp24" path="/Jsp24" reloadable="true" source="org.eclipse.jst.jee.server:Jsp24"/><Context docBase="Jsp25_1" path="/Jsp25_1" reloadable="true" source="org.eclipse.jst.jee.server:Jsp25_1"/><Context docBase="Jsp21_A" path="/Jsp21_A" reloadable="true" source="org.eclipse.jst.jee.server:Jsp21_A"/><Context docBase="Jsp26_1" path="/Jsp26_1" reloadable="true" source="org.eclipse.jst.jee.server:Jsp26_1"/><Context docBase="Jsp26_2" path="/Jsp26_2" reloadable="true" source="org.eclipse.jst.jee.server:Jsp26_2"/><Context docBase="WebSocketEx" path="/WebSocketEx" reloadable="true" source="org.eclipse.jst.jee.server:WebSocketEx"/></Host>
+      <Context docBase="Jsp27" path="/Jsp27" reloadable="true" source="org.eclipse.jst.jee.server:Jsp27"/></Host>
     </Engine>
   </Service>
 </Server>
