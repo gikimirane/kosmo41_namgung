@@ -8,9 +8,9 @@ import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/websocketendpoint2")
+@ServerEndpoint("/websocketendpoint3")
 //서블릿을 상속받은애가 아님 걍 클래스
-public class WsServer2 {
+public class WsServer {
 	
 	//해쉬맵 역할을 해주는애
 	static final java.util.Set<Session> sessions = 
@@ -25,7 +25,7 @@ public class WsServer2 {
 		try {
 			final Basic basic = session.getBasicRemote();
 			basic.sendText("Connection Established");
-		
+					
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -48,6 +48,7 @@ public class WsServer2 {
 			//인수로 넘어온 메세지를 각 클라이언트로 보낸다
 			final Basic basic = session.getBasicRemote();
 			basic.sendText("to : "+message);   //내가 보낼 때 to
+			
 		}catch(IOException ex) {
 			ex.printStackTrace();
 		}
@@ -56,7 +57,7 @@ public class WsServer2 {
 	
 	private void sendAllSessionToMessage(Session self, String message) {
 		try {
-			for(Session session : WsServer2.sessions) {
+			for(Session session : WsServer.sessions) {
 				if(! self.getId().equals(session.getId())) {
 					session.getBasicRemote().sendText("All : "+message);
 				}

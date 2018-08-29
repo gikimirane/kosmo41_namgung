@@ -150,7 +150,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 		
       
-      <Context docBase="WebSocketEx" path="/WebSocketEx" reloadable="true" source="org.eclipse.jst.jee.server:WebSocketEx"/></Host>
+      <Context docBase="WebSocketEx_my" path="/WebSocketEx_my" reloadable="true" source="org.eclipse.jst.jee.server:WebSocketEx_my"/></Host>
     </Engine>
   </Service>
 </Server>

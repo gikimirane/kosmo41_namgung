@@ -38,7 +38,8 @@
 		var webSocket;
 		var messages = document.getElementById("messages");
 		var id =document.getElementById("id").value;
-				
+		var sw=false;
+		
 		//커넥트 눌렀을 때 오는 부분
 		function openSocket(){
 			//이미 열려있는지 체크하는영역
@@ -47,20 +48,19 @@
 				return;
 			}
 			//이 주소에 접속~ 나중에 domain name으로 바꾸면 됨 AWS
-			webSocket = new WebSocket("ws://localhost:8081/WebSocketEx/websocketendpoint2");
+			webSocket = new WebSocket("ws://localhost:8081/WebSocketEx_my/websocketendpoint3");
 			//on은 ~할때, 오픈되었을 때를 의미
-			
-			
-			
+
 			webSocket.onopen = function (event){
 				if(event.data == undefined){
 					return;
 				}
-				
 				writeResponse(event.data);
 			};
 			
-			writeResponse(id+"님 반갑습니다.");
+			if(webSocket.onopen){
+				writeResponse(id+"님아 방가방가");
+			}
 			
 			//서버로 부터 나에게 메시지가 왔을때
 			//event.data란 이벤트가 일어났을때 나한테 온 메시지를 의미
