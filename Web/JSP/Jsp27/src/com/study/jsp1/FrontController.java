@@ -42,13 +42,21 @@ public class FrontController extends HttpServlet {
 		String uri = request.getRequestURI();
 		String conPath = request.getContextPath();
 		String com=uri.substring(conPath.length());
-								
+		
+		HttpSession session =null;
+		session = request.getSession();
+		int curPage = 1;
+		if(session.getAttribute("cpage")!=null) {
+			curPage =(int)session.getAttribute("cpage");
+		}	
+		
+		
 		if(com.equals("/write_view.do")) {
 			viewPage="write_view.jsp";
 		}else if(com.equals("/write.do")) {
 			command = new BWriteCommand();
 			command.execute(request,response);
-			viewPage = "list.do";
+			viewPage = "list.do?page="+curPage;
 		}else if(com.equals("/list.do")) {
 			command = new BListCommand();
 			command.execute(request,response);
@@ -71,13 +79,15 @@ public class FrontController extends HttpServlet {
 		}else if(com.equals("/delete.do")) {
 			command = new BDeleteCommand();
 			command.execute(request, response);
-			viewPage="list.do";
+			viewPage="list.do?page="+curPage;
 		}else if(com.equals("/reply_view.do")) {
 			command = new BReplyViewCommand();
 			command.execute(request, response);
 			viewPage="reply_view.jsp";
-		}else if(com.equals("reply.do")) {
-			
+		}else if(com.equals("/reply.do")) {
+			command = new BReplyCommand();
+			command.execute(request,response);
+			viewPage="list.do?page="+curPage;
 		}
 			
 		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~

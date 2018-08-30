@@ -6,9 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
-	<table width="500" cellpadding="0" cellpacing="0" border="1">
+	<table width="1500" cellpadding="0" cellpacing="0" border="1">
 		<tr>
 			<td>번호</td>
 			<td>이름</td>
@@ -22,13 +23,80 @@
 			<td>${dto.bName}</td>
 			<td>
 				<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
-				<a href="content_view.do?bId=${dto.bId }">${dto.bTitle}</a>
-			<td>${dto.bDate }</td>
-			<td>${dto.bHit }</td>
+				<a href="content_view.do?bId=${dto.bId}">${dto.bTitle}</a></td>
+			<td>${dto.bDate}</td>
+			<td>${dto.bHit}</td>
 		</tr>
 		</c:forEach>
 		<tr>
 			<td colspan="5"><a href="write_view.do">글작성</a></td>
+		</tr>
+		
+		<tr>
+			<td colspan="5">
+			<!-- 처음 -->
+			<c:choose>
+				<c:when test ="${(page.curPage-1)<1}">
+					[ &lt;&lt; ]
+				</c:when>
+				<c:otherwise>
+					<a href="list.do?page=1">[ &lt;&lt; ]</a> 
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- 이전 -->
+			<c:choose>
+				<c:when test ="${(page.curPage-1)<1}">
+					[ &lt; ] 
+				</c:when>
+				<c:otherwise>
+					<a href="list.do?page=${page.curPage-1}">[ &lt; ]</a> 
+				</c:otherwise>
+			</c:choose>
+
+			<!-- 개별 -->
+			<c:forEach var="fEach" begin="${page.startPage }" end="${page.endPage }" step="1">
+				<c:choose>
+					<c:when test="${page.curPage==fEach}">
+						[ ${fEach } ]&nbsp;
+					</c:when>
+					
+					<c:otherwise>
+						<a href="list.do?page=${fEach}">[ ${fEach } ]</a> &nbsp;
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<!-- 다음 -->
+			<c:choose>
+				<c:when test ="${(page.curPage+1) > page.totalPage}">
+					[ &gt; ] 
+				</c:when>
+				<c:otherwise>
+					<a href="list.do?page=${page.curPage+1}">[ &gt; ]</a>
+				</c:otherwise>
+			</c:choose>
+			
+			<!-- 끝 -->
+			<c:choose>
+				<c:when test ="${page.curPage+1==page.totalPage}">
+					[ &gt;&gt; ]
+				</c:when>
+				<c:otherwise>
+					<a href="list.do?page=${page.endPage }">[ &gt;&gt; ]</a>  
+				</c:otherwise>
+			</c:choose>
+									
+			</td>
+		</tr>
+			
 	</table>
+	
+	page.totalPage : ${page.totalPage}<br>
+	page.totalCount : ${page.totalCount }<br>
+	page.curPage : ${page.curPage }<br>
+	page.startPage : ${page.startPage }<br>
+	page.endPage:${page.endPage }<br>
+	page.listCount : ${page.listCount }<br>
 </body>
 </html>
