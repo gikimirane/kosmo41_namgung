@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+ 	<meta charset="utf-8">
+ 	<!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<!-- 방법2, style로 적용 -->
+<style>
+
+	* { 
+		margin:0;
+		padding:0;
+		color:blue;
+	}
+	
+	.warp1 {
+		
+	}
+	
+	ul li.menu {
+		font-size:30px;
+		font-weight:bold;
+		
+	}
+	
+	div > h1 {
+		color :red;
+	}
+	
+	.class-name1{
+		width:200px;     /* 90% */
+		height:100px;
+		display : block;      /*none,,inline,inline-block;*/
+		background-color: pink;
+		color:black;
+		
+		box-sizing : border-box;   /* border-box, content-box */
+		border-style:dashed;       /* solid */
+		border-color:red;
+		border-radius:10px 10px 10px 10px;
+		
+		margin:10px 10px 10px 10px;
+		padding : 10px 10px 10px 10px;
+		
+		visibility:visible; /* xxxxx */
+		float:none;         /* none,right,left */
+	}
+	
+	.class-name1 .sub-name1 {
+		font-size:30px;
+		font-weight:bold;
+		
+		width:200px;     /* 90% */
+		height:100px;
+		
+		margin:50px;
+		
+		border-width:5px;
+		border-style:dashed;       /* solid */
+		border-color:red;
+		border-radius:10px 10px 10px 10px;
+	}
+	
+</style>
+
+</head>
+<body>
+	<!-- 방법1, 직접적용 -->
+	<div class=class-name1>
+	동해물과 백두산이 마르고 닳도록
+	   <div class=sub-name1>HELLO</div>
+	</div>
+	
+	<div class="sub-name1">Hello world</div>
+
+ 
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

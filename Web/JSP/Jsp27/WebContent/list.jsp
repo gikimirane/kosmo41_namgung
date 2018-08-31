@@ -79,11 +79,11 @@
 			
 			<!-- 끝 -->
 			<c:choose>
-				<c:when test ="${page.curPage+1==page.totalPage}">
+				<c:when test ="${page.curPage==page.totalPage}">
 					[ &gt;&gt; ]
 				</c:when>
 				<c:otherwise>
-					<a href="list.do?page=${page.endPage }">[ &gt;&gt; ]</a>  
+					<a href="list.do?page=${page.totalPage }">[ &gt;&gt; ]</a>  
 				</c:otherwise>
 			</c:choose>
 									

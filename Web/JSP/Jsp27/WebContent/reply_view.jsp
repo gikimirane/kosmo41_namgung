@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -35,7 +36,11 @@
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><textarea rows="10" name="bContent"></textarea></td>
+			<td>
+			
+			<textarea name="bContent" id="editor1" rows="10" cols="80">${content_view.bContent}</textarea>
+			<script> CKEDITOR.replace( 'editor1' ); </script>
+			</td>
 		</tr>
 		<tr>
 			<td colspan=2><input type="submit" value="답변"><a href="list.do?page=<%=session.getAttribute("cpage")%>">목록</a></td>

@@ -3,12 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
+	<title>Insert title here</title>
 </head>
 <body>
 
-<table width="500" cellpadding="0" cellspaction="0" border="1">
+<table cellpadding="0" cellspaction="0" border="1">
 	<form action ="write.do" method="post">
 		<tr>
 			<td>이름</td>
@@ -20,7 +21,10 @@
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><textarea name="bContent" rows="10"></textarea></td>
+			<td>
+			 <textarea name="bContent" id="editor1" rows="10" cols="80">${content_view.bContent}</textarea>
+			 <script> CKEDITOR.replace( 'editor1' ); </script>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
