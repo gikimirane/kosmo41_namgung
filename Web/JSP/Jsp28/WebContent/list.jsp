@@ -14,6 +14,33 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
+<script>
+
+function radio_chk() {
+    size = document.getElementsByName("sear_check").length;
+    var input=document.getElementById("input").value;
+    var check;
+    
+    if(input==""){
+    	alert("검색 내용을 입력하세요.");
+    	return;
+    }
+
+    for(var i=0;i<size;i++) {
+         if(document.getElementsByName("sear_check")[i].checked) {
+             check = document.getElementsByName("sear_check")[i].value;
+             break;
+         }
+    }
+    
+    alert(check);
+    alert(input);
+    var search = "./list.do?search="+check+"&input="+input;
+   	document.location.href=search;
+}
+
+</script>
+
 </head>
 <style>
 	.sub-name1 {
@@ -29,6 +56,15 @@
 		border-style:dashed;       /* solid */
 		border-color:red;
 		border-radius:10px 10px 10px 10px;
+	}
+	
+	.a {
+		line-width:15px;
+		min-width:15px;
+		
+		line-height:20px;
+		min-height:20px;
+		height:20px;
 	}
 </style>
 <body>
@@ -75,6 +111,13 @@
 				<td colspan="5" align="right">
 					<a href="write_view.do" class="btn btn-outline-secondary btn-sm">글작성</a>
 				</td>
+			</tr>
+			<tr>
+				<td colspan="5" align="right">
+				<input type="radio" name="sear_check" id="sear_check" value="bTitle" checked="checked"/>제목 &nbsp;
+				<input type="radio" name="sear_check" id="sear_check" value="bContent"/>내용
+				<input type="text" name="input" id="input" class="a">&nbsp;&nbsp; 
+				<input type="button" value="검색" class="btn btn-outline-secondary btn-sm" onclick="javascript:radio_chk()"></td>			
 			</tr>
 			<tr>
 				<td colspan="5" align="center">
@@ -134,7 +177,11 @@
 			</tr>
 		</thead>		
 	</table>
+	
 </div>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>

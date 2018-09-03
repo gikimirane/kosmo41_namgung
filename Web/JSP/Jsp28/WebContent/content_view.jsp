@@ -13,6 +13,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
+<script>
+
+function button_event(){
+	if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+		document.location.href="./delete.do?bId=${content_view.bId}";
+	}else{   //취소
+	    return;
+	}
+}
+	
+</script>
+
 </head>
 <body>
 <div class=container>
@@ -40,10 +52,10 @@
 			</tr>
 			<tr>
 				<td colspan=2 align="right">
-					<a href="modify_view.do?bId=${content_view.bId }">수정</a>&nbsp;&nbsp;
-					<a href="list.do?page=<%=session.getAttribute("cpage")%>">목록보기</a>&nbsp;&nbsp;
-					<a href="delete.do?bId=${content_view.bId}">삭제</a>&nbsp;&nbsp;
-					<a href="reply_view.do?bId=${content_view.bId}">답변</a>&nbsp;&nbsp;
+					<a href="modify_view.do?bId=${content_view.bId }" class="btn btn-outline-secondary btn-sm">수정</a>&nbsp;&nbsp;
+					<a href="list.do?page=<%=session.getAttribute("cpage")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
+					<input type=button class="btn btn-outline-secondary btn-sm" value="삭제" onclick="javascript:button_event()">&nbsp;&nbsp;
+					<a href="reply_view.do?bId=${content_view.bId}" class="btn btn-outline-secondary btn-sm">답변</a>&nbsp;&nbsp;
 				</td>
 			</tr>	
 		</table>

@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.study.jsp.Service;
+import com.study.jsp.*;
 import com.study.jsp1.command.*;
+import com.study.jsp1.*;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
@@ -36,8 +39,9 @@ public class FrontController extends HttpServlet {
 	public void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		String viewPage=null;
+		String viewPage="home_a.jsp";
 		BCommand command =null;
+		Service service =null;
 		
 		String uri = request.getRequestURI();
 		String conPath = request.getContextPath();
@@ -88,12 +92,46 @@ public class FrontController extends HttpServlet {
 			command = new BReplyCommand();
 			command.execute(request,response);
 			viewPage="list.do?page="+curPage;
-		}
+		}else if(com.equals("/joinOk.do")) {
+			service = new joinOk();
+			service.execute(request, response);
+			return;
+		}else if(com.equals("/loginOk.do")) {
+			service = new loginOk();
+			service.execute(request, response);
 			
+			
+		}else if(com.equals("/modifyOk.do")) {
+			service = new modifyOk();
+			service.execute(request, response);
+			
+		}else if(com.equals("/logout.do")) {
+			logoutOk(request,response);
+			
+		}else if(com.equals("/delete.do")) {
+			service = new deleteOk();
+			service.execute(request, response);
+		}else if(com.equals("/duplication.do")){
+			service = new duplication();
+			service.execute(request, response);
+			return;
+		}
+
 		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request,response);
 		
-		//write.do하면은 결국 다시 controller로 들어와서 다시 /list.do를 타게 됨
-	}	
+		
+	}
+	public void logoutOk (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("logoutOk!");
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		PrintWriter writer = response.getWriter();
+		
+		session.invalidate();
+		writer.println("<script language=\"javascript\">alert(\"로그아웃이 완료되었습니다.\"); document.location.href=\"home_a.jsp\"; </script>");
+		writer.close();
+	}
 }

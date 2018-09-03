@@ -56,21 +56,31 @@ public class BDao {
 		}
 	}
 
-	public ArrayList<BDto> list(int curPage){
+	public ArrayList<BDto> list(int curPage, String search, String input){
 				
 		ArrayList<BDto> dtos = new ArrayList<BDto>();
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet resultSet=null;
-		String query = "select * from (select rownum num, A.* from (select * from mvc_board order by bgroup desc, bstep asc ) A where rownum <= ? ) B Where B.num >= ?";
+		String query="";
+		int count=0;
 
 		int start = (curPage-1)*listCount+1;
 		int end = (curPage-1)*listCount+listCount;
 		
 		try {
 			con = dataSource.getConnection();
-			pstmt = con.prepareStatement(query);
 			
+			if(search.equals("0")) {
+				query = "select * from (select rownum num, A.* from (select * from mvc_board order by bgroup desc, bstep asc) A where rownum <= ? ) B Where B.num >= ?";
+				count=0;
+			}else {
+				input = "'%"+input+"%'";
+				query = "select * from (select rownum num, A.* from (select * from mvc_board where "+search+" like "+input+" order by bgroup desc, bstep asc) A where rownum <= ? ) B Where B.num >= ?";
+				count=1;
+			}			
+
+			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, end);
 			pstmt.setInt(2, start);
 			resultSet = pstmt.executeQuery();
@@ -387,5 +397,9 @@ public class BDao {
 				e2.printStackTrace();
 			}
 		}
+	}
+	public void dupliate(String bid) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
 	}
 }

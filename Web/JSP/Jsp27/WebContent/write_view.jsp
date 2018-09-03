@@ -10,7 +10,7 @@
 <body>
 
 <table cellpadding="0" cellspaction="0" border="1">
-	<form action ="write.do" method="post">
+	<form action ="/write.do" method="post">
 		<tr>
 			<td>이름</td>
 			<td> <input type="text" name="bName" size="50"></td>
