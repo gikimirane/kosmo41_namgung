@@ -5,23 +5,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script>
+	
+</script>
 </head>
 <body>
 	<% 	
-	 
 		request.setCharacterEncoding("UTF-8");
-		String id = request.getParameter("id");
-		String pw = request.getParameter("pw");
+		String id = (String)session.getAttribute("id");
+		String pw = (String)session.getAttribute("pw");
 		
-		if(id==null){
-%> 			<jsp:forward page="login.jsp"/>
-<% 
-		}else {
+		if(id!=null){
 			session.setAttribute("uid", id);
-		}
-%>	
-	
-	<div>
+		}else {
+			id="Guest";
+		}%> 			
+
+		<div>
 		사용자 아이디 : <%=id %>
 	</div>
 	<div>
@@ -34,11 +34,11 @@
 		<button type="button" onclick="closeSocket();">Close</button>
 	</div>
 	<div id="messages"></div>
+	
 	<script type="text/javascript">
 		var webSocket;
 		var messages = document.getElementById("messages");
-		var id =document.getElementById("id").value;
-				
+						
 		//커넥트 눌렀을 때 오는 부분
 		function openSocket(){
 			//이미 열려있는지 체크하는영역
@@ -49,9 +49,7 @@
 			//이 주소에 접속~ 나중에 domain name으로 바꾸면 됨 AWS
 			webSocket = new WebSocket("ws://localhost:8081/WebSocketEx/websocketendpoint2");
 			//on은 ~할때, 오픈되었을 때를 의미
-			
-			
-			
+
 			webSocket.onopen = function (event){
 				if(event.data == undefined){
 					return;
@@ -59,9 +57,7 @@
 				
 				writeResponse(event.data);
 			};
-			
-			writeResponse(id+"님 반갑습니다.");
-			
+						
 			//서버로 부터 나에게 메시지가 왔을때
 			//event.data란 이벤트가 일어났을때 나한테 온 메시지를 의미
 			webSocket.onmessage = function(event){
@@ -94,6 +90,7 @@
 			//추가 필요
 			messages.innerHTML += "<br/>"+text;
 		}
+		
 	</script>
 </body>
 </html>

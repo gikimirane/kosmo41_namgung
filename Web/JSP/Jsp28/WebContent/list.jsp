@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+	<meta charset="utf-8">
  	<!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -33,12 +34,10 @@ function radio_chk() {
          }
     }
     
-    alert(check);
-    alert(input);
     var search = "./list.do?search="+check+"&input="+input;
-   	document.location.href=search;
+    document.location.href=search;
+    
 }
-
 </script>
 
 </head>
@@ -93,7 +92,7 @@ function radio_chk() {
 							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
 							<a href="content_view.do?bId=${dto.bId}" >${dto.bTitle}<span class="badge badge-danger">hit!</span></a></td>
 						</c:when>
-		
+						
 						<c:otherwise>
 							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
 							<a href="content_view.do?bId=${dto.bId}" >${dto.bTitle}</a></td>
@@ -116,9 +115,16 @@ function radio_chk() {
 				<td colspan="5" align="right">
 				<input type="radio" name="sear_check" id="sear_check" value="bTitle" checked="checked"/>제목 &nbsp;
 				<input type="radio" name="sear_check" id="sear_check" value="bContent"/>내용
-				<input type="text" name="input" id="input" class="a">&nbsp;&nbsp; 
-				<input type="button" value="검색" class="btn btn-outline-secondary btn-sm" onclick="javascript:radio_chk()"></td>			
+				<input type="text" name="input" id="input">&nbsp;&nbsp; 
+				<input type="button" value="검색" class="btn btn-outline-secondary btn-sm" onclick="javascript:radio_chk()">
+				<% if(session.getAttribute("input")!=null){ %>
+				<input type="button" value="전체보기" class="btn btn-outline-secondary btn-sm" onclick="javascript:document.location.href='s_delete.jsp'">
+				<%} %>
+				</td>		
+				
+				</td>		
 			</tr>
+			
 			<tr>
 				<td colspan="5" align="center">
 					<!-- 처음 -->
@@ -127,7 +133,8 @@ function radio_chk() {
 							[ &lt;&lt; ]
 						</c:when>
 						<c:otherwise>
-							<a href="list.do?page=1">[ &lt;&lt; ]</a> 
+							
+							<a href="list.do?page=1&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>">[ &lt;&lt; ]</a> 
 						</c:otherwise>
 					</c:choose>
 					
@@ -137,19 +144,19 @@ function radio_chk() {
 							[ &lt; ] 
 						</c:when>
 						<c:otherwise>
-							<a href="list.do?page=${page.curPage-1}">[ &lt; ]</a> 
+							<a href="list.do?page=${page.curPage-1}&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>">[ &lt; ]</a> 
 						</c:otherwise>
 					</c:choose>
 		
 					<!-- 개별 -->
-					<c:forEach var="fEach" begin="${page.startPage }" end="${page.endPage }" step="1">
+					<c:forEach var="fEach" begin="${page.startPage}" end="${page.endPage}" step="1">
 						<c:choose>
 							<c:when test="${page.curPage==fEach}">
 								[ ${fEach } ]&nbsp;
 							</c:when>
 							
 							<c:otherwise>
-								<a href="list.do?page=${fEach}">[ ${fEach } ]</a> &nbsp;
+								<a href="list.do?page=${fEach}&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>">[ ${fEach } ]</a> &nbsp;
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -160,7 +167,7 @@ function radio_chk() {
 							[ &gt; ] 
 						</c:when>
 						<c:otherwise>
-							<a href="list.do?page=${page.curPage+1}">[ &gt; ]</a>
+							<a href="list.do?page=${page.curPage+1}&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>"></a>
 						</c:otherwise>
 					</c:choose>
 					
@@ -170,17 +177,14 @@ function radio_chk() {
 							[ &gt;&gt; ]
 						</c:when>
 						<c:otherwise>
-							<a href="list.do?page=${page.totalPage }">[ &gt;&gt; ]</a>  
+							<a href="list.do?page=${page.totalPage }&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>">[ &gt;&gt; ]</a>  
 						</c:otherwise>
 					</c:choose>						
 				</td>
 			</tr>
 		</thead>		
 	</table>
-	
 </div>
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

@@ -68,7 +68,10 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan=2 align="right"><input type="submit" value="답변" class="btn btn-outline-secondary btn-sm">&nbsp;<a href="list.do?page=<%=session.getAttribute("cpage")%>" class="btn btn-outline-secondary btn-sm">목록</a></td>
+			<td colspan=2 align="right"><input type="submit" value="답변" class="btn btn-outline-secondary btn-sm">&nbsp;
+			<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>
+			
+			</td>
 		</tr>	
 	</form>
 </table>

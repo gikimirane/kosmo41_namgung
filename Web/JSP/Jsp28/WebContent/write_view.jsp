@@ -29,10 +29,16 @@
 <div class="container">
 	
 	<table width=800>
-	<form action ="write.do" method="post" name="form_write">
+	<form action ="write.do" method="post" name="form_write" enctype="multipart/form-data">
 		<tr>
 			<td>이름</td>
-			<td> <input type="text" name="bName" class="form-control" size="50"></td>
+			<td> 
+			<% if(session.getAttribute("name")!=null) {%>
+				<input type="text" name="bName" class="form-control" value="<%=session.getAttribute("name")%>" readonly size="50">
+			<%} else {%>
+				<input type="text" name="bName" class="form-control" size="50">
+			<%} %>
+			</td>
 		</tr>
 		<tr>
 			<td>제목</td>
@@ -41,7 +47,7 @@
 		<tr>
 			<td>내용</td>
 			<td>
-			<textarea name="bContent" id="ir1" rows="10" cols="80">${content_view.bContent}</textarea>
+			<textarea name="bContent" id="ir1" rows="15" cols="100">${content_view.bContent}</textarea>
 			<script type="text/javascript">
 				var oEditors = [];
 				nhn.husky.EZCreator.createInIFrame({
@@ -54,9 +60,15 @@
 			</td>
 		</tr>
 		<tr>
+			<td>파일</td>
+			<td>
+				<input type="file" name="filename"><br/>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="2" align="right">
-				<input type="button" class="btn btn-outline-secondary btn-sm" onclick="form_check()" value="입력">&nbsp;&nbsp;
-				<a href="list.do" class="btn btn-outline-secondary btn-sm">목록보기</a>
+				<input type="button" class="btn btn-outline-secondary btn-sm" onclick="form_check()" value="등록">&nbsp;&nbsp;
+				<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>
 			</td>
 		</tr>
 	</form>

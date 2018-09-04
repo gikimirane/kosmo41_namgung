@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 public class BDao {
@@ -33,6 +34,7 @@ public class BDao {
 	public void write(String bName, String bTitle, String bContent) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
+		
 		String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) "
 					+ "values "
 					+ "(mvc_board_seq.nextval,?,?,?,0,mvc_board_seq.currval,0,0)";
@@ -63,6 +65,7 @@ public class BDao {
 		PreparedStatement pstmt=null;
 		ResultSet resultSet=null;
 		String query="";
+		
 		int count=0;
 
 		int start = (curPage-1)*listCount+1;
@@ -71,16 +74,18 @@ public class BDao {
 		try {
 			con = dataSource.getConnection();
 			
-			if(search.equals("0")) {
+			if(input.equals("0")) {
 				query = "select * from (select rownum num, A.* from (select * from mvc_board order by bgroup desc, bstep asc) A where rownum <= ? ) B Where B.num >= ?";
 				count=0;
+				
 			}else {
 				input = "'%"+input+"%'";
 				query = "select * from (select rownum num, A.* from (select * from mvc_board where "+search+" like "+input+" order by bgroup desc, bstep asc) A where rownum <= ? ) B Where B.num >= ?";
 				count=1;
-			}			
+			}
 
 			pstmt = con.prepareStatement(query);
+			
 			pstmt.setInt(1, end);
 			pstmt.setInt(2, start);
 			resultSet = pstmt.executeQuery();
@@ -117,18 +122,30 @@ public class BDao {
 		return dtos;
 	}
 
-	public BPageInfo articlePage(int curPage) {
+	public BPageInfo articlePage(int curPage, String search, String input) {
 		//필요에 의해서 return을 하거나 인자를 받아라
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
-
+		String query = null;
+		int count=0;
+		System.out.println("search : "+search);
+		System.out.println("input : "+input);
+		
 		int totalCount=0;
-
-		String query ="select count(*) as total from mvc_board";
+		int start = (curPage-1)*listCount+1;
+		int end = (curPage-1)*listCount+listCount;
+		
 		
 		try {
 			con = dataSource.getConnection();
+			if(input.equals("0")) {
+				query ="select count(*) as total from mvc_board";
+			}else {
+				input = "'%"+input+"%'";
+				query = "select count(*) as total from mvc_board where "+search+" like "+input;
+				count=1;
+			}
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 			
@@ -136,6 +153,7 @@ public class BDao {
 			if(rs.next()) {
 				totalCount = rs.getInt("total");
 			}
+			System.out.println(totalCount);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -146,8 +164,7 @@ public class BDao {
 				e2.printStackTrace();
 			}
 		}
-		
-		
+				
 		//총 페이지 수
 		int totalPage;
 		if(totalCount%listCount>0) {
@@ -398,8 +415,5 @@ public class BDao {
 			}
 		}
 	}
-	public void dupliate(String bid) {
-		Connection con=null;
-		PreparedStatement pstmt=null;
-	}
+	
 }

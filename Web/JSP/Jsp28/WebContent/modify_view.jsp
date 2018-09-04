@@ -67,7 +67,7 @@
 			<td colspan="2" align="right">
 				<a href="javascript:form_check()" class="btn btn-outline-secondary btn-sm">수정완료</a>&nbsp;&nbsp;
 				<a href="content_view.do?bId=${content_view.bId}" class="btn btn-outline-secondary btn-sm">취소</a>&nbsp;&nbsp;
-				<a href="list.do?page=<%=session.getAttribute("cpage")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
+				<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>
 			</td>
 		</tr>	
 	</form>

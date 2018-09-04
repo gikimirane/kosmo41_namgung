@@ -58,13 +58,16 @@ public class FrontController extends HttpServlet {
 		if(com.equals("/write_view.do")) {
 			viewPage="write_view.jsp";
 		}else if(com.equals("/write.do")) {
+			
 			command = new BWriteCommand();
 			command.execute(request,response);
 			viewPage = "list.do?page="+curPage;
+			
 		}else if(com.equals("/list.do")) {
 			command = new BListCommand();
 			command.execute(request,response);
 			viewPage="list.jsp";
+			
 		}else if(com.equals("/content_view.do")) {
 			command = new BContentCommand();
 			command.execute(request, response);
@@ -120,8 +123,6 @@ public class FrontController extends HttpServlet {
 		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request,response);
-		
-		
 	}
 	public void logoutOk (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("logoutOk!");

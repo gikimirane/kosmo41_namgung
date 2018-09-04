@@ -32,7 +32,7 @@ public class MemberDao {
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
-		String query = "insert into members values (?,?,?,?,?,?)";
+		String query = "insert into members values (?,?,?,?,?,?,?)";
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(query);
@@ -42,6 +42,7 @@ public class MemberDao {
 			pstmt.setString(4, dto.geteMail());
 			pstmt.setTimestamp(5, dto.getrDate());
 			pstmt.setString(6, dto.getAddress());
+			pstmt.setString(7, "일련번호");
 			pstmt.executeQuery();
 			ri = MemberDao.MEMBER_JOIN_SUCCESS;
 		}catch(Exception e) {

@@ -51,9 +51,14 @@ function button_event(){
 				<td>${content_view.bContent}</td>
 			</tr>
 			<tr>
+				<th scope="row">사진</th>
+				<td><img src="./fileFolder/aa.png"/></td>
+				<!--  왜자꾸 wtp에 파일 사라지는지 찾아야 함 -->
+			</tr>
+			<tr>
 				<td colspan=2 align="right">
 					<a href="modify_view.do?bId=${content_view.bId }" class="btn btn-outline-secondary btn-sm">수정</a>&nbsp;&nbsp;
-					<a href="list.do?page=<%=session.getAttribute("cpage")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
+					<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
 					<input type=button class="btn btn-outline-secondary btn-sm" value="삭제" onclick="javascript:button_event()">&nbsp;&nbsp;
 					<a href="reply_view.do?bId=${content_view.bId}" class="btn btn-outline-secondary btn-sm">답변</a>&nbsp;&nbsp;
 				</td>
