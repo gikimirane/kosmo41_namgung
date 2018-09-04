@@ -31,19 +31,21 @@ public class BDao {
 		return instance;
 	}
 	
-	public void write(String bName, String bTitle, String bContent) {
+	public void write(String bName, String bTitle, String bContent,String type,String path) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
-		String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) "
+		String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent, bType, bPath) "
 					+ "values "
-					+ "(mvc_board_seq.nextval,?,?,?,0,mvc_board_seq.currval,0,0)";
+					+ "(mvc_board_seq.nextval,?,?,?,0,mvc_board_seq.currval,?,?)";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, bName);
 			pstmt.setString(2, bTitle);
 			pstmt.setString(3, bContent);
+			pstmt.setString(4, type);
+			pstmt.setString(5, path);
 
 			int rn =pstmt.executeUpdate();
 		}catch(Exception e) {
@@ -101,8 +103,10 @@ public class BDao {
 				int bGroup = resultSet.getInt("bGroup");
 				int bStep = resultSet.getInt("bStep");
 				int bIndent = resultSet.getInt("bIndent");
+				String bType = resultSet.getString("bType");
+				String bPath = resultSet.getString("bPath");
 				
-				BDto dto = new BDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent);
+				BDto dto = new BDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent,bType,bPath);
 				dtos.add(dto);
 				
 				//request.setAttribute해도 되고
@@ -229,9 +233,11 @@ public class BDao {
 				int bGroup = resultSet.getInt("bGroup");
 				int bStep = resultSet.getInt("bStep");
 				int bIndent = resultSet.getInt("bIndent");
-						
+				String bType = resultSet.getString("bType");
+				String bPath = resultSet.getString("bPath");
+				
 				dto = new BDto(bId, bName, bTitle, bContent, bDate, 
-						bHit, bGroup, bStep, bIndent);	
+						bHit, bGroup, bStep, bIndent,bType,bPath);	
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -341,9 +347,11 @@ public class BDao {
 				int bGroup = resultSet.getInt("bGroup");
 				int bStep = resultSet.getInt("bStep");
 				int bIndent = resultSet.getInt("bIndent");
+				String bType = resultSet.getString("bType");
+				String bPath = resultSet.getString("bPath");
 						
 				dto = new BDto(bId, bName, bTitle, bContent, bDate, 
-						bHit, bGroup, bStep, bIndent);	
+						bHit, bGroup, bStep, bIndent,bType,bPath);	
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

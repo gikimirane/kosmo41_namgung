@@ -27,6 +27,9 @@ public class BWriteCommand implements BCommand {
 		String bName="";
 		String bTitle="";
 		String bContent="";
+		String bPath;
+		String bType;
+		String path="";
 		
 		try{
 			MultipartRequest multi = new MultipartRequest(request,savePath,size,"UTF-8",
@@ -47,18 +50,17 @@ public class BWriteCommand implements BCommand {
 			bName=multi.getParameter("bName");
 			bTitle=multi.getParameter("bTitle");
 			bContent = multi.getParameter("bContent");
+			
+			path = savePath+"\\"+file;
 				
 			System.out.println("fileform"+bName);
 					
 		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		
+			bType="none";
+			bPath="none";
+		}	
 		
 		BDao dao = BDao.getInstance();
-		dao.write(bName,bTitle,bContent);
-				
+		dao.write(bName,bTitle,bContent,type,path);		
 	}
-
 }
