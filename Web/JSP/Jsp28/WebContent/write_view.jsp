@@ -21,11 +21,16 @@
 		document.form_write.submit();
 	}
 </script>
-
+<style>
+	.sub-name1 {
+		border-width:1px;
+		border-style:solid;       /* solid */
+		border-color:black;
+		}
+</style>
 	
 </head>
 <body>
-
 <div class="container">
 	
 	<table width=800>
@@ -47,7 +52,7 @@
 		<tr>
 			<td>내용</td>
 			<td>
-			<textarea name="bContent" id="ir1" rows="15" cols="100">${content_view.bContent}</textarea>
+			<textarea name="bContent" id="ir1" rows="13" cols="90">${content_view.bContent}</textarea>
 			<script type="text/javascript">
 				var oEditors = [];
 				nhn.husky.EZCreator.createInIFrame({
@@ -63,6 +68,12 @@
 			<td>파일</td>
 			<td>
 				<input type="file" name="filename"><br/>
+			</td>
+		</tr>
+		<tr>
+			<td>비밀번호</td>
+			<td>
+				<input type="password" name="bPass" id="bPass">
 			</td>
 		</tr>
 		<tr>

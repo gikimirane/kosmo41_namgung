@@ -56,15 +56,6 @@ function radio_chk() {
 		border-color:red;
 		border-radius:10px 10px 10px 10px;
 	}
-	
-	.a {
-		line-width:15px;
-		min-width:15px;
-		
-		line-height:20px;
-		min-height:20px;
-		height:20px;
-	}
 </style>
 <body>
 

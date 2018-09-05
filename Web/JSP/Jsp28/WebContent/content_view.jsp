@@ -28,9 +28,7 @@ function onDownload(idx,fPath) {
 	var o = document.getElementById("ifrm_filedown");	
 	o.src = "download.do?bId="+idx+"&fPath="+fPath;
 }
-
 </script>
-
 <style>
 	.sub-name1{
 		border-width:1px;
@@ -42,6 +40,12 @@ function onDownload(idx,fPath) {
 
 </head>
 <body>
+<c:choose>
+	<c:when test ="${content_view.bPass!='|none'}">
+		<jsp:forward page="passwordCheck.jsp"/>
+		<!-- 여기에 bPass 가져가고 싶다!! -->
+	</c:when>
+</c:choose>	
 
 <div class=container>
 <iframe id="ifrm_filedown" style="position:absolute;z-index:1;visibility:hidden;"></iframe>

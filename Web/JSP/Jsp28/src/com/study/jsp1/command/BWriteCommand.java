@@ -30,15 +30,19 @@ public class BWriteCommand implements BCommand {
 		String fPath="";
 		String fType="";
 		String path="";
-
+		String bPass = "none";
+		MultipartRequest multi = null;
 		try{
-			MultipartRequest multi = new MultipartRequest(request,savePath,size,"UTF-8",
+			multi = new MultipartRequest(request,savePath,size,"UTF-8",
 														new DefaultFileRenamePolicy());
 			bName=multi.getParameter("bName");
 			bTitle=multi.getParameter("bTitle");
 			bContent = multi.getParameter("bContent");
-			
-			
+			bPass = multi.getParameter("bPass");
+			if(bPass.length()==0) {
+				bPass="|none";
+			}
+						
 			Enumeration files = multi.getFileNames();
 			String str = (String)files.nextElement();
 			
@@ -50,18 +54,9 @@ public class BWriteCommand implements BCommand {
 		}catch(Exception e){
 			type="none";
 			file="none";
-			e.printStackTrace();
 		}
-		
-		System.out.println("업로드파일명:"+file);
-		System.out.println("원본 : "+oriFile);
-		System.out.println("타입 : "+type);
-		System.out.println("realPath: "+savePath);
-		System.out.println("경로"+savePath+"\\"+file);
-		System.out.println("fileform"+bName);
-				
 
 		BDao dao = BDao.getInstance();
-		dao.write(bName,bTitle,bContent,type,file);		
+		dao.write(bName,bTitle,bContent,type,file,bPass);
 	}
 }

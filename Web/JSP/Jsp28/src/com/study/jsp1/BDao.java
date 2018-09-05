@@ -31,13 +31,13 @@ public class BDao {
 		return instance;
 	}
 	
-	public void write(String bName, String bTitle, String bContent, String fType,String fPath) {
+	public void write(String bName, String bTitle, String bContent, String fType,String fPath,String bPass) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
-		String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent,fType,fPath) "
+		String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent,fType,fPath, bPass) "
 				+ "values "
-				+ "(mvc_board_seq.nextval,?,?,?,0,mvc_board_seq.currval,0,0,?,?)";
+				+ "(mvc_board_seq.nextval,?,?,?,0,mvc_board_seq.currval,0,0,?,?,?)";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
@@ -46,6 +46,7 @@ public class BDao {
 			pstmt.setString(3, bContent);	
 			pstmt.setString(4, fType);
 			pstmt.setString(5, fPath);
+			pstmt.setString(6, bPass);
 			
 			int rn =pstmt.executeUpdate();
 		}catch(Exception e) {
@@ -105,8 +106,9 @@ public class BDao {
 				int bIndent = resultSet.getInt("bIndent");
 				String fType = resultSet.getString("fType");
 				String fPath = resultSet.getString("fPath");
+				String bPass = resultSet.getString("bPass");
 				
-				BDto dto = new BDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent,fType,fPath);
+				BDto dto = new BDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent,fType,fPath,bPass);
 				dtos.add(dto);
 				
 				//request.setAttribute해도 되고
@@ -236,9 +238,10 @@ public class BDao {
 				int bIndent = resultSet.getInt("bIndent");
 				String fType = resultSet.getString("fType");
 				String fPath = resultSet.getString("fPath");
-				
+				String bPass = resultSet.getString("bPass");
+								
 				dto = new BDto(bId, bName, bTitle, bContent, bDate, 
-						bHit, bGroup, bStep, bIndent,fType,fPath);	
+						bHit, bGroup, bStep, bIndent,fType,fPath,bPass);	
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -350,9 +353,10 @@ public class BDao {
 				int bIndent = resultSet.getInt("bIndent");
 				String bType = resultSet.getString("fType");
 				String bPath = resultSet.getString("fPath");
+				String bPass = resultSet.getString("bPass");
 						
 				dto = new BDto(bId, bName, bTitle, bContent, bDate, 
-						bHit, bGroup, bStep, bIndent,bType,bPath);	
+						bHit, bGroup, bStep, bIndent,bType,bPath, bPass);	
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

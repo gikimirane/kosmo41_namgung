@@ -14,8 +14,17 @@ public class BDto {
 	int bIndent;
 	String fType;
 	String fPath;
+	String bPass;
 	
-	public BDto(int bId,String bName,String bTitle,String bContent,Timestamp bDate,int bHit,int bGroup,int bStep,int bIndent,String fType,String fPath) {
+	public String getbPass() {
+		return bPass;
+	}
+
+	public void setbPass(String bPass) {
+		this.bPass = bPass;
+	}
+
+	public BDto(int bId,String bName,String bTitle,String bContent,Timestamp bDate,int bHit,int bGroup,int bStep,int bIndent,String fType,String fPath,String bPass) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -27,6 +36,7 @@ public class BDto {
 		this.bIndent = bIndent;
 		this.fType = fType;
 		this.fPath = fPath;
+		this.bPass = bPass;
 	}
 
 	public String getfType() {
