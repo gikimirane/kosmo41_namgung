@@ -17,6 +17,10 @@
 
 <script>
 
+	$(document).ready(function{
+		history.replaceState({}, null, location.pathname);
+	});
+
 function radio_chk() {
     size = document.getElementsByName("sear_check").length;
     var input=document.getElementById("input").value;
