@@ -43,6 +43,7 @@ public class loginOk implements Service {
 				session.setAttribute("id",id);
 				session.setAttribute("name",name);
 				session.setAttribute("ValidMem","yes");
+				response.sendRedirect("./home_a.jsp");
 				return;
 			}
 		}

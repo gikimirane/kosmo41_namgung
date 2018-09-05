@@ -12,26 +12,10 @@ public class BDto {
 	int bGroup;
 	int bStep;
 	int bIndent;
-	String bType;
-	String bPath;
+	String fType;
+	String fPath;
 	
-	public String getbType() {
-		return bType;
-	}
-
-	public void setbType(String bType) {
-		this.bType = bType;
-	}
-
-	public String getbPath() {
-		return bPath;
-	}
-
-	public void setbPath(String bPath) {
-		this.bPath = bPath;
-	}
-
-	public BDto(int bId,String bName,String bTitle,String bContent,Timestamp bDate,int bHit,int bGroup,int bStep,int bIndent,String bType,String bPath) {
+	public BDto(int bId,String bName,String bTitle,String bContent,Timestamp bDate,int bHit,int bGroup,int bStep,int bIndent,String fType,String fPath) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -41,8 +25,24 @@ public class BDto {
 		this.bGroup = bGroup;
 		this.bStep = bStep;
 		this.bIndent = bIndent;
-		this.bType = bType;
-		this.bPath = bPath;
+		this.fType = fType;
+		this.fPath = fPath;
+	}
+
+	public String getfType() {
+		return fType;
+	}
+
+	public void setfType(String fType) {
+		this.fType = fType;
+	}
+
+	public String getfPath() {
+		return fPath;
+	}
+
+	public void setfPath(String fPath) {
+		this.fPath = fPath;
 	}
 
 	public int getbId() {

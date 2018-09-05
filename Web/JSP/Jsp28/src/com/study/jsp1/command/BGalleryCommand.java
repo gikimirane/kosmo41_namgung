@@ -1,4 +1,5 @@
 package com.study.jsp1.command;
+
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +10,8 @@ import com.study.jsp1.BDao;
 import com.study.jsp1.BDto;
 import com.study.jsp1.BPageInfo;
 
-public class BListCommand implements BCommand {
+public class BGalleryCommand implements BCommand {
 
-
-	public BListCommand() {
-	}
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
@@ -64,5 +62,6 @@ public class BListCommand implements BCommand {
 		ArrayList<BDto> dtos = dao.list(nPage, search, input);
 		request.setAttribute("list", dtos);
 		System.out.println("리스트로뿅!");
+	
 	}
 }

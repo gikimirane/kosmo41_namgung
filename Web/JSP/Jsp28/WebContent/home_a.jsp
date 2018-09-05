@@ -89,8 +89,12 @@
 	
 	<div class="col">
 		
-		<div class="clearfix visible-xs-block"></div>
+		<div class="clearfix visible-xs-block sub-name1"></div>
 		
+		dddddddd
+		
+		
+		<!--  
 		<%if(session.getAttribute("id")==null){ %>
 			<div class="col-md-6 sub-name1" style="width:500px; height:130px;">
 			<dl style="text-align:center">
@@ -112,7 +116,7 @@
 				</div>
 			</div>
 		<%} %>
-		
+		-->
 		
 	</div>
 	
@@ -128,69 +132,19 @@
 	 </ol>
 
 	 <!-- Wrapper for slides -->
-	 <div class="carousel-inner">
-	   <div class="item active">
-	     <img src="https://fltgraph.files.wordpress.com/2016/01/htel-burdigala-bordeaux-e1469005589510.jpg?w=1000" style="width:1000px; height: 400px;">
-	   </div>
-	
-	   <div class="item">
-	     <img src="http://gcentre.net/files/attach/images/122153/500/146/7eb823be619d82825b66c9586d71f09e.jpg" style="width:1000px; height: 400px;">
-	   </div>
-	
-	   <div class="item">
-	     <img src="http://t1.daumcdn.net/liveboard/interparktour/e2f896215dc040f9a261086122742b70.JPG" style="width:1000px; height: 400px;">
-	   </div>
-	 </div>
-	
-	 <!-- Left and right controls -->
-	  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-	    <span class="glyphicon glyphicon-chevron-left"></span>
-	    <span class="sr-only">Previous</span>
-	  </a>
-	  <a class="right carousel-control" href="#myCarousel" data-slide="next">
-	    <span class="glyphicon glyphicon-chevron-right"></span>
-	    <span class="sr-only">Next</span>
-	  </a>
+	 <div class="carousel-inner sub-name1">
+	   <img src="https://t1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/2jJV/image/Mf_XOc0EP5PP_Ki7DrKrvPSm_cI.jpg" width=550/>
 	</div>
 	<p></p><p></p>
+	
+	
 	<div class="row sub-name1">
 	  <div class="col-md-4 sub-name1" align="center"><a href="list.do">게시판</a></div>
-	  <div class="col-md-4 sub-name1" align="center"><a href="#">갤러리</a></div>
+	  <div class="col-md-4 sub-name1" align="center"><a href="galleryList.do">갤러리</a></div>
 	  <div class="col-md-4 sub-name1" align="center" name="div_chat" id="div_chat"><a href="./chat/client.jsp" id="chat">채팅</a></div>
 	</div>
 	
-	<div class="row">
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="#">
-        <img src="https://www.w3schools.com/w3images/lights.jpg" alt="Lights" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="#">
-        <img src="https://www.w3schools.com/w3images/nature.jpg" alt="Nature" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="#">
-        <img src="https://www.w3schools.com/w3images/fjords.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
+	
 </div>
 
 </div>

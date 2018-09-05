@@ -162,12 +162,13 @@ function radio_chk() {
 					</c:forEach>
 					
 					<!-- 다음 -->
+									
 					<c:choose>
 						<c:when test ="${(page.curPage+1) > page.totalPage}">
 							[ &gt; ] 
 						</c:when>
 						<c:otherwise>
-							<a href="list.do?page=${page.curPage+1}&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>"></a>
+							<a href="list.do?page=${page.curPage+1}&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>">[ &gt; ]</a>
 						</c:otherwise>
 					</c:choose>
 					

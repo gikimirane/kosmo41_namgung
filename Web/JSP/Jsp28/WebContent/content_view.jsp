@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,41 +23,73 @@ function button_event(){
 	    return;
 	}
 }
-	
+
+function onDownload(idx,fPath) {
+	var o = document.getElementById("ifrm_filedown");	
+	o.src = "download.do?bId="+idx+"&fPath="+fPath;
+}
+
 </script>
+
+<style>
+	.sub-name1{
+		border-width:1px;
+		border-style:solid;       /* solid */
+		border-color:black;
+	}
+
+</style>
 
 </head>
 <body>
+
 <div class=container>
+<iframe id="ifrm_filedown" style="position:absolute;z-index:1;visibility:hidden;"></iframe>
 <div class="table-responsive-sm">
-	<table class="table" width="300" cellpadding="0" cellspacing="0" border-bottom="1">
+	<table class="table" width="800" cellpadding="0" cellspacing="0" border-bottom="1">
 			<input type="hidden" name="bId" value="${content_view.bId }">
 			<thead>
 			    <tr>
-			      <th scope="col">No. ${content_view.bId }</th>
-			      <th scope="col">Title. ${content_view.bTitle}</th>
+			      <th scope="col" class="sub-name1">No. ${content_view.bId }</th>
+			      <th scope="col" class="sub-name1">Title. ${content_view.bTitle}</th>
 			    </tr>
 			 </thead>
 			
 			<tr>
-				<th scope="row">조회수</th>
-				<td>${content_view.bHit}</td>
+				<th scope="row" class="sub-name1">조회수</th>
+				<td colspan="4" class="sub-name1">${content_view.bHit}</td>
 			</tr>
 			<tr>
-				<th scope="row">작성자</th>
-				<td>${content_view.bName}</td>
+				<th scope="row" class="sub-name1">작성자</th>
+				<td colspan="4" class="sub-name1">${content_view.bName}</td>
 			</tr>
 			<tr>
-				<th scope="row">내용</th>
-				<td>${content_view.bContent}</td>
+				<th scope="row" class="sub-name1">내용</th>
+				<td colspan="4" class="sub-name1">${content_view.bContent}</td>
 			</tr>
 			<tr>
-				<th scope="row">사진</th>
-				<td><img src="./fileFolder/aa.png"/></td>
-				<!--  왜자꾸 wtp에 파일 사라지는지 찾아야 함 -->
+			
+				<th scope="row" class="sub-name1">첨부</th>
+				<c:choose>
+						<c:when test ="${content_view.fType=='none'}">
+							<td colspan="4" width=500px></td>
+						</c:when>
+						
+						<c:when test="${content_view.fType=='image'}">
+							<td colspan="4" align="left" width=500px class="sub-name1"><img src="./fileFolder/${content_view.fPath}" width=500px;/><br>
+							Download : <a href="#" onclick="onDownload('${content_view.bId}','${content_view.fPath}')">${content_view.fPath}</a>
+							</td>
+						</c:when>
+						
+						<c:when test="${content_view.fType!='image'}">
+							
+							<td>Download : <a href="#" onclick="onDownload('${content_view.bId}','${content_view.fPath}')">${content_view.fPath}</a></td>
+						</c:when>
+				</c:choose>	
+				
 			</tr>
 			<tr>
-				<td colspan=2 align="right">
+				<td colspan=4 align="right">
 					<a href="modify_view.do?bId=${content_view.bId }" class="btn btn-outline-secondary btn-sm">수정</a>&nbsp;&nbsp;
 					<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
 					<input type=button class="btn btn-outline-secondary btn-sm" value="삭제" onclick="javascript:button_event()">&nbsp;&nbsp;

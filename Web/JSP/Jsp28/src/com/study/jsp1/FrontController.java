@@ -54,7 +54,6 @@ public class FrontController extends HttpServlet {
 			curPage =(int)session.getAttribute("cpage");
 		}	
 		
-		
 		if(com.equals("/write_view.do")) {
 			viewPage="write_view.jsp";
 		}else if(com.equals("/write.do")) {
@@ -102,8 +101,7 @@ public class FrontController extends HttpServlet {
 		}else if(com.equals("/loginOk.do")) {
 			service = new loginOk();
 			service.execute(request, response);
-			
-			
+			return;		
 		}else if(com.equals("/modifyOk.do")) {
 			service = new modifyOk();
 			service.execute(request, response);
@@ -118,8 +116,17 @@ public class FrontController extends HttpServlet {
 			service = new duplication();
 			service.execute(request, response);
 			return;
+		}else if(com.equals("/download.do")) {
+			command = new BDownloadFile();
+			command.execute(request, response);
+			return;
+		}else if(com.equals("/galleryList.do")) {
+			command = new BGalleryCommand();
+			command.execute(request, response);
+			System.out.println("갤러리두 완료");
+			viewPage="galleryList.jsp";
 		}
-
+	
 		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request,response);
