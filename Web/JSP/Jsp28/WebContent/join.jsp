@@ -39,20 +39,23 @@ function check(){
 </script>
 </head>
 <body>
-<div class="container sub-name1 size">
-<form action="joinOk.do" method="post" name="reg_frm" >
-
-			<input type="text" class="form-control" id="id" name="id" placeholder="Enter ID"><br>
-			<input type="password" class="form-control" id="pw" name="pw" placeholder="Password"><br>
-			<input type="password" class="form-control" id="pw_check" name="pw_check" placeholder="Check Password"><br>
-			<input type="text" class="form-control" id="name" name="name" placeholder="Name"><br>
-			<input type="email" class="form-control" id="eMail" name="eMail" placeholder="eMail"><br>
-			<input type="text" class="form-control" id="address" name="address" placeholder="address"><br>
-			<input type="button" class="btn btn-outline-secondary btn-sm" value="회원가입" onclick="infoConfirm();">&nbsp;&nbsp;&nbsp;
-			<input type="reset" class="btn btn-outline-secondary btn-sm" value="로그인" onclick="javascript:window.location='home_a.jsp'">
-		</form>
+<jsp:include page="home_a.jsp" />
+<div class="container sub-name1">
+	<div class="row">
+		<div class="col">
+			<form action="joinOk.do" method="post" name="reg_frm" >
+				<input type="text" class="form-control" id="id" name="id" placeholder="Enter ID"><br>
+				<input type="password" class="form-control" id="pw" name="pw" placeholder="Password"><br>
+				<input type="password" class="form-control" id="pw_check" name="pw_check" placeholder="Check Password"><br>
+				<input type="text" class="form-control" id="name" name="name" placeholder="Name"><br>
+				<input type="email" class="form-control" id="eMail" name="eMail" placeholder="eMail"><br>
+				<input type="text" class="form-control" id="address" name="address" placeholder="address"><br>
+				<input type="button" class="btn btn-outline-secondary btn-sm" value="회원가입" onclick="infoConfirm();">&nbsp;&nbsp;&nbsp;
+				<input type="reset" class="btn btn-outline-secondary btn-sm" value="로그인" onclick="javascript:window.location='home_a.jsp'">
+			</form>
+		</div>
+	</div>
 </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 

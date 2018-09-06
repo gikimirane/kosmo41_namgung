@@ -9,5 +9,6 @@
 <body>
 <h1><%=session.getAttribute("name") %>님 로그아웃이 정상처리 되었습니다.</h1>
 <% session.invalidate(); %>
+
 </body>
 </html>

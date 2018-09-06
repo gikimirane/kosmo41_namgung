@@ -25,17 +25,19 @@ public class loginOk implements Service {
 		
 		PrintWriter writer = response.getWriter();
 		
-		String id = request.getParameter("id");
+		String id = request.getParameter("id1");
 		String pw = request.getParameter("pw");
 				
 		int checkNum = dao.userCheck(id, pw);
-		
+		System.out.println("checkNum?"+checkNum);
+		System.out.println("id : "+id);
 		if(checkNum== -1){
 			writer.println("<script language=\"javascript\">alert(\"아이디가 존재하지 않습니다.\"); history.go(-1);</script>");
 		}else if(checkNum==0) {
 			writer.println("<script language=\"javascript\">alert(\"비밀번호가 틀립니다.\"); history.go(-1);</script>");
 		}else if(checkNum==1) {
 			MemberDto dto = dao.getMember(id);
+		
 			if(dto==null) {
 				writer.println("<script language=\"javascript\">alert(\"존재하지 않는 회원입니다.\"); history.go(-1); </script>");
 			}else {
@@ -43,7 +45,7 @@ public class loginOk implements Service {
 				session.setAttribute("id",id);
 				session.setAttribute("name",name);
 				session.setAttribute("ValidMem","yes");
-				response.sendRedirect("./home_a.jsp");
+				response.sendRedirect("./main.jsp");
 				return;
 			}
 		}

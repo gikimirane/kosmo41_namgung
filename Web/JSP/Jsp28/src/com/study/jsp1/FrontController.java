@@ -108,7 +108,7 @@ public class FrontController extends HttpServlet {
 			
 		}else if(com.equals("/logout.do")) {
 			logoutOk(request,response);
-			
+			return;
 		}else if(com.equals("/delete.do")) {
 			service = new deleteOk();
 			service.execute(request, response);
@@ -139,7 +139,7 @@ public class FrontController extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		
 		session.invalidate();
-		writer.println("<script language=\"javascript\">alert(\"로그아웃이 완료되었습니다.\"); document.location.href=\"home_a.jsp\"; </script>");
+		writer.println("<script language=\"javascript\">alert(\"로그아웃이 완료되었습니다.\"); document.location.href='main.jsp' </script>");
 		writer.close();
 	}
 }
