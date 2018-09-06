@@ -17,9 +17,15 @@
 
 <script>
 
-	$(document).ready(function{
-		history.replaceState({}, null, location.pathname);
-	});
+function logincheck(){
+	var name='<%=session.getAttribute("name") %>';
+
+	if(name!="null"){
+		document.location.href="write_view.do";
+	}else if(name=="null"){
+		alert("로그인 시 글 작성이 가능합니다.");
+	}
+}
 
 function radio_chk() {
     size = document.getElementsByName("sear_check").length;
@@ -46,27 +52,12 @@ function radio_chk() {
 
 </head>
 <style>
-	.sub-name1 {
-		font-size:30px;
-		font-weight:bold;
-		
-		width:200px;     /* 90% */
-		height:100px;
-		
-		margin:50px;
-		
-		border-width:5px;
-		border-style:dashed;       /* solid */
-		border-color:red;
-		border-radius:10px 10px 10px 10px;
-	}
+	
 </style>
 <body>
-
-<div class="container">
-
-	<div class="table table-hover">
-		<table width="800">
+<jsp:include page="home_a.jsp" />
+	<div class="container">
+		<table class="container table table-hover">
 			<thead>
 			<tr>
 				<th scope="col">번호</th>
@@ -85,12 +76,12 @@ function radio_chk() {
 					<c:choose>
 						<c:when test ="${dto.bHit>=20}">
 							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
-							<a href="content_view.do?bId=${dto.bId}" >${dto.bTitle}<span class="badge badge-danger">hit!</span></a></td>
+							<a href="content_view.do?bId=${dto.bId}" name="title" id="title">${dto.bTitle}<span class="badge badge-danger">hit!</span></a></td>
 						</c:when>
 						
 						<c:otherwise>
 							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
-							<a href="content_view.do?bId=${dto.bId}" >${dto.bTitle}</a></td>
+							<a href="content_view.do?bId=${dto.bId}" name="title" id="title">${dto.bTitle}</a></td>
 						</c:otherwise>
 					</c:choose>
 					
@@ -103,7 +94,7 @@ function radio_chk() {
 			<thead>
 			<tr>
 				<td colspan="5" align="right">
-					<a href="write_view.do" class="btn btn-outline-secondary btn-sm">글작성</a>
+					<a href="#" class="btn btn-outline-secondary btn-sm" onclick="logincheck()">글작성</a>
 				</td>
 			</tr>
 			<tr>

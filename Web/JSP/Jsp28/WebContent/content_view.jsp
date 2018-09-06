@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.study.jsp.*" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +20,19 @@
 <script>
 
 function button_event(){
-	if (confirm("정말 삭제하시겠습니까?") == true){    //확인
-		document.location.href="./delete.do?bId=${content_view.bId}";
-	}else{   //취소
-	    return;
+	var name='<%=session.getAttribute("name") %>';
+	var bname = '${content_view.bName}';
+	var id = '<%=session.getAttribute("id")%>';
+	if(name==bname){
+		if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+			document.location.href="./delete.do?bId=${content_view.bId}";
+		}else{   
+		    return;
+		}
+	}else if(name=="null"){
+		alert("로그인이 필요합니다.");
+	}else {
+		alert("작성자만 삭제가 가능합니다.");
 	}
 }
 
@@ -28,6 +40,21 @@ function onDownload(idx,fPath) {
 	var o = document.getElementById("ifrm_filedown");	
 	o.src = "download.do?bId="+idx+"&fPath="+fPath;
 }
+
+function checkid(){
+	var name='<%=session.getAttribute("name") %>';
+	var bname = '${content_view.bName}';
+	var id = '<%=session.getAttribute("id")%>';
+	if(name==bname){
+		document.location.href="modify_view.do?bId=${content_view.bId }";
+	}else if(name=="null"){
+		alert("로그인이 필요합니다.");
+	}else {
+		alert("작성자만 수정이 가능합니다.");
+	}
+}
+
+
 </script>
 <style>
 	.sub-name1{
@@ -35,17 +62,12 @@ function onDownload(idx,fPath) {
 		border-style:solid;       /* solid */
 		border-color:black;
 	}
-
+		
+	
 </style>
 
 </head>
 <body>
-<c:choose>
-	<c:when test ="${content_view.bPass!='|none'}">
-		<jsp:forward page="passwordCheck.jsp"/>
-		<!-- 여기에 bPass 가져가고 싶다!! -->
-	</c:when>
-</c:choose>	
 
 <div class=container>
 <iframe id="ifrm_filedown" style="position:absolute;z-index:1;visibility:hidden;"></iframe>
@@ -93,8 +115,9 @@ function onDownload(idx,fPath) {
 				
 			</tr>
 			<tr>
-				<td colspan=4 align="right">
-					<a href="modify_view.do?bId=${content_view.bId }" class="btn btn-outline-secondary btn-sm">수정</a>&nbsp;&nbsp;
+				<td colspan=4 align="right">				
+					<!--  <a href="modify_view.do?bId=${content_view.bId }" class="btn btn-outline-secondary btn-sm">수정</a>&nbsp;&nbsp; -->
+					<a href="#" class="btn btn-outline-secondary btn-sm" onclick="checkid()">수정</a>&nbsp;&nbsp;
 					<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>&nbsp;&nbsp;
 					<input type=button class="btn btn-outline-secondary btn-sm" value="삭제" onclick="javascript:button_event()">&nbsp;&nbsp;
 					<a href="reply_view.do?bId=${content_view.bId}" class="btn btn-outline-secondary btn-sm">답변</a>&nbsp;&nbsp;

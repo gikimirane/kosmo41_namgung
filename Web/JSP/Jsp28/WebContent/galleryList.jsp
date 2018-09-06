@@ -23,7 +23,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<jsp:include page="home_a.jsp" />
 <div class="container">
 
 	<div class="row">

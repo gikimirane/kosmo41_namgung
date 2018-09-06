@@ -58,5 +58,6 @@ public class BWriteCommand implements BCommand {
 
 		BDao dao = BDao.getInstance();
 		dao.write(bName,bTitle,bContent,type,file,bPass);
+		System.out.println("bwriteCommand 끝!");
 	}
 }

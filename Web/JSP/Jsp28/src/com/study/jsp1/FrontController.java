@@ -60,13 +60,13 @@ public class FrontController extends HttpServlet {
 			
 			command = new BWriteCommand();
 			command.execute(request,response);
-			viewPage = "list.do?page="+curPage;
-			
+			System.out.println("여기는?");
+			viewPage = "list.do";
+			System.out.println("viewPage?"+viewPage);
 		}else if(com.equals("/list.do")) {
 			command = new BListCommand();
 			command.execute(request,response);
 			viewPage="list.jsp";
-			
 		}else if(com.equals("/content_view.do")) {
 			command = new BContentCommand();
 			command.execute(request, response);

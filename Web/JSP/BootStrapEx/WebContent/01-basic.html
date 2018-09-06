@@ -18,8 +18,15 @@
 	}
 		
 </style>
-
-
+<script>
+	jQuery(document).ready(function() {
+		$('#exampleModal').modal({backdrop: 'static', keyboard: false});
+	});
+	//팝업 Close 기능
+	function close_pop(flag) {
+	 	$('#myModal').hide();
+	};
+</script>
 </head>
 <body>
 

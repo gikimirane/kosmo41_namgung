@@ -41,7 +41,13 @@
 		</tr>
 		<tr>
 			<td>이름</td>
-			<td><input type="text" name="bName" class="form-control"></td>
+			<td>
+			<% if(session.getAttribute("name")!=null) {%>
+				<input type="text" name="bName" class="form-control" value="<%=session.getAttribute("name")%>" readonly size="50">
+			<%} else {%>
+				<input type="text" name="bName" class="form-control" size="50">
+			<%} %>
+			</td>
 		</tr>
 		<tr>
 			<td>제목</td>

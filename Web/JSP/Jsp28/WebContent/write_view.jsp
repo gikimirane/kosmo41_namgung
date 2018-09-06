@@ -41,6 +41,8 @@
 			<% if(session.getAttribute("name")!=null) {%>
 				<input type="text" name="bName" class="form-control" value="<%=session.getAttribute("name")%>" readonly size="50">
 			<%} else {%>
+				! 글 작성 시 이름을 신중히 기재해주세요. (작성자만 글 수정이 가능하여 회원가입 시 동일 이름 기재) !
+				<br>
 				<input type="text" name="bName" class="form-control" size="50">
 			<%} %>
 			</td>
@@ -52,7 +54,7 @@
 		<tr>
 			<td>내용</td>
 			<td>
-			<textarea name="bContent" id="ir1" rows="13" cols="90">${content_view.bContent}</textarea>
+			<textarea name="bContent" id="ir1" rows="13" cols="90"></textarea>
 			<script type="text/javascript">
 				var oEditors = [];
 				nhn.husky.EZCreator.createInIFrame({
