@@ -12,31 +12,34 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-<style>
+	<style>
 	.sub-name1{
-		border-width:1px;
-		border-style:solid;       /* solid */
-		border-color:black;
-	}
-</style>
-
-<script>
+			border-width:1px;
+			border-style:solid;       /* solid */
+			border-color:black;
+		}
+	</style>
 	
-</script>
-
 </head>
 <body>
-<jsp:include page="home_a.jsp" />
+<jsp:include page="home_a.jsp"/>
 <div class="container">
-	
         <div class="jumbotron">
           <h1 class="display-3">WELCOME, PLACIDO COFFEE ! </h1>
           <p class="lead">
-         	반갑습니다! PLACIDO COFFEE 입니다. <br>
-         	회원가입 후 많은 정보를 얻으시길 바랍니다.
+          <% if(session.getAttribute("name")!=null){ %>
+        	  <%=session.getAttribute("name") %>님 반갑습니다! PLACIDO COFFEE 입니다. <br>
+        	  많은 정보를 얻으시길 바랍니다.
+        	  <p>
+           <a class="btn btn-lg btn-success" href="#" role="button">LET'S START!</a></p>
+          <% }else {%>
+          	반갑습니다! PLACIDO COFFEE 입니다.
+          	회원가입 후 많은 정보를 얻으시길 바랍니다.<br>
+          	<p>
+           <a class="btn btn-lg btn-success" href="join.jsp" role="button">SIGN UP TODAY!</a></p>
+          <%} %>
           </p>
-          <p>
-           <a class="btn btn-lg btn-success" href="#" role="button">SIGN UP TODAY!</a></p>
+          
         </div>
 
         <div class="row marketing">

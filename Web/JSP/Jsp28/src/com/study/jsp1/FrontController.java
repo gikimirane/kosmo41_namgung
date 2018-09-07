@@ -137,7 +137,7 @@ public class FrontController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
-		
+				
 		session.invalidate();
 		writer.println("<script language=\"javascript\">alert(\"로그아웃이 완료되었습니다.\"); document.location.href='main.jsp' </script>");
 		writer.close();

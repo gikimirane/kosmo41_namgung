@@ -24,10 +24,46 @@ public class loginOk implements Service {
 		MemberDao dao = MemberDao.getInstance();
 		
 		PrintWriter writer = response.getWriter();
+		String id=null;
+		String pw=null;
+		String type=null;
+		try {
+			type = request.getParameter("type");
+			id = request.getParameter("id1");
+			pw = request.getParameter("pw");
+			
+		}catch(Exception e) {}
 		
-		String id = request.getParameter("id1");
-		String pw = request.getParameter("pw");
-				
+		if(type.equals("google")) {
+			String name= request.getParameter("name");
+			session.setAttribute("logintype", type);
+			session.setAttribute("name", name);
+			session.setAttribute("ValidMem","yes");
+			System.out.println("로그인ok에 name : "+name);
+			System.out.println("로그인ok에 type : "+type);
+			
+			response.sendRedirect("./main.jsp");
+			return;
+		}else if(type.equals("facebook")) {
+			String name = request.getParameter("name");
+			session.setAttribute("logintype", type);
+			session.setAttribute("name", name);
+			session.setAttribute("ValidMem","yes");
+			System.out.println("로그인ok에 name : "+name);
+			System.out.println("로그인ok에 type : "+type);
+			response.sendRedirect("./main.jsp");
+			return;
+		}else if(type.equals("naver")) {
+			String name=request.getParameter("name");
+			session.setAttribute("logintype", type);
+			session.setAttribute("name", name);
+			session.setAttribute("ValidMem","yes");
+			System.out.println("로그인ok에 name : "+name);
+			System.out.println("로그인ok에 type : "+type);
+			response.sendRedirect("./main.jsp");
+			return;
+		}
+						
 		int checkNum = dao.userCheck(id, pw);
 		System.out.println("checkNum?"+checkNum);
 		System.out.println("id : "+id);
@@ -42,6 +78,7 @@ public class loginOk implements Service {
 				writer.println("<script language=\"javascript\">alert(\"존재하지 않는 회원입니다.\"); history.go(-1); </script>");
 			}else {
 				String name = dto.getName();
+				session.setAttribute("logintype", "none");
 				session.setAttribute("id",id);
 				session.setAttribute("name",name);
 				session.setAttribute("ValidMem","yes");
