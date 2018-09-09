@@ -10,7 +10,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <style>
 	.sub-name1{
 		border-width:1px;
@@ -89,17 +90,17 @@
 			if(session.getAttribute("ValidMem")!=null){ %>
 
 				<%if(session.getAttribute("logintype").equals("google")){ %>
-					<a class="nav-link" href="https://myaccount.google.com/?utm_source=OGB&utm_medium=app&pli=1" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" onclick="gloginout()">G_LOGOUT</a></li>
 					<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 				
 				<%}else if(session.getAttribute("logintype").equals("facebook")){ %>
-					<a class="nav-link" href="https://www.facebook.com/settings" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" onclick="fblogout()">F_LOGOUT</a></li>
 				
 				<%}else if(session.getAttribute("logintype").equals("none")){ %>
-					<a class="nav-link" href="#" id="info" target="_blank">MYINFO</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" onclick="signOut()">B_LOGOUT</a></li>
+					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
+					<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>
 				
 				<%} %>
 			<%} else {%>

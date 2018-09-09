@@ -28,7 +28,7 @@
     	var profile = googleUser.getBasicProfile();
     	var email = profile.getEmail();
     	var name = profile.getName();
-    	document.location.href="./loginOk.do?name="+name+"&type=google";	
+    	document.location.href="./loginOk.do?name="+email+"&type=google";	
     }
     	
    	function onFailure(error) {
@@ -104,6 +104,7 @@
     FB.api('/me?fields=id,name,picture.width(100).height(100).as(picture_small)', function(response) {
       console.log(response);
       var name = response.name;
+      
       document.location.href="./loginOk.do?name="+name+"&type=facebook";	
 
     });

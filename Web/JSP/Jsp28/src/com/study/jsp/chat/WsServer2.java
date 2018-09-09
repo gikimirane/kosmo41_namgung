@@ -25,8 +25,8 @@ public class WsServer2 {
 			
 			try {
 				final Basic basic = session.getBasicRemote();
-				basic.sendText("Connection Established");
-			
+				basic.sendText("대기실에 입장했습니다.");
+											
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
 			}
