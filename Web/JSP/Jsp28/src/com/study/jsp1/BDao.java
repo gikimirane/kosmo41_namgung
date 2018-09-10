@@ -202,13 +202,7 @@ public class BDao {
 		pinfo.setEndPage(endPage);
 		pinfo.setTotalPage(totalPage);
 		pinfo.setListCount(listCount);
-		
-		System.out.println("curPage"+pinfo.getCurPage());
-		System.out.println("totalPage"+pinfo.getTotalPage());
-		System.out.println("startPage"+pinfo.getStartPage());
-		System.out.println("totalCount"+pinfo.getTotalCount());
-		System.out.println("startPage"+pinfo.getStartPage());
-				
+						
 		return pinfo;
 	}
 	

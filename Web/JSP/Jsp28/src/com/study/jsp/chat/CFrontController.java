@@ -29,15 +29,26 @@ public class CFrontController extends HttpServlet {
 		if(com.equals("/join.chat")) {
 			command = new CJoinCommand();
 			command.execute(request, response);
-			System.out.println("execute했어염");
+			
 		}else if(com.equals("/exit.chat")) {
 			command = new CExitCommand();
 			command.execute(request, response);
-			System.out.println("exit execute 했어욤");
+			
 		}else if(com.equals("/newroom.chat")) {
 			command = new CNewRoomCommand();
 			command.execute(request, response);
-			System.out.println("newroom execute 했어여");
+			
+		}else if(com.equals("/deleteroom.chat")) {
+			command = new CDeleteRoomCommand();
+			command.execute(request, response);
+			
+		}else if(com.equals("/roomlist.chat")) {
+			command = new CRoomListCommand();
+			command.execute(request, response);
+			
+		}else if(com.equals("/Entrance.chat")) {
+			command = new CEntranceCommand();
+			command.execute(request, response);
 		}
 	}
 }

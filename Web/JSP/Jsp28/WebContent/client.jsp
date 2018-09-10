@@ -39,7 +39,9 @@
 	%>
 
 <div class="container" style="height:800px;border-width:1px;border-style:solid;border-color:black;overflow:auto">
+	<div class="row"><button type="button" onclick="roomlist()">전체방 보기</button></div>
 	<div class="row" align="left">
+		
 		<div class="col-8 aaa">
 		<button type="button" onclick="join();">채팅시작</button>
 		<button type="button" onclick="send();">메시지보내기</button>
@@ -47,23 +49,25 @@
 		<button type="button" onclick="eraser();">대화창지우기</button>
 		</div>
 		<div class="col-4 aaa">
-			<button type="button" data-toggle="modal" href="#myModal">방만들기</button>
+			
 		</div>
 	</div>
 	
 	<div class="row aaa">
 		<div class="col-8 aaa">나중에 뭐라도 넣어야지!</div>
 	</div>
+	<form>
 	<div class="row aaa">
-		<div class="col-8 aaa">사용자 아이디 : <input type=text value=<%=id %> id="chatname" name="chatname"></div>
+		<div class="col-8 aaa">사용자 아이디 : <input type=text id="chatname" name="chatname"></div>
 	</div>
-	<input type="hidden" id="id" value=<%=id %>>
+	</form>
 	<div class="row aaa">
-	<div class="col-8 aaa"><input type="text" id ="messageinput"/></div>
+	<div class="col-8 aaa">메시지 입력 : <input type="text" id ="messageinput"/></div>
 	</div>
 	<div class="row aaa">
 	<div class="col-8 aaa" id="messages" style="height:900px;"></div>
-	<div class="col-4 aaa" style="height:900px;">대기실 사용자<br>========================</div>
+	<div class="col-4 aaa" style="height:900px;">
+	<input type="text" id="waitroom" name="waitroom" style="height:400px">
 	</div>
 	
 	</div>
@@ -91,14 +95,12 @@
 			
         </div>        
         <div class="modal-footer">
-          <input type="button" class="btn btn-default" onclick="checkform()" value="방만들기">
+          <input type="button" class="btn btn-default" onclick="checkform()" value="방만들기" data-dismiss="modal">
         </div>
       </div>
       
     </div>
   </div>
-  
-  
 
 </div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -112,6 +114,11 @@
 		var id="";	
 		//커넥트 눌렀을 때 오는 부분
 		
+		function roomlist(){
+			id = document.getElementById("chatname").value;
+			document.location.href="./roomlist.chat?chatname="+id;
+		}
+		
 		function openSocket(){
 			//이미 열려있는지 체크하는영역
 			if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
@@ -122,24 +129,47 @@
 			webSocket = new WebSocket("ws://localhost:8081/Jsp28/websocketendpoint2");
 			//on은 ~할때, 오픈되었을 때를 의미
 
-			webSocket.onopen = function (event){
-								
+			webSocket.onopen = function(event){
+				
 				if(event.data == undefined){
 					return;
-				}				
+				}			
+				<% session.setAttribute("chatname",id); %>
 				writeResponse(event.data);
+				WebSocket.send(id+"|");
 			};
 						
 			//서버로 부터 나에게 메시지가 왔을때
 			//event.data란 이벤트가 일어났을때 나한테 온 메시지를 의미
 			webSocket.onmessage = function(event){
-				
 				writeResponse(event.data);
 			};
 			
 			webSocket.onclose = function(event){
 				writeResponse("채팅을 종료합니다.");
+				
+				id = document.getElementById("chatname").value;
+				var data = "id="+id;
+				
+				$.ajax({
+					url : './deleteroom.chat',
+					type : 'POST',
+					data : data,
+					dataType : 'json',
+					success : function(json){
+						var results = eval(json);
+						if(results[0].results == "fail"){
+							alert(results[0].desc);
+						}else {
+							alert("채팅 종료 시 "+id+"님이 방장인 방은 삭제됩니다.");
+						}
+					}
+				});
+				var chatname = document.getElementById('chatname');
+				chatname.disabled = false;
+			
 			};
+			
 		}
 		function join(){
 			alert("join");
@@ -162,14 +192,13 @@
 						alert(id+"님으로 접속합니다.");
 						var chatname = document.getElementById('chatname');
 						chatname.disabled = true;
-
-						openSocket();
+						
+						openSocket();		
 					}
 				}
 			});
 		}
 		function send(){
-			
 			var text = document.getElementById("messageinput").value;
 		
 			webSocket.send(id+"|"+text);
@@ -207,6 +236,7 @@
 			var id = document.getElementById("chatname").value;
 			var lock = document.getElementsByName('locktype');
 			var limit=document.getElementById("limit").value;
+			document.getElementById("limit").value ="";
 			var locktype; // 여기에 선택된 radio 버튼의 값이 담기게 된다.
 			var pw;
 			
@@ -230,6 +260,7 @@
 				return;
 			}else {
 				this.newRoom(id,locktype,limit,pw);
+				
 			}
 		}
 		function newRoom(id,locktype,limit,pw){
@@ -255,7 +286,9 @@
 					if(results[0].results == "fail"){
 						alert(results[0].desc);
 					}else {
+						
 						alert("방을 만들었습니다.");
+						
 					}
 				}
 			});
@@ -276,8 +309,4 @@
 		}
 	
 	</script>
-
-<jsp:include page="./footer.jsp" />
- 
-
 </html>

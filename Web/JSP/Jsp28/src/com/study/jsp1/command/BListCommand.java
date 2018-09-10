@@ -31,10 +31,7 @@ public class BListCommand implements BCommand {
 			input = request.getParameter("input");
 
 			if(input.equals("null")&&input.length()==4) {
-				
-				session.removeAttribute("input");
-				session.removeAttribute("search");
-				
+								
 				if(session.getAttribute("input").equals("null")) {
 					search="0";
 					input="0";

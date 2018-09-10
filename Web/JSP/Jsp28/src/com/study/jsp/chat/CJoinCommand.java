@@ -23,9 +23,10 @@ public class CJoinCommand implements CCommand{
 		int join=0;
 		try {
 			join = dao.join(id);
+			int myroom = dao.myRoomNo(id);
 			
 			if(join==1) {
-				writer.println( "[{\"results\":\"ok\",\"desc\":\"none\"}]" );
+				writer.println( "[{\"results\":\"ok\",\"desc\":\"현재 방번호는"+myroom+"입니다.\"}]" );
 				
 			}else if(join==0) {
 				writer.println( "[{\"results\":\"fail\",\"desc\":\"중복된 이름이 있습니다. 이름을 변경해주세요.(join0)\"}]" );

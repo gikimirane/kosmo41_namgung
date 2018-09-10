@@ -117,7 +117,7 @@
 		<div class="col" align="center" style="background-color:#cff09e;"><a href="list.do" name="board" id="board" >회원게시판</a></div>
 		<div class="col" align="center" style="background-color:#cff09e;"><a href="#">전체게시판</a></div>
 		<div class="col" align="center" style="background-color:#cff09e;"><a href="galleryList.jsp">갤러리</a></div>
-		<div class="col" align="center" style="background-color:#cff09e;"><a href="client.jsp" id="chat">채팅</a></div>
+		<div class="col" align="center" style="background-color:#cff09e;"><a href="./roomlist.chat" id="chat">채팅</a></div>
 	</div>
 	<p></p><p></p>
 </div>
