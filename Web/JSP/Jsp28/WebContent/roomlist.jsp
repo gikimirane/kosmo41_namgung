@@ -34,7 +34,7 @@
 		<button type="button" onclick="closeSocket();">채팅종료</button>
 		<button type="button" onclick="eraser();">대화창지우기</button>
 		<button type="button" data-toggle="modal" href="#myModal">방만들기</button>
-		<button type="button" onclick="listview">전체대화목록</button>
+		<button type="button" onclick="listview()">전체대화목록</button>
 		</div>
 	</div>
 		<div class="row aaa">
@@ -76,32 +76,26 @@
 		    </div>
 		  </div>
 		</div>
-		<div id="listarea" name="listarea"></div>
+		
 	</div>
 	
 	
 	<div class="container" id="listtable" name="listtable">
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th scope="col">방번호</th>
-				<th scope="col">입장제한</th>
-				<th scope="col">방공개타입</th>
-				<th scope="col">방장</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${roomlist}" var="dto1">
-			<tr>
-				<td><button type="button" onclick="enterRoom(${dto1.rno})">${dto1.rno}</button></td>
-				<td>${dto1.user_limit}</td>				
-				<td>${dto1.open_type}</td>
-				<td>${dto1.room_owner}</td>
-			</tr>
-			</c:forEach>
-		</tbody>
-	</table> 
+		<div class="row aaa">
+		<div class="col aaa" id="servermsg" style="height:300px;overflow:auto;"></div>
+		</div>
+		
+		<div class="row aaa">
+		<div class="col aaa"><input type="text" id="roomno" name="roomno">&nbsp;&nbsp;
+		<input type="button" value="방이동">
+		</div>
+		</div>
+		
+		<div class="row aaa">
+		<div class="col aaa" id="listarea" name="listarea"></div>
+		</div>
 	</div>
+	
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -130,10 +124,8 @@ function openSocket(){
 		if(event.data == undefined){
 			return;
 		}			
-		
+		webSocket.send(id+"|"+"입장");
 		writeResponse(event.data);
-		WebSocket.send(id+"|");
-		session.setAttribute("chatname",id);
 	};
 				
 	//서버로 부터 나에게 메시지가 왔을때

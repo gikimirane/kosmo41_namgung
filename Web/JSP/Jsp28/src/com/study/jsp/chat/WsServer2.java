@@ -59,8 +59,9 @@ public class WsServer2 {
 			
 			user = message.substring(0, message.indexOf("|"));
 			clientMap.put(user, session);
-						
+			String msg = message.substring(message.indexOf("|"),message.length());		
 			System.out.println("Message from : "+session.getId()+" : "+message);
+			
 			try {
 				//인수로 넘어온 메세지를 각 클라이언트로 보낸다
 				final Basic basic = session.getBasicRemote();

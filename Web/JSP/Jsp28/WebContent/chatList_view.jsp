@@ -27,26 +27,7 @@
 
 <body>
 	<div class="container" id="listtable" name="listtable">
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th scope="col">방번호</th>
-				<th scope="col">입장제한</th>
-				<th scope="col">방공개타입</th>
-				<th scope="col">방장</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${roomlist}" var="dto1">
-			<tr>
-				<td><button type="button" onclick="enterRoom(${dto1.rno})">${dto1.rno}</button></td>
-				<td>${dto1.user_limit}</td>				
-				<td>${dto1.open_type}</td>
-				<td>${dto1.room_owner}</td>
-			</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+		
 	</div>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
