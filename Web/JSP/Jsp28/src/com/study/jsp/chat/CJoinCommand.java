@@ -29,10 +29,10 @@ public class CJoinCommand implements CCommand{
 				writer.println( "[{\"results\":\"ok\",\"desc\":\"현재 방번호는"+myroom+"입니다.\"}]" );
 				
 			}else if(join==0) {
-				writer.println( "[{\"results\":\"fail\",\"desc\":\"중복된 이름이 있습니다. 이름을 변경해주세요.(join0)\"}]" );
+				writer.println( "[{\"results\":\"fail\",\"desc\":\"중복된 이름이 있습니다. 이름을 변경해주세요.\"}]" );
 			}
 		} catch (SQLException e) {
-			writer.println( "[{\"results\":\"fail\",\"desc\":\"중복된 이름이 있습니다. 이름을 변경해주세요.(catch)\"}]" );
+			writer.println( "[{\"results\":\"fail\",\"desc\":\"중복된 이름이 있습니다. 이름을 변경해주세요.\"}]" );
 		}
 	}
 }

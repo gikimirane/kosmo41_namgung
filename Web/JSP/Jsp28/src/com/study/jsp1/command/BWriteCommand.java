@@ -19,7 +19,6 @@ public class BWriteCommand implements BCommand {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 			
 		String savePath=request.getRealPath("fileFolder");
-		
 		int size = 1024 * 1024 * 10;
 		String file="";
 		String oriFile="";
