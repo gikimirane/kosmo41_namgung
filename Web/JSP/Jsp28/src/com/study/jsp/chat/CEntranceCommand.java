@@ -2,6 +2,7 @@ package com.study.jsp.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,7 +25,13 @@ public class CEntranceCommand implements CCommand {
 		System.out.println("id : "+id);
 		
 		CDao dao = CDao.getInstance();
-		int uCount=dao.changeRoom(id, rno);
+		int uCount = 0;
+		try {
+			uCount = dao.changeRoom(id, rno);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(uCount==1) {
 			writer.println( "[{\"results\":\"ok\",\"desc\":\"현재 방번호는"+rno+"입니다.\"}]" );

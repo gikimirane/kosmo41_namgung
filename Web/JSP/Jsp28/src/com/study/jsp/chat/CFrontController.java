@@ -49,6 +49,30 @@ public class CFrontController extends HttpServlet {
 		}else if(com.equals("/Entrance.chat")) {
 			command = new CEntranceCommand();
 			command.execute(request, response);
+		}else if(com.equals("/waitinglist.chat")) {
+			command = new CWaitinglistCommand();
+			command.execute(request, response);
+		}else if(com.equals("/roomUserlist.chat")) {
+			command = new CRoomUserListCommand();
+			command.execute(request, response);
+		}else if(com.equals("/invitation.chat")) {
+			command = new CInvitationCommand();
+			command.execute(request, response);
+		}else if(com.equals("/reject.chat")) {
+			command = new CRejectCommand();
+			command.execute(request, response);
+		}else if(com.equals("/allroomlist.chat")) {
+			command = new CAllRoomListCommand();
+			command.execute(request, response);
+		}else if(com.equals("/passwordcheck.chat")) {
+			command = new CPassWordCommand();
+			command.execute(request, response);
+		}else if(com.equals("/checkmyroom.chat")) {
+			command = new CMyRoomCommand();
+			command.execute(request, response);
+		}else if(com.equals("/alluserlist.chat")) {
+			command = new CAllUserCommand();
+			command.execute(request, response);
 		}
 	}
 }

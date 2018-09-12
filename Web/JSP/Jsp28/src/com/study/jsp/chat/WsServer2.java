@@ -63,6 +63,7 @@ public class WsServer2 {
 			System.out.println("최초의 message : "+message);
 			user = message.substring(0, message.indexOf("|"));
 			String msg = message.substring(message.indexOf("|"),message.length());		
+			String usermsg = message.substring(message.indexOf("@")+1);
 			
 			int index = message.indexOf("|")+1;
 			String com = message.substring(index,message.indexOf("@"));
@@ -74,27 +75,14 @@ public class WsServer2 {
 				clientMap.put(user, session);
 				message = user+"님 입장했습니다.";
 				
-			}else if(com.equals("!방목록")) {
-				String roomlist = dao.roomlist(user);
-				System.out.println(roomlist);
-				message = com+" : "+roomlist;
-				
 			}else if(com.equals("!방입장")){
 				
 				String room = message.substring(message.indexOf("@")+1);
-				
+				System.out.println("dd");
 				int uCount=dao.changeRoom(user,room);
 				System.out.println("uCount 는? "+uCount);
 				if(uCount==1) {
-					if(room.equals("0")) {
-						message = user+"님의 현재 위치는 대기실 입니다.";
-						basic.sendText("> "+message);
-						return;
-					}else {
-						message = user+"님이 방에 입장했습니다.";
-						basic.sendText("> "+message);
-						return;
-					}
+					message = user+"님이 방에 입장했습니다.";
 				}else if(uCount==0) {
 					message = "유효하지 않은 방입니다. 다시 확인해주시기 바랍니다.";
 					basic.sendText("> "+message);
@@ -106,7 +94,6 @@ public class WsServer2 {
 				}
 								
 			}else if(com.equals("!메세지")){
-				String usermsg = message.substring(message.indexOf("@")+1);
 				message = user+" : "+usermsg;
 				
 			}else if(com.equals("!방만들기")) {
@@ -116,16 +103,10 @@ public class WsServer2 {
 				String pw = split[3];
 				int myroom=dao.newroom(user,lock,limit,pw);
 				message = user+"님이 방장인 "+myroom+"번방이 만들어졌습니다.";
-				
-			}else if(com.equals("!전체사용자")){
-				Iterator<String> it = clientMap.keySet().iterator();
-				String list="";
-				while(it.hasNext()) {
-					list += ","+it.next();
-				}
-				message=com+" : "+list.substring(list.indexOf(",")+1,list.length());
+				basic.sendText("> "+message);
+				sendAllSessionToMessage(session, message);
+				return;
 			}else if(com.equals("!귓속말")) {
-				
 				message = message.substring(message.indexOf("/")+1);
 				message = message.substring(message.indexOf(" ")+1);
 				String msg1 = message.substring(message.indexOf(" ")+1);
@@ -135,7 +116,6 @@ public class WsServer2 {
 				
 				return;
 			
-				
 			}else if(com.equals("!대기실사용자")) {
 				int myroom=dao.myRoomNo(user);
 				message = com+" : "+dao.userlist(myroom);
@@ -143,6 +123,104 @@ public class WsServer2 {
 			}else if(com.equals("!같은방사용자")) {
 				int myroom = dao.myRoomNo(user);
 				message = com+" : "+dao.userlist(myroom);
+				
+			}else if(com.equals("!방나가기")) {
+				int count=0;
+				int room=dao.myRoomNo(user);
+				if(room==0) {
+					message = user+"님의 현재 위치는 대기실 입니다.";
+					basic.sendText("> "+message);
+					return;
+				}
+				
+				if(dao.roomOwnerReturn(user).equals(user)) {
+					dao.deleteroom(user);
+					System.out.println("방나가기 count : "+count);
+					basic.sendText("> "+"본인이 방장인 방으로 방이 사라지며 대화 중인 사람들은 대기실로 이동합니다.");
+					count=2;
+				}else {
+					count=dao.changeRoom(user,"0");
+				}
+				
+				if(count==1) {
+					basic.sendText("> "+ "방을 나갔습니다.");
+					return;
+				}else if(count==2) {
+					message = "방장이 방을 나가서 방 인원들은 모두 대기실로 이동했습니다.";
+				}
+			}else if(com.equals("!초대받음")) {
+				
+				String status = dao.statusInvitation(usermsg);
+				
+				if(status.equals("invitation")) {
+					message = "이미 다른 방에서 초대요청을 보낸 사용자입니다.";
+					basic.sendText(message);
+					return;
+				}
+				
+				int room = dao.myRoomNo(user);
+				Iterator<String> it = clientMap.keySet().iterator();
+				while(it.hasNext()) {
+					String inviname=it.next();
+					if(inviname.equals(usermsg)){
+						session=clientMap.get(inviname);
+					}
+				}
+				message = "!초대받음|"+user+","+room;
+				session.getBasicRemote().sendText(message);
+				System.out.println("초대메시지 : "+message);
+				return;
+			}else if(com.equals("!초대거절")) {
+				String ownername = usermsg;
+				
+				Iterator<String> it = clientMap.keySet().iterator();
+				while(it.hasNext()) {
+					String name1=it.next();
+					if(name1.equals(ownername)){
+						session=clientMap.get(name1);
+					}
+				}
+				
+				message = "> "+user+"님이 초대를 거절했습니다.";		
+				session.getBasicRemote().sendText(message);
+				return;
+			}else if(com.equals("!전체공지")) {
+				
+				sendAllSessionToMessage(session, usermsg);
+				return;
+			}else if(com.equals("!강제퇴장")) {
+				String outname = usermsg;
+				int uCount = dao.changeRoom(usermsg, "0");
+				
+				if(uCount==1) {
+					Iterator<String> it = clientMap.keySet().iterator();
+					while(it.hasNext()) {
+						String name1=it.next();
+						if(name1.equals(outname)){
+							session=clientMap.get(name1);
+						}
+					}
+					session.getBasicRemote().sendText("> "+"방장에 의하여 대화방에서 강퇴당했습니다.");
+					basic.sendText(outname+"님을 강퇴시켰습니다.");
+					return;
+				}else {
+					basic.sendText("강퇴에 실패했습니다.");
+					return;
+				}
+			}else if(com.equals("!쪽지전송")) {
+				String reciver = message.substring(message.indexOf("@")+1,message.indexOf(","));
+				String sendmessage = message.substring(message.indexOf(",")+1,message.length());
+				
+				Iterator<String> it = clientMap.keySet().iterator();
+				while(it.hasNext()) {
+					String name1=it.next();
+					if(name1.equals(reciver)){
+						session=clientMap.get(name1);
+					}
+				}
+				session.getBasicRemote().sendText("!쪽지받음@"+user+","+sendmessage);
+				return;
+				
 			}
 			else {
 				System.out.println("com : "+com);
@@ -151,15 +229,12 @@ public class WsServer2 {
 			
 			try {
 				//인수로 넘어온 메세지를 각 클라이언트로 보낸다
-				
 				basic.sendText("> "+message);   //내가 보낼 때 to
-				
 			}catch(IOException ex) {
 				ex.printStackTrace();
 			}
 			
 			sendRoomSessionToMessage(session,message,user);
-			
 			//sendAllSessionToMessage(session, message);
 		}
 		
@@ -200,9 +275,9 @@ public class WsServer2 {
 				while(it.hasNext()) {
 					String name = it.next();
 					session=clientMap.get(name);
-					if(!session.getId().equals(self.getId())) {
-						session.getBasicRemote().sendText("!공지! : "+message);
-					}
+					
+					session.getBasicRemote().sendText("!공지! : "+message);
+					
 				}
 				
 			}catch(IOException e) {

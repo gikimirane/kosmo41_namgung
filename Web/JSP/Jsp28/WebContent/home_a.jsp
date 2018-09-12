@@ -114,10 +114,14 @@
      
      
 	<div class="row align-items-center">
-		<div class="col" align="center" style="background-color:#cff09e;"><a href="list.do" name="board" id="board" >회원게시판</a></div>
-		<div class="col" align="center" style="background-color:#cff09e;"><a href="#">전체게시판</a></div>
-		<div class="col" align="center" style="background-color:#cff09e;"><a href="galleryList.jsp">갤러리</a></div>
-		<div class="col" align="center" style="background-color:#cff09e;"><a href="./roomlist.chat" id="chat">채팅</a></div>
+		<div class="col" align="center" >
+			<button class="btn btn-outline-secondary btn-sm" type="button" name="board" id="board" onclick="javascript:document.location.href='./list.do'">회원게시판</button></div>
+		<div class="col" align="center" >
+			<button class="btn btn-outline-secondary btn-sm" type="button">전체게시판</button></div>
+		<div class="col" align="center" >
+			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="javascript:document.location.href='./galleryList.jsp'">갤러리</button></div>
+		<div class="col" align="center" >
+			<button class="btn btn-outline-secondary btn-sm" type="button" id="chat" onclick="javascript:document.location.href='./roomlist.chat'">채팅</button></div>
 	</div>
 	<p></p><p></p>
 </div>

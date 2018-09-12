@@ -22,7 +22,9 @@
 	
 </head>
 <body>
+
 <jsp:include page="home_a.jsp"/>
+
 <div class="container">
         <div class="jumbotron">
           <h1 class="display-3">WELCOME, PLACIDO COFFEE ! </h1>
@@ -36,7 +38,7 @@
           	반갑습니다! PLACIDO COFFEE 입니다.
           	회원가입 후 많은 정보를 얻으시길 바랍니다.<br>
           	<p>
-           <a class="btn btn-lg btn-success" href="join.jsp" role="button">SIGN UP TODAY!</a></p>
+           <a class="btn btn-lg btn-outline-secondary" href="join.jsp" role="button">SIGN UP TODAY!</a></p>
           <%} %>
           </p>
           
@@ -47,22 +49,23 @@
             <h4>PLACIDO COFFEE</h4>
             <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
 
-            <h4>Subheading</h4>
-            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+            <h4>PLACIDO COFFEE</h4>
+            <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
 
-            <h4>Subheading</h4>
-            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          	<h4>PLACIDO COFFEE</h4>
+            <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
+
           </div>
 
           <div class="col-lg-6">
             <h4>PLACIDO COFFEE</h4>
             <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
 
-            <h4>Subheading</h4>
-            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-            <h4>Subheading</h4>
-            <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            <h4>PLACIDO COFFEE</h4>
+            <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
+            
+            <h4>PLACIDO COFFEE</h4>
+            <p>DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE DUKES COFFEE </p>
           </div>
         </div>
       

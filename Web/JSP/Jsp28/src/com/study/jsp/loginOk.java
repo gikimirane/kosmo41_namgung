@@ -77,6 +77,7 @@ public class loginOk implements Service {
 			if(dto==null) {
 				writer.println("<script language=\"javascript\">alert(\"존재하지 않는 회원입니다.\"); history.go(-1); </script>");
 			}else {
+				
 				String name = dto.getName();
 				session.setAttribute("logintype", "none");
 				session.setAttribute("id",id);
