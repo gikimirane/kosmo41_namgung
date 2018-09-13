@@ -44,7 +44,6 @@ public class CDao {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
-			
 			if(rs.next()) {
 				roomno = rs.getInt("room");
 			}
@@ -55,8 +54,9 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				rs.close();
+				pstmt.close();
+				con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -64,8 +64,127 @@ public class CDao {
 		
 		return roomno;
 	}
+	public String badWordCheck(String name,String str) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ArrayList<String> arr = new ArrayList<String>();
+
+		try {
+			con = dataSource.getConnection();
+			String sql = "select offen from offen_lang where owner = 'server' or owner =?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				 arr.add(rs.getString(1));
+			}
+			
+			for(String a : arr) {
+				if(str.contains(a)) {
+					String star="";
+					for(int i=0;i<a.length();i++) {
+						star = star+"*";
+					}
+					str = str.replace(a, star);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("나쁜말찾는 메소드error");
+			e.printStackTrace();
+		}finally {
+			try{
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return str;
+	}
 	
+	public String badWordServer(String str) throws SQLException {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ArrayList<String> arr = new ArrayList<String>();
+
+		try {
+			con = dataSource.getConnection();
+			String sql = "select offen from offen_lang where owner = 'server'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				 arr.add(rs.getString(1));
+			}
+			
+			for(String a : arr) {
+				if(str.contains(a)) {
+					String star="";
+					for(int i=0;i<a.length();i++) {
+						star = star+"*";
+					}
+					str = str.replace(a, star);
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("서버 나쁜말찾는 메소드error");
+			e.printStackTrace();
+		}finally {
+			try{
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return str;
+	}
 	
+	public int setBlockWord(String id,String word) {
+		int uCount=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String query="";
+		int wCount=0;
+		
+		try {
+			con = dataSource.getConnection();
+			query="select * from offen_lang where (offen =? and owner =?) or (offen=? and owner='server')";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, word);
+			pstmt.setString(2, id);
+			pstmt.setString(3, word);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				//이미 요청자가 설정한 나쁜말
+				uCount=0;
+			}else {
+				SQLCall("insert into offen_lang values ('"+word+"'"+",'"+id+"','all')");
+				uCount=1;
+			}
+			
+		}catch(Exception e) {
+			System.out.println("userlist 메소드error");
+			e.printStackTrace();
+			
+		}finally {
+			try{
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return uCount;
+	}
 	//대기실 사용자 목록
 	public String userlist1(int room) {
 		String keys=null;
@@ -93,9 +212,9 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -126,9 +245,9 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -143,7 +262,7 @@ public class CDao {
 		int uCount=0;
 		
 		if(!me.equals(roomOwnerReturn(me))) {
-			return uCount=2;
+			uCount=2;
 		}else {		
 			try {
 				int myroom = myRoomNo(me);
@@ -178,9 +297,9 @@ public class CDao {
 			e.printStackTrace();
 		}finally { 			
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -219,10 +338,10 @@ public class CDao {
 			System.out.println("대화방 목록에서 에러 : "+e);
 			e.printStackTrace();
 		}finally { 			
-			if(rs!=null) rs.close();
+			 if(rs!=null) rs.close();
 			if(rs1!=null) rs1.close();
-			if(pstmt!=null) pstmt.close();
-			if(con!=null) con.close();
+			 if(pstmt!=null) pstmt.close();
+			 if(con!=null) con.close();
 			
 		}
 		return keys;
@@ -255,9 +374,9 @@ public class CDao {
 			e.printStackTrace();
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -322,29 +441,44 @@ public class CDao {
 			uCount=0;
 		}finally {
 			try{
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 		return uCount;
 	}
-	
-	public int deleteRoom(String id) throws SQLException {
-		ArrayList<String> names = new ArrayList<String>();
-		int uCount=2;
-		int myroom=myRoomNo(id);
-		names=userlist(myroom);
-		
-		for(int i=0;i<names.size();i++) {
-			String rUser = names.get(i);
-			changeRoom(rUser,"0");
+	public int changeOwner(String owner) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String query = "update room set room_owner=? where rno=?";
+		int uCount=0;
+		int myroom = myRoomNo(owner);
+		System.out.println("내방"+myroom);
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, owner);
+			pstmt.setInt(2, myroom);
+			rs = pstmt.executeQuery();
+			uCount=1;
+		}catch(Exception e) {
+			System.out.println("changeOwner Error");
+			e.printStackTrace();
+			
+		}finally {
+			try{
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
 		}
-		
 		return uCount;
 	}
-
 	public String statusInvitation(String id) {
 		String status="";
 		Connection con=null;
@@ -369,9 +503,9 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -428,8 +562,8 @@ public class CDao {
 			e.printStackTrace();
 		}finally {
 			try{
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -443,25 +577,28 @@ public class CDao {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		String query = "select name from emp room=?";
+		String query="";
 		
 		try {
 			con = dataSource.getConnection();
+			query = "select name from emp where room = ?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, ownerroom);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				list.add(rs.getString(1));
+			
 			}
-						
+			
 		}catch(Exception e) {
+			e.printStackTrace();
 			System.out.println("나의 방이 없음");
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -470,33 +607,39 @@ public class CDao {
 		return list;
 	}
 		
-	public int deleteroom(String id) throws SQLException {
+	public int deleteroom1(String id) throws SQLException {
 		
 		int ownerroom=ownerRoomNo(id);
-		if(ownerroom==1) {
+		System.out.println("deleteroom1 : "+ownerroom);
+		
+		if(ownerroom!=0) {
 			ArrayList<String> rList;
+			System.out.println("if문 들어왔고용");
 			rList = roomMember(ownerroom);
+			
 			for(int i=0;i<rList.size();i++) {
 				changeRoom(rList.get(i),"0");
+				
 			}
 		}
-		
+
 		int uCount=0;
 		Connection con=null;
 		PreparedStatement pstmt=null;
-		String query = "delete from room where room_owner = ?";
+		String query = "delete from room where room_owner=?";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
 			uCount = pstmt.executeUpdate();
-						
+			
 		}catch(Exception e) {
 			System.out.println("나의 방이 없음");
+			e.printStackTrace();
 		}finally {
 			try{
-				pstmt.close();
-				con.close();
+				if(pstmt!=null) pstmt.close();
+				if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -514,15 +657,15 @@ public class CDao {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
 			uCount = pstmt.executeUpdate();
-		
+			
 		}catch(Exception e) {
 			System.out.println("join메소드error");
 			//e.printStackTrace();
 			uCount=0;
 		}finally {
 			try{
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -556,15 +699,45 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 		return roomno;
 	}
+	//사용자가 있는 방의 타입은 무엇인가?
+	public String roomTypeReturn(String user) {
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String type="";
+		String sql = "select open_type from room where rno = (select room from emp where name =?)";
+		Connection con=null;
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				type = rs.getString(1);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}finally {
+			try {
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}	
+		return type;
+	}
+	
 	//사용자가 있는 방의 방장은 누구인가?
 	public String roomOwnerReturn(String user) {
 		PreparedStatement pstmt=null;
@@ -577,8 +750,7 @@ public class CDao {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, user);
 			rs = pstmt.executeQuery();
-			pstmt.clearParameters();
-			
+						
 			if(rs.next()) {
 				owner = rs.getString("room_owner");
 			}
@@ -586,9 +758,9 @@ public class CDao {
 			e1.printStackTrace();
 		}finally {
 			try {
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -626,9 +798,9 @@ public class CDao {
 			
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -651,8 +823,8 @@ public class CDao {
 			System.out.println("쿼리 실행에서 실패 : "+sql);
 		}finally {
 			try{
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -681,19 +853,22 @@ public class CDao {
 			System.out.println("lockType Error");
 		}finally {
 			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null) pstmt.close();
-				if(con!=null) con.close();
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(con!=null) con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 		return locktype;
 	}
+
 	
-		
+	
+	
+	
 	public int newroom(String id,String lock,String limit,String pw) {
-		int uCount;
+		int uCount=0;
 			
 		if(ownerRoomNo(id)==0) {
 			Connection con=null;
@@ -708,40 +883,25 @@ public class CDao {
 				pstmt.setString(3, pw);
 				pstmt.setString(4, id);
 				uCount = pstmt.executeUpdate();
-				
-				pstmt.clearParameters();
-				
-				//회원테이블에 현재 방번호 업데이트
-				query ="update emp set room=rno.currval where name=?";
-				pstmt = con.prepareStatement(query);
-				pstmt.setString(1, id);
-				pstmt.executeQuery();
-				pstmt.clearParameters();
-				
-				//접속인원 1명 빼기 (방장인 본인도 포함이니까)
-				query = "update room set user_limit = user_limit-1 where rno ='rno.currval'";
-				pstmt = con.prepareStatement(query);
-				pstmt.executeQuery();			
-				pstmt.clearParameters();
-												
-				int myroom=ownerRoomNo(id);
 								
-				return myroom;
+				int myroom=ownerRoomNo(id);
+				String roomno = Integer.toString(myroom); 
+				changeRoom(id, roomno);
+				uCount=myroom;
 			}catch(Exception e) {
 				System.out.println("newroom메소드error");
 				e.printStackTrace();
-				uCount=0;
 			}finally {
 				try{
-					if(pstmt!=null) pstmt.close();
-					if(con!=null) con.close();
+					 if(pstmt!=null) pstmt.close();
+					 if(con!=null) con.close();
 				}catch(Exception e2) {
 					e2.printStackTrace();
 				}
 			}
-			return uCount;
 		}else {
 			return uCount=0;
 		}
+		return uCount;
 	}
 }

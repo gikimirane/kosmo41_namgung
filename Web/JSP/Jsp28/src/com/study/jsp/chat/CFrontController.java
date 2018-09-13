@@ -73,6 +73,12 @@ public class CFrontController extends HttpServlet {
 		}else if(com.equals("/alluserlist.chat")) {
 			command = new CAllUserCommand();
 			command.execute(request, response);
+		}else if(com.equals("/blockword.chat")) {
+			command = new CBlockWordCommand();
+			command.execute(request, response);
+		}else if(com.equals("/ownerchange.chat")) {
+			command = new COwnerChange();
+			command.execute(request, response);
 		}
 	}
 }

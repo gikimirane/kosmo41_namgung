@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page import="com.study.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,17 +17,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
 	
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 </head>
 <style>
 	.aaa{
@@ -37,51 +32,54 @@
 		color:lightgray;
 		
 	}
+	.start{
+		margin:0;
+		padding:0;
+	}
 	
 </style>
 <jsp:include page="./home_a.jsp"/>
 
 <body>
 	<div class="container">
-	<div class="row aaa" height="100px">
-	</div>
+	
 	<div class="row">
-		<div class="col-9 aaa" style="font-size:13px">사용자 아이디 > <input type=text id="chatname" name="chatname">&nbsp;
-		<button class="btn btn-outline-secondary btn-sm"  type="button" onclick="join();">채팅시작</button>&nbsp;
-		<button class="btn btn-outline-secondary btn-sm" type="button" onclick="closeSocket();">채팅종료</button>
-		
+		<div class="col-9 aaa" style="font-size:13px">사용자 아이디 > <input type=text id="chatname" name="chatname" onkeyup="enterkey1()">
+			<div id="chatstart" style="display:block"><button class="btn btn-outline-secondary btn-sm" id="chatstart" type="button" onclick="join();" >채팅시작</button></div>
+			<div id="chatexit" style="display:none;"><button class="btn btn-outline-secondary btn-sm" type="button" onclick="closeSocket();" >채팅종료</button></div>
 		</div>
-		<div class="col-3 aaa btn-outline-secondary btn-sm" id="myroomcheck" style="text-align:center;"></div>
+		<div class="col-3 aaa btn-outline-secondary btn-sm start" id="myroomcheck" style="text-align:center;"></div>
 	</div>
 		
-	<div class="row">
-		<div class="col aaa" style="font-size:13px">메시지 입력 > <input type="text" id ="messageinput"/>&nbsp;
+	<div class="row" id="messagearea" style="display:none">
+		<div class="col aaa" style="font-size:13px">메시지 입력 > <input type="text"  onkeyup="enterkey()" id ="messageinput">&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="send();">메시지보내기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="noticeAll()">전체공지</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="eraser();">대화창지우기</button>&nbsp;
-			*Tip > /to 사용자 메시지 + 메시지보내기 => 1회 귓속말, /to 사용자 + 메시지보내기 => 고정 귓속말
+			"[/to 사용자 메시지 + 메시지보내기] > 1회 귓속말, [/to 사용자 + 메시지보내기] > 고정 귓속말"
 		</div>
 		
 	</div>
 	
 	<div class="row">
-		<div class="col aaa">
-		
-			
+		<div class="col aaa" id="roombtn" style="display:none">
+					
 			<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="modal" href="#myModal">방만들기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="enterroom0()">방나가기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="listview()">전체방목록/방입장</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="alluserlist()">전체사용자/쪽지</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="waitinglist()">대기실사용자/초대</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="nowroomlist()">같은방사용자/강퇴</button>&nbsp;
+			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="blacklist()">친구차단/나쁜말추가</button>&nbsp;
 		</div>
 	</div>
 	
 	<div class="clearfix visible-xs-block"></div>
 	
 	<div class="row">
-	<div class="col-7 aaa" id="messages" style="height:300px;overflow:auto;background-color:#EAEBE6"></div>
-	<div class="col-5 aaa" id="roomUser" style="height:300px;overflow:auto;background-color:#EAF6F6"></div>
+	<div class="col-7 aaa" id="messages" name="messages" style="height:300px;overflow:auto;background-color:#EAEBE6"></div>
+	<div class="col-2 aaa" id="roomUser" style="height:300px;overflow:auto;background-color:#EAF6F6"></div>
+	<div class="col-3 aaa" id="blacklist" style="height:300px;overflow:auto;background-color:#F0DACF"></div>
 	</div>
 	
 	</div>
@@ -109,8 +107,10 @@
 	        <input type="text" name="limit" id="limit">
 	       <p/>
 	        <p>방 타입을 선택하세요.</p>
+		
 		<input type="radio" name="locktype" id="locktype" value="공개" onClick="this.form.roompw.disabled=true"checked>공개
 		<input type="radio" name="locktype" id="locktype" value="비공개" onClick="this.form.roompw.disabled=false">비공개
+		<input type="radio" name="locktype" id="locktype" value="게임" onClick="this.form.roompw.disabled=true; this.form.limit.disabled=true">게임
 		<br>
 		<input type="text" name="roompw" id="roompw" disabled><br>
 		</form>
@@ -135,6 +135,37 @@ var messages = document.getElementById("messages");
 var id="";	
 var whisperSW=false;
 var whisperName="";
+var gameSW = false;
+var gameName="";
+
+/* checkmyroom(); <-얘를 어디다가 넣어야 할까.. */
+
+$(window).on("load", function(){
+	document.getElementById("chatname").focus()
+});
+
+function showbutton(){
+	
+	
+}
+
+
+function enterkey() {
+    if (window.event.keyCode == 13) {
+		send();
+    }
+}
+
+function enterkey1() {
+    if (window.event.keyCode == 13) {
+    	join();
+    }
+}
+function enterKey2(){
+	if (window.event.keyCode == 13) {
+    	blacklist();
+    }
+}
 
 function openSocket(){
 	var chatname = document.getElementById('chatname');
@@ -150,16 +181,17 @@ function openSocket(){
 	
 	webSocket.onopen = function(event){
 		webSocket.send(id+"|"+"!입장@");
+		
 		if(event.data == undefined){
 			return;
 		}	
 		writeResponse(event.data);
-		
+		showbutton();		
 	};
 		
 	webSocket.onmessage = function(event){
 		myroomcheck.innerHTML ="";
-		checkmyroom();
+		
 		writeResponse(event.data);
 	};
 	
@@ -167,9 +199,8 @@ function openSocket(){
 		var chatname = document.getElementById('chatname');
 		chatname.disabled = false;
 		eraser();
-		myroomcheck.innerHTML ="";
 		
-		document.getElementById('messageinput').value="";
+		
 		writeResponse("접속을 종료합니다.");
 	};
 }
@@ -205,7 +236,6 @@ function noticeAll(){
 }
 
 function waitinglist(){
-	
 	waitingUser.innerHTML="";
 	$.ajax({
 		url : './waitinglist.chat',
@@ -234,7 +264,6 @@ function waitinglist(){
 
 
 function nowroomlist(){
-	
 	
 	var id = document.getElementById('chatname').value;
 	var data = "id="+id;
@@ -285,16 +314,47 @@ function outofroom(){
 }
 
 function changeowner(){
-	alert("미구현이야~");
-	roomuser.innerHTML="";
+	
+	var roomuser = document.getElementsByName('nowroom');
+	var id = document.getElementById("chatname").value;
+	
+	for(var i=0;i<roomuser.length; i++) {
+	    if(roomuser[i].checked) {
+	        if(roomuser[i].value==id){
+	        	alert("본인을 선택할 수 없습니다.");
+	        }else {
+	        	user = roomuser[i].value;
+		        
+	        }
+	    }
+	}
+	
+	var data ="user="+user;
+	$.ajax({
+		url : './ownerchange.chat',
+		type : 'POST',
+		data : data,
+		dataType : 'json',
+		success : function(json){
+			var results = eval(json);
+			if(results[0].results == "ok"){
+				webSocket.send(id+"|"+"!방장승계@"+user);	
+				alert(results[0].desc);
+			}else {
+				alert(results[0].desc);
+			}
+		}
+	}); 
 }
 
 function join(){
 	var chatname = document.getElementById('chatname').value;
+	
 	if(chatname==""||chatname==null){
 		alert("이름이 공란입니다. 이름을 입력하세요.");
 	}else {
-		var data = "id="+chatname;
+				
+		var data = "chatname="+chatname;
 		
 		$.ajax({
 			url : './join.chat',
@@ -306,17 +366,103 @@ function join(){
 				if(results[0].results == "fail"){
 					alert(results[0].desc);
 					var nickname=chatname;
-					
+				
 				}else {
 					var chatname = document.getElementById('chatname');
 					chatname.disabled = true;
+					
+				    var div = document.getElementById('roombtn');
+				    var div1 = document.getElementById('chatexit');
+				    var div2 = document.getElementById('messagearea');
+				    var div3 = document.getElementById('chatstart');
+				    
+				    if (div.style.display !== 'none') {
+				        div.style.display = 'none';
+				        div1.style.display = 'none';
+				        div2.style.display = 'none';
+				       
+				    }
+				    else {
+				        div.style.display = 'block';
+				        div1.style.display = 'block';
+				        div2.style.display = 'block';
+				        div3.style.display = 'block';
+				    }
+				    
+				   //내일 html안지워지는거 고쳐
+				   //버튼 옆으로 옮겨
+					
+					
 					openSocket();		
 				}
 			}
-		});
+		}); 
 	}
+	
 }
-
+function blacklist(){
+	blacklist.innerHTML = "";
+	
+	$.ajax({
+		url : './alluserlist.chat',
+		type : 'POST',
+		dataType : 'json',
+		error : function(xhr,status,error){
+			alert(error);
+			alert("error");
+		},
+		success : function(json){
+			var results = eval(json);
+			var html = "<tr><td>나쁜말추가</td></tr>";
+				html += "<tr><td><input type=\"text\" onkeyup=\"enterkey2()\" id=\"block\" name=\"block\" size=15></td><br>";
+				html+= "<td><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"blockword()\">나쁜말설정</td></tr>";
+				html += "<tr><td>친구차단</td></tr>";
+				html += "<tr><td><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"setblacklist()\">차단</button>&nbsp;";
+				html += "<button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"unblacklist()\">차단해제</button></td></tr>";
+				
+				for(var i=0;i<results.length;i ++) {
+					html += "<tr>";
+					html += "<td><input type=\"radio\" id=\"alluserlist\" name=\"alluserlist\" value=\""+results[i].user+"\">"+results[i].user + "</td>";
+					html += "</tr>";
+				}
+			$("#blacklist").append(html); 
+		}
+	});
+}
+function unblacklist(){
+	alert("빠른 시일내에 찾아뵙겠습니다.");
+}
+function setblacklist(){
+	alert("빠른 시일내에 찾아뵙겠습니다.");
+}
+function blockword(){
+	
+	var chatname = document.getElementById('chatname').value;
+	var word = document.getElementById('block').value;
+	alert(word);
+	var data = "id="+chatname+"&word="+word;
+	
+	$.ajax({
+		url : './blockword.chat',
+		type : 'POST',
+		data : data,
+		dataType : 'json',
+		error : function(xhr,status,error){
+			alert(error);
+			alert("error");
+		},
+		success : function(json){
+			var results = eval(json);
+			if(results[0].results == "ok"){
+				alert(results[0].desc);
+			}else if(results[0].results=="fail"){
+				alert(results[0].desc);
+			}
+		}
+	}); 
+	document.getElementById('block').value="";
+	
+}
 
 function alluserlist(){
 	alluser.innerHTML = "";
@@ -340,6 +486,7 @@ function alluserlist(){
 			$("#alluser").append(html); 
 		}
 	});
+	
 }
 
 function popupmsg(){
@@ -385,6 +532,7 @@ function listview(){
 			$("#servermsg").append(html); 
 		}
 	});
+	
 }
 function enterRoom(){
 	
@@ -394,21 +542,18 @@ function enterRoom(){
 	for(var i=0;i<allroomlist.length; i++) {
 	    if(allroomlist[i].checked) {
         	var roominfo = allroomlist[i].value;
-	        
 	    }
 	}
 	var index = roominfo.indexOf("/");
 	var rno = roominfo.substring(0,index);
 	var lock = roominfo.substring(index+1,roominfo.length);
 	
-	if(lock=="공개"){
+	if(lock=="공개"||lock=="게임"){
 		webSocket.send(id+"|"+"!방입장@"+rno);
 		servermsg.innerHTML ="";
-	}else {
+	}else if(lock=="비공개"){
 		checkpassword(rno);
 	}
-	
-	
 }
 function checkpassword(rno){
 	var password = prompt( '방 비밀번호를 입력하세요.', '' );
@@ -431,12 +576,20 @@ function checkpassword(rno){
 		}
 	});
 	servermsg.innerHTML ="";
+	
 }
 
 function send(){
+	var divdiv = document.getElementById("messages");
+	divdiv.scrollTop = divdiv.scrollHeight;
 	var text = document.getElementById("messageinput").value;
 	
-	if(text.startsWith("/to")){
+	if(gameSW){
+		if(text)
+		webSocket.send(id+"|!게임중@"+text+gameName);
+	}
+	
+	else if(text.startsWith("/to")){
 		var a = text;
 		var results = a.match(/ /g); 
 		
@@ -479,7 +632,27 @@ function send(){
 	clear();
 }
 function closeSocket(){
+	eraser();
+	
+	var div = document.getElementById('roombtn');
+    var div1 = document.getElementById('chatexit');
+    var div2 = document.getElementById('messagearea');
+    var div3 = document.getElementById('chatstart');
+    if (div.style.display !== 'none') {
+        div.style.display='none';
+        div1.style.display='none';
+        div2.style.display='none';
+        div3.style.display='none';
+    }else {
+    	div.style.display='block';
+        div1.style.display='block';
+        div2.style.display='block';
+        div3.style.display='block';
+    }
+	
+	
 	webSocket.close();
+	
 }
 
 function enterroom0(){
@@ -523,6 +696,7 @@ function invitation(){
 		}
 	});
 	waitingUser.innerHTML="";	
+	
 }
 function checkform(){
 	var id = document.getElementById("chatname").value;
@@ -546,13 +720,16 @@ function checkform(){
 			return;
 		}
 	}
-	if(!($.isNumeric(limit))){
-		alert("정원은 숫자로만 입력하세요.");
-		return;
+	if(locktype!="게임"){
+		if(!($.isNumeric(limit))){
+			alert("정원은 숫자로만 입력하세요.");
+			return;
+		}
 	}
-		
-		webSocket.send(id+"|!방만들기@,"+locktype+","+limit+","+pw);
-		clear();
+	
+	webSocket.send(id+"|!방만들기@,"+locktype+","+limit+","+pw);
+	clear();
+	
 }
 
 
@@ -568,6 +745,7 @@ function statusInvitation(text){
 	
 	if(result){
 		webSocket.send(id+"|"+"!방입장@"+roomno);
+		
 	}else {
 		webSocket.send(id+"|"+"!초대거절@"+ownername);
 		text = ownername+"님의 초대를 거절했습니다.";
@@ -591,10 +769,7 @@ function statusInvitation(text){
 				}
 			}
 		});
-		
-		
 	}
-	
 }
 function recivepopup(text){
 	
@@ -607,26 +782,53 @@ function recivepopup(text){
 	
 }
 function writeResponse(text){
-	
+
 	if(text.startsWith('!방목록')){
 		servermsg.innerHTML += "<br/>"+text;
 	}else if(text.startsWith('!전체사용자')){
 		text=text.substring(1,text.length);
 		alluser.innerHTML += "<br/>"+text;
-	}
-	else if(text.startsWith('> !')){
-		text = text.replace("!","");
-		servermsg.innerHTML += "<br/>"+text;
 	}else if(text.startsWith('!초대받음|')){
 		statusInvitation(text);
 	}else if(text.startsWith('!쪽지받음')){
 		recivepopup(text);
+	}else if(text.startsWith('!방장방나가기|')){
+		ownerexit(text);
+	}else if(text.startsWith('!게임입장|')){
+		gameSW=true;
+		gameroom(text);
+		//messages.innerHTML += "<br/>"+text;
 	}
 	else {
 		messages.innerHTML += "<br/>"+text;
 	}
+	
+	var divdiv = document.getElementById("messages");
+	divdiv.scrollTop = divdiv.scrollHeight;
+	
 }
+function gameroom(text){
+	var index = text.indexOf("|");
+	var index2 = text.indexOf("@");
+	gameName = text.substring(index+1,index2);
+	var text1 = gameName+" 추출한내이름";
+	writeResponse(text1);
+}
+
+function ownerexit(text){
+	var index = text.indexOf("|")+1;
+	text=text.substring(index,text.length);
+	 var result = confirm(text);
+	
+	 if(result){
+		 webSocket.send(id+"|"+"!방장방나가기@");
+	 }
+	
+	 
+}
+
 function clear(){
+	document.getElementById("roompw").value ="";
 	document.getElementById("roompw").value ="";
 	document.getElementById("limit").value ="";
 	document.getElementById("messageinput").value="";
@@ -635,6 +837,11 @@ function clear(){
 function eraser(){
 	messages.innerHTML = "";
 	servermsg.innerHTML="";
+	roomUser.innerHTML="";
+	alluser.innerHTML="";
+	waitingUser.innerHTML="";
+	myroomcheck.innerHTML ="";
+	document.getElementById('messageinput').value="";
 }
 </script>
 </html>

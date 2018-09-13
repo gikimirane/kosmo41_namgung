@@ -21,7 +21,7 @@ public class CDeleteRoomCommand implements CCommand {
 		
 		int delete=0;
 		try {
-			delete=dao.deleteroom(id);
+			delete=dao.deleteroom1(id);
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

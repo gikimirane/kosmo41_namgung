@@ -17,7 +17,7 @@ public class CJoinCommand implements CCommand{
 		request.setCharacterEncoding("UTF-8");
 		
 		PrintWriter writer = response.getWriter();
-		String id = request.getParameter("id");
+		String id = request.getParameter("chatname");
 				
 		CDao dao = CDao.getInstance();
 		int join=0;

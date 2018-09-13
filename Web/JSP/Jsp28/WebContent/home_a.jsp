@@ -90,12 +90,12 @@
 			if(session.getAttribute("ValidMem")!=null){ %>
 
 				<%if(session.getAttribute("logintype").equals("google")){ %>
-					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" id="info" target="_blank">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" onclick="gloginout()">G_LOGOUT</a></li>
 					<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 				
 				<%}else if(session.getAttribute("logintype").equals("facebook")){ %>
-					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="http://www.facebook.com" id="info" target="_blank">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" onclick="fblogout()">F_LOGOUT</a></li>
 				
 				<%}else if(session.getAttribute("logintype").equals("none")){ %>
@@ -104,7 +104,7 @@
 				
 				<%} %>
 			<%} else {%>
-				<a class="nav-link" href="./login.jsp">LOGIN</a>	
+				<a class="nav-link" href="./join.jsp">LOGIN</a>	
 			<%} %>
             </li>
           </ul>

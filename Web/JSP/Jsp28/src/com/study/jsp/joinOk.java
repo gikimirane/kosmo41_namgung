@@ -26,10 +26,10 @@ public class joinOk implements Service {
 		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 				
-		String id = request.getParameter("id");
+		String id = request.getParameter("id2");
 		String name = request.getParameter("name");
 		String eMail = request.getParameter("eMail");
-		String pw = request.getParameter("pw");
+		String pw = request.getParameter("pw2");
 		String address =request.getParameter("address");
 		
 		dto.setAddress(address);
@@ -54,7 +54,7 @@ public class joinOk implements Service {
 			int ri = dao.insertMember(dto);
 			if(ri ==MemberDao.MEMBER_JOIN_SUCCESS){
 				session.setAttribute("id",dto.getId());
-				writer.println("<script language=\"javascript\">alert(\"회원가입을 축하합니다.\"); document.location.href=\"home_a.jsp\"; </script>");
+				writer.println("<script language=\"javascript\">alert(\"회원가입을 축하합니다.\"); document.location.href=\"main.jsp\"; </script>");
 				writer.close();
 			}else {
 				writer.println("<script language=\"javascript\">alert(\"회원가입을 실패했습니다.\"); history.back(); </script>");

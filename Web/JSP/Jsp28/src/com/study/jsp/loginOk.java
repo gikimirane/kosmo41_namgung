@@ -30,7 +30,7 @@ public class loginOk implements Service {
 		try {
 			type = request.getParameter("type");
 			id = request.getParameter("id1");
-			pw = request.getParameter("pw");
+			pw = request.getParameter("pw1");
 			
 		}catch(Exception e) {}
 		
