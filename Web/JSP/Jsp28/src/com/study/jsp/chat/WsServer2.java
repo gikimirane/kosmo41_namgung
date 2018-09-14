@@ -25,6 +25,7 @@ public class WsServer2 {
 		DataSource dataSource=null;
 		CDao dao = CDao.getInstance();
 		papago trans = new papago();
+		int trantype;
 	//해쉬맵 역할을 해주는애
 		static final java.util.Map<String, Session> clientMap = 
 				java.util.Collections.synchronizedMap(new java.util.HashMap<String, Session>());
@@ -69,6 +70,7 @@ public class WsServer2 {
 			String usermsg = message.substring(message.indexOf("@")+1); //!명령어@ 뒤에 오는 msg
 			int index = message.indexOf("|")+1;
 			String com = message.substring(index,message.indexOf("@")); //!명령어 확보
+			
 		
 			final Basic basic = session.getBasicRemote();
 			
@@ -324,9 +326,10 @@ public class WsServer2 {
 					for(int i=0;i<dtos.size();i++) {
 						if(!session.getId().equals(self.getId()) && name.equals(dtos.get(i))) {
 							message=dao.badWordCheck(name,message);
-							String translate = trans.getTranslate(message,1);
+							String translate = trans.getTranslate(message,trantype);
 							session.getBasicRemote().sendText("ROOM > "+message+", 번역 > "+translate);
-							 
+						}else {
+							
 						}
 					}
 				}

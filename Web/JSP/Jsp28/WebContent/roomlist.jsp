@@ -63,7 +63,7 @@
 	</div>
 	
 	<div class="row">
-		<div class="col aaa" id="roombtn" style="display:none">
+		<div class="col" id="roombtn" style="display:none">
 					
 			<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="modal" href="#myModal">방만들기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="enterroom0()">방나가기</button>&nbsp;
@@ -76,7 +76,13 @@
 	</div>
 	
 	<div class="clearfix visible-xs-block"></div>
-	
+	<div class="row">
+		<div class="radio">
+	    	<input type="radio" name="transoption" id="transoption1" value="0" checked>한국어 / KOREAN ONLY  &nbsp;&nbsp;&nbsp;&nbsp;
+		    <input type="radio" name="transoption" id="transoption2" value="1">한국어 > 영어 / KOREAN > ENGLISH  &nbsp;&nbsp;&nbsp;&nbsp;
+		    <input type="radio" name="transoption" id="transoption3" value="2">영어 > 한국어 / ENGLISH > KOREAN &nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
 	<div class="row">
 	<div class="col-7 aaa" id="messages" name="messages" style="height:300px;overflow:auto;background-color:#EAEBE6"></div>
 	<div class="col-2 aaa" id="roomUser" style="height:300px;overflow:auto;background-color:#EAF6F6"></div>
@@ -172,7 +178,7 @@ function openSocket(){
 		return;
 	}
 	
-	webSocket = new WebSocket("ws://192.168.0.101:8081/Jsp28/websocketendpoint2");
+	webSocket = new WebSocket("ws://localhost:8081/Jsp28/websocketendpoint2");
 	
 	webSocket.onopen = function(event){
 		webSocket.send(id+"|"+"!입장@");
@@ -586,11 +592,20 @@ function send(){
 	divdiv.scrollTop = divdiv.scrollHeight;
 	var text = document.getElementById("messageinput").value;
 	
+	var allroomlist = document.getElementsByName('transoption');
+	var id = document.getElementById("chatname").value;
+	
+	for(var i=0;i<allroomlist.length; i++) {
+	    if(allroomlist[i].checked) {
+        	var roominfo = allroomlist[i].value;
+	    }
+	}
+	
+	
 	if(gameSW){
 		if(text)
 		webSocket.send(id+"|!게임중@"+text+gameName);
-	}
-	
+	}	
 	else if(text.startsWith("/to")){
 		var a = text;
 		var results = a.match(/ /g); 
