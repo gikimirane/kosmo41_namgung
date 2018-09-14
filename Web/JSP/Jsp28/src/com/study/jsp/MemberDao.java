@@ -81,9 +81,9 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				set.close();
-				pstmt.close();
-				con.close();
+				if(set!=null)set.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -123,9 +123,9 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				set.close();
-				pstmt.close();
-				con.close();
+				if(set!=null)set.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -159,9 +159,9 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				set.close();
-				pstmt.close();
-				con.close();
+				if(set!=null)set.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -190,8 +190,9 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				pstmt.close();
-				con.close();
+			
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -215,8 +216,9 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			try {
-				pstmt.close();
-				con.close();
+			
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}

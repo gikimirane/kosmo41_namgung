@@ -87,6 +87,7 @@ public class WsServer2 {
 				//message = gameuser+","+userinput;
 				
 				basic.sendText(message);
+				sendRoomSessionToMessage(session,message,user);
 				return;
 			}
 			else {
@@ -94,7 +95,7 @@ public class WsServer2 {
 				if(com.equals("!입장")) {
 					clientMap.put(user, session);
 					message = user+"님 입장했습니다.";
-	
+					
 				}else if(com.equals("!방입장")){
 					
 					String room = message.substring(message.indexOf("@")+1);
@@ -137,6 +138,8 @@ public class WsServer2 {
 					}
 					if(myroom==0) {
 						message ="이미 방장인 방이 있습니다.";
+						basic.sendText(message);
+						return;
 					}else {
 						if(lock.equals("게임")) {
 							message = "!게임입장|O@"+user+"님이 방에 입장했습니다.";
@@ -227,11 +230,13 @@ public class WsServer2 {
 					session.getBasicRemote().sendText(message);
 					return;
 				}else if(com.equals("!방장방나가기")) {
-					int uCount=dao.deleteroom1(user);
+
+					message = "> 방장이 방을 나가서 방이 폭파되었습니다. 대기실로 이동되었습니다.";
+					basic.sendText(message); 
+					sendRoomSessionToMessage(session,message,user);
 					
-					if(uCount>0) {
-						message = "방장이 방을 나가서 방이 폭파되었습니다. 대기실로 이동되었습니다.";
-					}
+					dao.deleteroom1(user);
+					return;
 				}
 				else if(com.equals("!전체공지")) {
 					
@@ -297,7 +302,7 @@ public class WsServer2 {
 				
 				sendRoomSessionToMessage(session,message,user);
 			}
-			sendRoomSessionToMessage(session,message,user);
+		
 		}
 		
 		
@@ -308,6 +313,7 @@ public class WsServer2 {
 				int myroom = dao.myRoomNo(user);
 				
 				ArrayList<String> dtos = dao.userlist(myroom);
+				
 				Iterator<String> it = clientMap.keySet().iterator();
 				Session session;
 				

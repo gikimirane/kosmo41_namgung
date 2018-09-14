@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<%	session.removeAttribute("input");
-	session.removeAttribute("search");  
+<%	session.removeAttribute("input1");
+	session.removeAttribute("search1");  
 	response.sendRedirect("./list.do");	
 %>
 	

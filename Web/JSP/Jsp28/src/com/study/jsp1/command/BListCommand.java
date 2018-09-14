@@ -29,21 +29,21 @@ public class BListCommand implements BCommand {
 		try {
 			search = request.getParameter("search");
 			input = request.getParameter("input");
+			session.setAttribute("input1", input);
+			session.setAttribute("search1", search);
 
-			if(input.equals("null")&&input.length()==4) {
-								
-				if(session.getAttribute("input").equals("null")) {
+			if(input.equals("null")&&input.length()==4) {	
+				if(session.getAttribute("input1").equals("null")) {
 					search="0";
 					input="0";
 				}else {
-					search=(String)session.getAttribute("input");
-					input=(String)session.getAttribute("search");
+					search=(String)session.getAttribute("input1");
+					input=(String)session.getAttribute("search1");
 				}
-				
 			}else {
-				session.setAttribute("input", input);
-				session.setAttribute("search", search);
-			}	
+				session.setAttribute("input1", input);
+				session.setAttribute("search1", search);
+			}
 			
 		}catch(Exception e1) {
 			search="0";
