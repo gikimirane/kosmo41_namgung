@@ -209,6 +209,7 @@ public class BDao {
 	
 	public BDto contentView(String strID) {
 		upHit(strID);
+		
 		BDto dto = null;
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -287,7 +288,7 @@ public class BDao {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, bId);
 			int rn = pstmt.executeUpdate();
-						
+			System.out.println("히트다 히트!");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -375,16 +376,20 @@ public class BDao {
 		
 		try {
 			con = dataSource.getConnection();
-			String query = "insert into mvc_board (bId,bName,bTitle,bContent,bGroup,bStep,bIndent) values (mvc_board_seq.nextval,?,?,?,?,?,?)";
+			String query = "insert into mvc_board (bId,bName,bTitle,bContent,bhit,bGroup,bStep,bIndent,ftype,fpath,bpass) values (mvc_board_seq.nextval,?,?,?,?,?,?,?,?,?,?)";
 			
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, bName);
 			pstmt.setString(2, bTitle);
 			pstmt.setString(3, bContent);
-			pstmt.setInt(4, Integer.parseInt(bGroup));
-			pstmt.setInt(5, Integer.parseInt(bStep)+1);
-			pstmt.setInt(6, Integer.parseInt(bIndent)+1);
+			pstmt.setInt(4, 0);
+			pstmt.setInt(5, Integer.parseInt(bGroup));
+			pstmt.setInt(6, Integer.parseInt(bStep)+1);
+			pstmt.setInt(7, Integer.parseInt(bIndent)+1);
+			pstmt.setString(8, "none");
+			pstmt.setString(9, "none");
+			pstmt.setString(10, "|none");
 			
 			int rn = pstmt.executeUpdate();
 		}catch(Exception e) {

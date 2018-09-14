@@ -26,6 +26,8 @@
 <jsp:include page="home_a.jsp"/>
 
 <div class="container">
+
+
         <div class="jumbotron">
           <h1 class="display-3">WELCOME, PLACIDO COFFEE ! </h1>
           <p class="lead">
@@ -43,6 +45,8 @@
           </p>
           
         </div>
+        
+        
 
         <div class="row marketing">
           <div class="col-lg-6">

@@ -79,11 +79,9 @@
               <a class="nav-link" href="./main.jsp">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">ABOUT</a>
+              <a class="nav-link" href="about.jsp">ABOUT</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">CONTACT</a>
-            </li>
+           
             <li class="nav-item">
             
             <% 

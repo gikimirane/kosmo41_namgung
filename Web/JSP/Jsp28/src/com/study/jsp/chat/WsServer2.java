@@ -24,12 +24,8 @@ public class WsServer2 {
 		String user;
 		DataSource dataSource=null;
 		CDao dao = CDao.getInstance();
-<<<<<<< HEAD
 		papago trans = new papago();
 		int trantype;
-=======
-		
->>>>>>> parent of c721e69... papago 연결 중
 	//해쉬맵 역할을 해주는애
 		static final java.util.Map<String, Session> clientMap = 
 				java.util.Collections.synchronizedMap(new java.util.HashMap<String, Session>());
@@ -330,14 +326,10 @@ public class WsServer2 {
 					for(int i=0;i<dtos.size();i++) {
 						if(!session.getId().equals(self.getId()) && name.equals(dtos.get(i))) {
 							message=dao.badWordCheck(name,message);
-<<<<<<< HEAD
 							String translate = trans.getTranslate(message,trantype);
 							session.getBasicRemote().sendText("ROOM > "+message+", 번역 > "+translate);
 						}else {
 							
-=======
-							session.getBasicRemote().sendText("ROOM > "+message);
->>>>>>> parent of c721e69... papago 연결 중
 						}
 					}
 				}
