@@ -27,12 +27,15 @@ public class papago {
 	}
 
 	public String getTranslate(String text, int TranslateType) {
-
+		String text1;
 		if (TranslateType == ko_to_en)
 			text = this.Translate(text, "ko", "en");
 		else if (TranslateType == en_to_ko)
 			text = this.Translate(text, "en", "ko");
-
+		else if (TranslateType == en_to_ko) {
+			text1 = text;
+			text = text1;
+		}
 		text = getTranslatedText(text);
 		return text;
 	}

@@ -115,9 +115,9 @@
 	       <p/>
 	        <p>방 타입을 선택하세요.</p>
 		
-		<input type="radio" name="locktype" id="locktype" value="공개" onClick="this.form.roompw.disabled=true"checked>공개
-		<input type="radio" name="locktype" id="locktype" value="비공개" onClick="this.form.roompw.disabled=false">비공개
-		<input type="radio" name="locktype" id="locktype" value="게임" onClick="this.form.roompw.disabled=true; this.form.limit.disabled=true">게임
+		<input type="radio" name="locktype" id="locktype1" value="공개" onClick="this.form.roompw.disabled=true"checked>공개
+		<input type="radio" name="locktype" id="locktype2" value="비공개" onClick="this.form.roompw.disabled=false">비공개
+		<input type="radio" name="locktype" id="locktype3" value="게임" onClick="this.form.roompw.disabled=true; this.form.limit.disabled=true">게임
 		<br>
 		<input type="password" name="roompw" id="roompw" disabled><br>
 		</form>
@@ -592,21 +592,16 @@ function send(){
 	divdiv.scrollTop = divdiv.scrollHeight;
 	var text = document.getElementById("messageinput").value;
 	
-	var allroomlist = document.getElementsByName('transoption');
+	var transoption = document.getElementsByName('transoption');
 	var id = document.getElementById("chatname").value;
 	
-	for(var i=0;i<allroomlist.length; i++) {
-	    if(allroomlist[i].checked) {
-        	var roominfo = allroomlist[i].value;
+	for(var i=0;i<transoption.length; i++) {
+	    if(transoption[i].checked) {
+        	var tran = transoption[i].value;
 	    }
 	}
-	
-	
-	if(gameSW){
-		if(text)
-		webSocket.send(id+"|!게임중@"+text+gameName);
-	}	
-	else if(text.startsWith("/to")){
+
+	if(text.startsWith("/to")){
 		var a = text;
 		var results = a.match(/ /g); 
 		
@@ -643,7 +638,7 @@ function send(){
 		webSocket.send(id+"|!귓속말@"+"/to"+whisperName+" "+text);
 		
 	}else {
-		webSocket.send(id+"|!메세지@"+text);
+		webSocket.send(id+"|!메세지@"+text+"^"+tran);
 	}
 	checkmyroom();
 	clear();
@@ -800,13 +795,18 @@ function writeResponse(text){
 		recivepopup(text);
 	}else if(text.startsWith('!방장방나가기|')){
 		ownerexit(text);
-	}else if(text.startsWith('!게임입장|')){
-		gameSW=true;
-		gameroom(text);
-		//messages.innerHTML += "<br/>"+text;
+	}else if(text.startsWith('@')){
+		
+		var msg = text.replace(/@/g," ");
+		
+
+		
+		messages.innerHTML += "<br/>"+msg;
+		
+		
 	}
 	else {
-		
+			
 		messages.innerHTML += "<br/>"+text;
 	}
 	if(text.startsWith("접속을 종료합니다.")){
