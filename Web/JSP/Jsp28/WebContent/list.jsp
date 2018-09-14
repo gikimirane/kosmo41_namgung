@@ -43,8 +43,10 @@ function radio_chk() {
              break;
          }
     }    
-
+    
+    
     var search = "./list.do?search="+check+"&input="+input;
+   <%--  <% session.setAttribute("input",input); session.setAttribute("search",search); %> --%>
     document.location.href=search;
     
 }

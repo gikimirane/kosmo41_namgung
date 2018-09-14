@@ -23,7 +23,6 @@
 </script>
 
 </head>
-<jsp:include page="home_a.jsp"/>
 <body>
 <div class="container">
 <table width=800>
@@ -56,7 +55,7 @@
 		</tr>
 		<tr>
 			<td>원문 내용</td>
-			<td><input type="text" class="form-control" value="${reply_view.bContent}" disabled></td>
+			<td>${reply_view.bContent}</td>
 			
 		</tr>
 		<tr>
@@ -88,5 +87,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </body>
-<jsp:include page="footer.jsp"/>
 </html>

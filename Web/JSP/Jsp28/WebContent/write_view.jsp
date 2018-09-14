@@ -30,7 +30,6 @@
 </style>
 	
 </head>
-<jsp:include page="home_a.jsp"/>
 <body>
 <div class="container">
 	
@@ -92,5 +91,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </body>
-<jsp:include page="footer.jsp"/>
 </html>

@@ -53,6 +53,8 @@ function checkid(){
 		alert("작성자만 수정이 가능합니다.");
 	}
 }
+
+
 </script>
 <style>
 	.sub-name1{
@@ -65,43 +67,42 @@ function checkid(){
 </style>
 
 </head>
-<jsp:include page="home_a.jsp"/>
 <body>
+
 <div class=container>
 <iframe id="ifrm_filedown" style="position:absolute;z-index:1;visibility:hidden;"></iframe>
 <div class="table-responsive-sm">
 	<table class="table" width="800" cellpadding="0" cellspacing="0" border-bottom="1">
-			
 			<input type="hidden" name="bId" value="${content_view.bId }">
 			<thead>
 			    <tr>
-			      <th scope="col">No. ${content_view.bId }</th>
-			      <th scope="col">Title. ${content_view.bTitle}</th>
+			      <th scope="col" class="sub-name1">No. ${content_view.bId }</th>
+			      <th scope="col" class="sub-name1">Title. ${content_view.bTitle}</th>
 			    </tr>
 			 </thead>
 			
 			<tr>
-				<th scope="row">조회수</th>
-				<td colspan="4">${content_view.bHit}</td>
+				<th scope="row" class="sub-name1">조회수</th>
+				<td colspan="4" class="sub-name1">${content_view.bHit}</td>
 			</tr>
 			<tr>
-				<th scope="row">작성자</th>
-				<td colspan="4">${content_view.bName}</td>
+				<th scope="row" class="sub-name1">작성자</th>
+				<td colspan="4" class="sub-name1">${content_view.bName}</td>
 			</tr>
 			<tr>
-				<th scope="row">내용</th>
-				<td colspan="4">${content_view.bContent}</td>
+				<th scope="row" class="sub-name1">내용</th>
+				<td colspan="4" class="sub-name1">${content_view.bContent}</td>
 			</tr>
 			<tr>
 			
-				<th scope="row">첨부</th>
+				<th scope="row" class="sub-name1">첨부</th>
 				<c:choose>
 						<c:when test ="${content_view.fType=='none'}">
 							<td colspan="4" width=500px></td>
 						</c:when>
 						
 						<c:when test="${content_view.fType=='image'}">
-							<td colspan="4" align="left" width=500px><img src="./fileFolder/${content_view.fPath}" width=500px;/><br>
+							<td colspan="4" align="left" width=500px class="sub-name1"><img src="./fileFolder/${content_view.fPath}" width=500px;/><br>
 							Download : <a href="#" onclick="onDownload('${content_view.bId}','${content_view.fPath}')">${content_view.fPath}</a>
 							</td>
 						</c:when>
@@ -129,5 +130,4 @@ function checkid(){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
-<jsp:include page="footer.jsp"/>
 </html>

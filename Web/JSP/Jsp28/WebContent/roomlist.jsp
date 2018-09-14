@@ -806,7 +806,6 @@ function writeResponse(text){
 		//messages.innerHTML += "<br/>"+text;
 	}
 	else {
-		
 		messages.innerHTML += "<br/>"+text;
 	}
 	if(text.startsWith("접속을 종료합니다.")){
@@ -819,7 +818,6 @@ function writeResponse(text){
 	divdiv.scrollTop = divdiv.scrollHeight;
 	
 }
-
 function gameroom(text){
 	var index = text.indexOf("|");
 	var index2 = text.indexOf("@");
