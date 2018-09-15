@@ -61,7 +61,7 @@
           });
           // 마크 클릭시 인포윈도우 오픈
           var infowindow = new naver.maps.InfoWindow({
-              content: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKi1K0bnbqKjALYlJBtDbdnchDoDGd3tp8B32r00hXohhms59f" width=200px height=200px>'
+              content: '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyY6T2_9PJdZbS31xZ5gDKPWIWlD_g5EUcciZfksTxN4dfd7o5" width=100px height=100px style="border-style:none;">'
           });
       });
       </script>

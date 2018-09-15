@@ -78,10 +78,7 @@
             <li class="nav-item">
               <a class="nav-link" href="./main.jsp">HOME</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.jsp">ABOUT</a>
-            </li>
-           
+            
             <li class="nav-item">
             
             <% 
@@ -110,17 +107,20 @@
         <h3 class="text-muted">PLACIDO COFFEE</h3>
       </header>
      
-     
+    <hr>
+    
 	<div class="row align-items-center">
 		<div class="col" align="center" >
-			<button class="btn btn-outline-secondary btn-sm" type="button" name="board" id="board" onclick="javascript:document.location.href='./list.do'">회원게시판</button></div>
+			<button class="btn btn-outline-secondary btn-sm" type="button" id="cafeinfo" onclick="javascript:document.location.href='./about.jsp'">WHERE IS THE PLACIDO?</button></div>
 		<div class="col" align="center" >
-			<button class="btn btn-outline-secondary btn-sm" type="button">전체게시판</button></div>
+			<button class="btn btn-outline-secondary btn-sm" type="button" id="chat" onclick="javascript:document.location.href='./roomlist.chat'">CHATTING SPACE</button></div>
 		<div class="col" align="center" >
-			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="javascript:document.location.href='./galleryList.jsp'">갤러리</button></div>
+			<button class="btn btn-outline-secondary btn-sm" type="button" name="board" id="board" onclick="javascript:document.location.href='./list.do'">MEMBER BOARD</button></div>
 		<div class="col" align="center" >
-			<button class="btn btn-outline-secondary btn-sm" type="button" id="chat" onclick="javascript:document.location.href='./roomlist.chat'">채팅</button></div>
+			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="javascript:document.location.href='./galleryList.jsp'">GALLERY</button></div>
+
 	</div>
+	<hr>
 	<p></p><p></p>
 </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

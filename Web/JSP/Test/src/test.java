@@ -5,6 +5,6 @@ public class test {
 		int index = message.indexOf("^");
 		String trantype = message.substring(index+1);
 		String kor = message.substring(0, message.indexOf("#"));
-		System.out.println(eng);
+		System.out.println();
 	}
 }

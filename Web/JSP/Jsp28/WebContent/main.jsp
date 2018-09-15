@@ -33,12 +33,12 @@
           <p class="lead">
           <% if(session.getAttribute("name")!=null){ %>
         	  <%=session.getAttribute("name") %>님 반갑습니다! PLACIDO COFFEE 입니다. <br>
-        	  많은 정보를 얻으시길 바랍니다.
+        	  소통을 위한 채팅으로!
         	  <p>
-           <a class="btn btn-lg btn-outline-secondary" href="#" role="button">LET'S START!</a></p>
+           <a class="btn btn-lg btn-outline-secondary" href="roomlist.chat" role="button">LET'S START!</a></p>
           <% }else {%>
           	반갑습니다! PLACIDO COFFEE 입니다.
-          	회원가입 후 많은 정보를 얻으시길 바랍니다.<br>
+          	회원가입 후 더욱 많이 소통해요! <br>
           	<p>
            <a class="btn btn-lg btn-outline-secondary" href="join.jsp" role="button">SIGN UP TODAY!</a></p>
           <%} %>

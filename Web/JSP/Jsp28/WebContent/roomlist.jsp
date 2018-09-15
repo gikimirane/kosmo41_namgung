@@ -52,19 +52,17 @@
 		</div>
 
 		
-	<div class="row" id="messagearea" style="display:none">
-		<div class="col aaa" style="font-size:13px">메시지 입력 > <input type="text"  onkeyup="enterkey()" id ="messageinput">&nbsp;
+	<div class="row aaa" id="messagearea" style="display:none">
+		<div class="col" style="font-size:13px">메시지 입력 > <input type="text"  onkeyup="enterkey()" id ="messageinput">&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="send();">메시지보내기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="noticeAll()">전체공지</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="eraser();">대화창지우기</button>&nbsp;
-			"[/to 사용자 메시지 + 메시지보내기] > 1회 귓속말, [/to 사용자 + 메시지보내기] > 고정 귓속말"
+			<br>"[/to 사용자 메시지 + 메시지보내기] > 1회 귓속말, [/to 사용자 + 메시지보내기] > 고정 귓속말"
 		</div>
-		
 	</div>
-	
-	<div class="row">
+	<p></p>	
+	<div class="row aaa">
 		<div class="col" id="roombtn" style="display:none">
-					
 			<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="modal" href="#myModal">방만들기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="enterroom0()">방나가기</button>&nbsp;
 			<button class="btn btn-outline-secondary btn-sm" type="button" onclick="listview()">전체방목록/방입장</button>&nbsp;
@@ -76,7 +74,7 @@
 	</div>
 	
 	<div class="clearfix visible-xs-block"></div>
-	<div class="row">
+	<div class="row aaa" id="trans" style="display:none; font-size:13px">
 		<div class="radio">
 	    	<input type="radio" name="transoption" id="transoption1" value="0" checked>한국어 / KOREAN ONLY  &nbsp;&nbsp;&nbsp;&nbsp;
 		    <input type="radio" name="transoption" id="transoption2" value="1">한국어 > 영어 / KOREAN > ENGLISH  &nbsp;&nbsp;&nbsp;&nbsp;
@@ -203,13 +201,14 @@ function openSocket(){
 	    var div1 = document.getElementById('chatexit');
 	    var div2 = document.getElementById('messagearea');
 	    var div3 = document.getElementById('chatstart');
-	    
+	    var div4 =document.getElementById('trans');
 	    
 	    if ( div3.style.display = 'block') {
 	        div.style.display = 'none';
 	        div1.style.display = 'none';
 	        div2.style.display = 'none';
 	      	div3.style.display = 'block';
+	      	div4.style.display = 'none';
 	    }
 		writeResponse("접속을 종료합니다.");
 	};
@@ -388,12 +387,14 @@ function join(){
 				    var div1 = document.getElementById('chatexit');
 				    var div2 = document.getElementById('messagearea');
 				    var div3 = document.getElementById('chatstart');
+				    var div4 =document.getElementById('trans');
 				    
 				    if ( div3.style.display = 'block') {
 				        div.style.display = 'block';
 				        div1.style.display = 'block';
 				        div2.style.display = 'block';
 				      	div3.style.display = 'none';
+				      	div4.style.display = 'block';				      	
 				    }
 				    
 				   //내일 html안지워지는거 고쳐
@@ -798,17 +799,13 @@ function writeResponse(text){
 	}else if(text.startsWith('@')){
 		
 		var msg = text.replace(/@/g," ");
-		
-
-		
 		messages.innerHTML += "<br/>"+msg;
-		
-		
 	}
-	else {
-			
+	else {		
 		messages.innerHTML += "<br/>"+text;
 	}
+	
+	
 	if(text.startsWith("접속을 종료합니다.")){
 		
 	}else {

@@ -84,18 +84,29 @@ public class WsServer2 {
 		} else if (com.equals("!방입장")) {
 
 			String room = message.substring(message.indexOf("@") + 1);
+			
+			int myroom = dao.myRoomNo(user);
+			int newroom = Integer.parseInt(room);
+			
+			if(myroom==newroom) {
+				message = "현재 본인이 있는 방입니다.";
+				basic.sendText(">! " + message);
+				return;
+			}			
+			
 			int uCount = dao.changeRoom(user, room);
-
 			if (uCount == 1) {
 				message = user + "님이 방에 입장했습니다.";
 			} else if (uCount == 0) {
 				message = "유효하지 않은 방입니다. 다시 확인해주시기 바랍니다.";
-				basic.sendText(">! " + message);
+				basic.sendText("> " + message);
 				return;
 			} else if (uCount == 2) {
 				message = "입장 가능한 인원이 초과된 방입니다.";
-				basic.sendText(">! " + message);
+				basic.sendText("> " + message);
 				return;
+			}else if(uCount==3) {
+				
 			}
 
 		} else if (com.equals("!메세지")) {

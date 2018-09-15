@@ -58,7 +58,6 @@ public class CDao {
 				e2.printStackTrace();
 			}
 		}
-		
 		return roomno;
 	}
 	public String badWordCheck(String name,String str) {
@@ -497,6 +496,8 @@ public class CDao {
 		String pw="";
 		String rno="";
 		int count=0;
+		
+		
 		
 		for(int i=0;i<dtos.size();i++) {
 			if(dtos.get(i).rno.equals(room)) {
