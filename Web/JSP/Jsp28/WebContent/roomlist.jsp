@@ -291,7 +291,8 @@ function nowroomlist(){
 			console.log(json);
 			var results = eval(json);
 			var html = "<tr><td>같은방 사용자 목록</td></tr>";
-				html += "<tr><td><button type=\"button\" onclick=\"outofroom()\" class=\"btn btn-outline-secondary btn-sm\">강퇴&nbsp;&nbsp;</button><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"changeowner()\">방장인계</button></td></tr>";
+				html += "<tr><td><button type=\"button\" onclick=\"outofroom()\" class=\"btn btn-outline-secondary btn-sm\">강퇴&nbsp;&nbsp;";
+				html +="</button><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"changeowner()\">방장인계</button></td></tr>";
 			for(var i=0;i<results.length;i ++) {
 				html += "<tr>";
 				html += "<td><input type=\"radio\" id=\"nowroom\" name=\"nowroom\" value=\""+results[i].user+"\">"+results[i].user + "</td>";
@@ -535,7 +536,7 @@ function listview(){
 				html += "<tr><td><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"enterRoom()\">방입장</button></td></tr>";
 				for(var i=0;i<results.length;i ++) {
 					html += "<tr>";
-					html += "<td><input type=\"radio\" id=\"allroomlist\" name=\"allroomlist\" value=\""+results[i].room+"/"+results[i].lock+"\">"+ results[i].room + " / "+results[i].lock+" / "+results[i].limit+"</td>";
+					html += "<td><input type=\"radio\" id=\"allroomlist\" name=\"allroomlist\" value=\""+results[i].room+"번방/"+results[i].lock+"\">"+ results[i].room + " / "+results[i].lock+" / "+results[i].limit+"</td>";
 					html += "</tr>";
 				}
 			$("#servermsg").append(html); 

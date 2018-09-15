@@ -14,9 +14,7 @@ import javax.sql.DataSource;
 public class CDao {
 	
 	private static CDao instance = new CDao();
-	DataSource dataSource=null;
-	
-	
+	DataSource dataSource=null;	
 	private CDao() {
 		try {
 			Context context = new InitialContext();
@@ -29,6 +27,9 @@ public class CDao {
 	public static CDao getInstance() {
 		return instance;
 	}
+	
+	
+	
 	//이 사람의 방은 몇번인가?
 	public int myRoomNo(String name) {
 		int roomno=0;

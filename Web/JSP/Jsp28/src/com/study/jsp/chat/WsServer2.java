@@ -28,16 +28,15 @@ public class WsServer2 {
 		int trantype=0; String tran;
 		String translate;
 		
-	//해쉬맵 역할을 해주는애
 		static final java.util.Map<String, Session> clientMap = 
-				java.util.Collections.synchronizedMap(new java.util.HashMap<String, Session>());
+				java.util.Collections.synchronizedMap
+				(new java.util.HashMap<String, Session>());
 
 		public WsServer2() {
 		}
 		
 		@OnOpen
 		public void onOpen(Session session) {
-			//사용자가 접속을 하면 open이야
 			
 			System.out.println("Open session id : "+session.getId());
 			
@@ -56,16 +55,14 @@ public class WsServer2 {
 			dao.deleteroom1(user);
 			dao.exit(user);
 			dao.SQLCall("delete from offen_lang where owner='"+user+"'");
-			
 			clientMap.remove(user);
-			System.out.println("Session "+session.getId()+" has ended");
 			
+			System.out.println("Session "+session.getId()+" has ended");
 		}
 		
 		@OnMessage
 		public void onMessage(String message, Session session) throws SQLException, IOException {
-		//어떤 세션에서 올라오는지, 메시지가 뭔지
-
+		
 		message = dao.badWordServer(message);
 		user = message.substring(0, message.indexOf("|")); // 메시지 보낸사람 id
 		String msg = message.substring(message.indexOf("|"), message.length());
@@ -333,10 +330,8 @@ public class WsServer2 {
 			}
 		}
 		
-		//공지사항
 		private void sendAllSessionToMessage(Session self, String message) {
 			try {
-				
 				Iterator<String> it = clientMap.keySet().iterator();
 				Session session;
 				
@@ -346,7 +341,6 @@ public class WsServer2 {
 					message=dao.badWordCheck(name,message);
 					session.getBasicRemote().sendText("!공지! : "+message);
 				}
-				
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
