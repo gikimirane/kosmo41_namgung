@@ -190,8 +190,9 @@ public class WsServer2 {
 			}
 
 			if (count == 1) {
-				basic.sendText("> " + "방을 나갔습니다.");
-				return;
+				message = ">! " + "방을 나갔습니다.";
+				basic.sendText(message);
+				
 			}
 		} else if (com.equals("!초대받음")) {
 

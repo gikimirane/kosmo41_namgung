@@ -73,12 +73,12 @@ function radio_chk() {
 				<td>
 					<c:choose>
 						<c:when test ="${dto.bHit>=20}">
-							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
+							<c:forEach begin="1" end ="${dto.bIndent}"> > </c:forEach>
 							<a href="content_view.do?bId=${dto.bId}" name="title" id="title">${dto.bTitle}<span class="badge badge-danger">hit!</span></a></td>
 						</c:when>
 						
 						<c:otherwise>
-							<c:forEach begin="1" end ="${dto.bIndent}">-</c:forEach>
+							<c:forEach begin="1" end ="${dto.bIndent}"></c:forEach>
 							<a href="content_view.do?bId=${dto.bId}" name="title" id="title">${dto.bTitle}</a></td>
 						</c:otherwise>
 					</c:choose>

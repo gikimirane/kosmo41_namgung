@@ -22,6 +22,7 @@ public class BReplyCommand implements BCommand {
 		
 		
 		System.out.println("bID"+bTitle);
+		System.out.println("bcontent / "+bContent);
 		
 		BDao dao = BDao.getInstance();
 		dao.reply(bId,bName,bTitle,bContent,bGroup,bStep,bIndent);

@@ -104,8 +104,8 @@
             </li>
           </ul>
         </nav>
-        <h3 class="text-muted">PLACIDO COFFEE</h3>
-      </header>
+        <a href="main.jsp"><h3 class="text-muted">PLACIDO COFFEE</h3></a>
+      
      
     <hr>
     

@@ -18,7 +18,7 @@
 	function form_check(){
 		
 		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-		document.modify_form.submit();
+		document.replyform.submit();
 	}
 </script>
 
@@ -27,7 +27,7 @@
 <body>
 <div class="container">
 <table width=800>
-	<form action ="reply.do" method="post">
+	<form action ="reply.do" method="post" name="replyform">
 		<input type="hidden" name="bId" value="${reply_view.bId }">
 		<input type="hidden" name="bGroup" value="${reply_view.bGroup }">
 		<input type="hidden" name="bStep" value="${reply_view.bStep }">
@@ -52,7 +52,7 @@
 		</tr>
 		<tr>
 			<td>제목</td>
-			<td><input type="text" class="form-control" name="bTitle" value="${reply_view.bTitle} - " ></td>
+			<td><input type="text" class="form-control" name="bTitle" value="Re > ${reply_view.bTitle}" ></td>
 		</tr>
 		<tr>
 			<td>원문 내용</td>
@@ -62,7 +62,7 @@
 		<tr>
 			<td>내용</td>
 			<td>		
-			<textarea name="bContent" id="ir1" rows="10" cols="80">${content_view.bContent}</textarea>
+			<textarea name="bContent" id="ir1" rows="10" cols="80">${content_view.bContent} <br> Re > <br></textarea>
 			<script type="text/javascript">
 				var oEditors = [];
 				nhn.husky.EZCreator.createInIFrame({
@@ -75,7 +75,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan=2 align="right"><input type="submit" value="답변" class="btn btn-outline-secondary btn-sm">&nbsp;
+			<td colspan=2 align="right"><input type="button" class="btn btn-outline-secondary btn-sm" onclick="form_check()" value="답변등록">&nbsp;&nbsp;&nbsp;
 			<a href="list.do?page=<%=session.getAttribute("cpage")%>&search=<%=session.getAttribute("search")%>&input=<%=session.getAttribute("input")%>" class="btn btn-outline-secondary btn-sm">목록보기</a>
 			
 			</td>
