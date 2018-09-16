@@ -85,7 +85,7 @@
 			if(session.getAttribute("ValidMem")!=null){ %>
 
 				<%if(session.getAttribute("logintype").equals("google")){ %>
-					<a class="nav-link" href="https://myaccount.google.com/?utm_source=OGB&utm_medium=act" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="http://www.google.com" id="info" target="_blank">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" onclick="gloginout()">G_LOGOUT</a></li>
 					<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 				
@@ -94,7 +94,7 @@
 					<li class="nav-item"><a class="nav-link" href="#" onclick="fblogout()">F_LOGOUT</a></li>
 				
 				<%}else if(session.getAttribute("logintype").equals("none")){ %>
-					<a class="nav-link" href="./myinfo.jsp" id="info" target="_blank">MYINFO</a></li>
+					<a class="nav-link" href="./myinfo.jsp" id="info">MYINFO</a></li>
 					<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>
 				
 				<%} %>
