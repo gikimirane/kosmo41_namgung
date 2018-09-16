@@ -536,7 +536,7 @@ function listview(){
 				html += "<tr><td><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" onclick=\"enterRoom()\">방입장</button></td></tr>";
 				for(var i=0;i<results.length;i ++) {
 					html += "<tr>";
-					html += "<td><input type=\"radio\" id=\"allroomlist\" name=\"allroomlist\" value=\""+results[i].room+"번방/"+results[i].lock+"\">"+ results[i].room + " / "+results[i].lock+" / "+results[i].limit+"</td>";
+					html += "<td><input type=\"radio\" id=\"allroomlist\" name=\"allroomlist\" value=\""+results[i].room+"/"+results[i].lock+"\"> Room No >"+ results[i].room + " / "+results[i].lock+" / "+results[i].limit+"</td>";
 					html += "</tr>";
 				}
 			$("#servermsg").append(html); 

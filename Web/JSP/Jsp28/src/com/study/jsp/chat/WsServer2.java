@@ -187,7 +187,7 @@ public class WsServer2 {
 			}
 
 			if (count == 1) {
-				message = ">! " + "방을 나갔습니다.";
+				message = "> " + "방을 나갔습니다.";
 				basic.sendText(message);
 				
 			}
@@ -236,8 +236,8 @@ public class WsServer2 {
 			dao.deleteroom1(user);
 			return;
 		} else if (com.equals("!전체공지")) {
-
-			sendAllSessionToMessage(session, usermsg);
+			message =user+"님의 공지!"+usermsg;
+		sendAllSessionToMessage(session, message);
 			return;
 		} else if (com.equals("!강제퇴장")) {
 			String outname = usermsg;
@@ -339,7 +339,7 @@ public class WsServer2 {
 					String name = it.next();
 					session=clientMap.get(name);
 					message=dao.badWordCheck(name,message);
-					session.getBasicRemote().sendText("!공지! : "+message);
+					session.getBasicRemote().sendText("공지! : "+message);
 				}
 			}catch(IOException e) {
 				e.printStackTrace();
