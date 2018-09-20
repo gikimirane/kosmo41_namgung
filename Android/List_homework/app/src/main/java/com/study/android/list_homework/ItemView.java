@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.study.android.list_homework.R;
 
 public class ItemView extends LinearLayout {
+
     private static final String TAG = "lecture";
     TextView textView1;
     TextView textView2;
@@ -18,7 +19,6 @@ public class ItemView extends LinearLayout {
 
     public ItemView(Context context,String gender) {
         super(context);
-
 
         if(gender.equals("남")){
             LayoutInflater inflater =
