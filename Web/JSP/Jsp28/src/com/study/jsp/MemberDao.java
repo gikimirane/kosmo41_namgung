@@ -19,8 +19,14 @@ public class MemberDao {
 	public static final int MEMBER_LOGIN_IS_NOT=-1;
 	
 	private static MemberDao instance = new MemberDao();
-	
+	DataSource dataSource=null;	
 	private MemberDao() {
+		try {
+			Context context = new InitialContext();
+			dataSource = (DataSource)context.lookup("java:comp/env/jdbc/Oracle11g");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static MemberDao getInstance() {
@@ -34,7 +40,7 @@ public class MemberDao {
 		PreparedStatement pstmt=null;
 		String query = "insert into members values (?,?,?,?,?,?,?)";
 		try {
-			con = getConnection();
+			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPw());
@@ -67,7 +73,7 @@ public class MemberDao {
 		String query = "select id from members where id=?";
 		
 		try {
-			con = getConnection();
+			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
 			set = pstmt.executeQuery();
@@ -101,7 +107,7 @@ public class MemberDao {
 		String query = "select pw from members where id=?";
 		
 		try {
-			con =getConnection();
+			con = dataSource.getConnection();
 			pstmt=con.prepareStatement(query);
 			pstmt.setString(1, id);
 			set=pstmt.executeQuery();
@@ -141,7 +147,7 @@ public class MemberDao {
 		String query="select * from members where id=?";
 		
 		try {
-			con=getConnection();
+			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
 			set = pstmt.executeQuery();
@@ -177,7 +183,7 @@ public class MemberDao {
 		String query = "update members set pw=?, eMail=?, address=? where id=?";
 		
 		try {
-			con = getConnection();
+			con = dataSource.getConnection();
 		
 			pstmt =con.prepareStatement(query);
 			pstmt.setString(1, dto.getPw());
@@ -207,7 +213,7 @@ public class MemberDao {
 		String query = "delete from members where id=?";
 		
 		try {
-			con=getConnection();
+			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, dto.getId());
 			ri=pstmt.executeUpdate();
@@ -226,18 +232,6 @@ public class MemberDao {
 		return ri;
 	}
 	
-	private Connection getConnection() {
-		Context context=null;
-		DataSource dataSource=null;
-		Connection con =null;
-		try {
-			context = new InitialContext();
-			dataSource = (DataSource)context.lookup("java:comp/env/jdbc/Oracle11g");
-			con = dataSource.getConnection();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return con;
-	}
+	
 	
 }
