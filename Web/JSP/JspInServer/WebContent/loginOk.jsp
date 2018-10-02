@@ -13,7 +13,7 @@ response.setCharacterEncoding("utf-8");
 
 	String id = request.getParameter("userid");
 	id=URLDecoder.decode(id);
-String pwd = request.getParameter("userpwd");
+	String pwd = request.getParameter("userpwd");
 
 if(id.equals("홍길동")){
 %>

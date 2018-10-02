@@ -61,7 +61,7 @@ public class order extends AppCompatActivity {
     }
 
     public void menuBtnClicked(View v){
-        String sUrl ="http://192.168.0.101:8081/menulist/menulist.jsp";
+        String sUrl ="http://192.168.200.175:8081/menulist/menulist.jsp";
         Log.d(TAG,"sURL : "+sUrl);
         try{
             ContentValues values = new ContentValues();
@@ -74,9 +74,7 @@ public class order extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
-
 
     public class NetworkTask extends AsyncTask<Object, Integer, JSONObject> {
         private String url;
