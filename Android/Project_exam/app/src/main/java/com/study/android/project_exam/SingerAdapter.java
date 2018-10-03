@@ -50,6 +50,7 @@ public class SingerAdapter extends BaseAdapter {
 
         final SingerItem item = items.get(position);
         view.setDrink(item.getDrink());
+        view.setAmount(item.getAmount());
 
 
         return view;

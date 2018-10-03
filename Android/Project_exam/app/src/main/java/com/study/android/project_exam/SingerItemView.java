@@ -10,6 +10,7 @@ import android.widget.TextView;
 public class SingerItemView extends LinearLayout {
 
     TextView textView1;
+    TextView textView2;
 
     public SingerItemView(Context context) {
         super(context);
@@ -19,11 +20,13 @@ public class SingerItemView extends LinearLayout {
         inflater.inflate(R.layout.singer_item_view,this,true);
 
         textView1=findViewById(R.id.textView1);
+        textView2 = findViewById(R.id.textView2);
 
     }
 
     public void setDrink(String drink){
         textView1.setText(drink);
     }
+    public void setAmount(String amount) {textView2.setText(amount); }
 
 }

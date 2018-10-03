@@ -68,7 +68,7 @@ public class RequestHttpURLConnection {
             urlConn.setConnectTimeout(15000);
             urlConn.setDefaultUseCaches(false);
             urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
-            urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8");
+            urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;charset=UTF-8");
             //urlConn.setRequestProperty("Content-Type", "application/json"); //application JSON 형식으로 전송
             urlConn.setRequestProperty("Accept", "text/html"); //서버에 response 데이터를 html로 받음
             urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
@@ -81,11 +81,16 @@ public class RequestHttpURLConnection {
 //                                  .replace("*", "%2A")
 //                                  .replace("%7E", "~")
 //                                  .replace("%3D", "=");
+           /* PrintWriter pw=null;
+            try{
+                pw = new PrintWriter(new OutputStreamWriter(urlConn.getOutputStream(), "UTF-8"));
+            }catch(Exception e){
+                Log.d(TAG,e.getMessage());
+            }
 
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(urlConn.getOutputStream(), "UTF-8"));
             pw.write(strParams);
             pw.flush();
-            pw.close();
+            pw.close();*/
 
 //            OutputStream os = urlConn.getOutputStream();
 //            os.write(strParams.getBytes("UTF-8")); // 출력 스트림에 출력.

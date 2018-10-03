@@ -5,6 +5,9 @@
 <%@page import="java.sql.*" %>
     
 <%
+
+	response.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("utf-8"); 
 	JSONObject obj = new JSONObject();
 
 	

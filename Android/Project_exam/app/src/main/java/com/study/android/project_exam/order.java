@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -19,13 +20,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class order extends AppCompatActivity {
     private static final String TAG = "lecture";
     SingerAdapter adapter;
-    EditText editText1;
-    EditText editText2;
+    TextView textView1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +34,20 @@ public class order extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         adapter = new SingerAdapter(this);
         ListView listView1 = findViewById(R.id.mlist1);
+        textView1 = findViewById(R.id.menu);
 
-/*
-
-        SingerItem item1 = new SingerItem("홍길동");
+        SingerItem item1 = new SingerItem("홍길동","10000원");
         adapter.addItem(item1);
 
-        SingerItem item2 = new SingerItem("강감찬");
+        SingerItem item2 = new SingerItem("강감찬","15000원");
         adapter.addItem(item2);
 
-        SingerItem item3 = new SingerItem("길동이");
+        SingerItem item3 = new SingerItem("길동이","5000원");
         adapter.addItem(item3);
-*/
+        SingerItem item4 = new SingerItem("아이스최해리","1억원");
+        adapter.addItem(item4);
+        SingerItem item5 = new SingerItem("고기고기","16900원");
+        adapter.addItem(item5);
 
 
         listView1.setAdapter(adapter);
@@ -63,6 +66,7 @@ public class order extends AppCompatActivity {
     public void menuBtnClicked(View v){
         String sUrl ="http://192.168.200.175:8081/menulist/menulist.jsp";
         Log.d(TAG,"sURL : "+sUrl);
+
         try{
             ContentValues values = new ContentValues();
             values.put("userid","abcde");
@@ -70,62 +74,35 @@ public class order extends AppCompatActivity {
 
             NetworkTask networkTask = new NetworkTask(sUrl,values);
             networkTask.execute();
-
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public class NetworkTask extends AsyncTask<Object, Integer, JSONObject> {
+    public class NetworkTask extends AsyncTask<Void,Void,String> {
+
         private String url;
         private ContentValues values;
 
-        public NetworkTask(String url, ContentValues values){
+        public NetworkTask(String url, ContentValues values) {
             this.url = url;
             this.values = values;
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(Object... params) {
-            JSONObject rtn = null;
-
-            values.put("id","abcde");
-
+        protected String doInBackground(Void... params) {
             String result;
             RequestHttpURLConnection requestHttpURLConnection =
                     new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values);
+            result = requestHttpURLConnection.request(url, values);
 
-            return rtn;
+            return result;
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-            super.onPostExecute(result);
-
-            if (result != null) {
-                try {
-                    if (!result.getString("menu").isEmpty()) {
-                        Toast.makeText(getApplicationContext(),"DB 성공!", Toast.LENGTH_SHORT).show();
-                        SingerItem item1 = new SingerItem(result.getString("menu"));
-                        adapter.addItem(item1);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "DB 실패!", Toast.LENGTH_SHORT).show();
-            }
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+            textView1.setText(s);
+            Log.d(TAG, "s : " + s);
         }
     }
 }
