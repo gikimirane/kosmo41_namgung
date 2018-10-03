@@ -9,7 +9,14 @@
 	response.setCharacterEncoding("utf-8");
 	request.setCharacterEncoding("utf-8"); 
 	JSONObject obj = new JSONObject();
+	JSONArray jArray = new JSONArray();
+	JSONArray jArray1 = new JSONArray();
 
+	String id = request.getParameter("userid");
+	String pwd = request.getParameter("userpwd");
+	
+	System.out.println("id : "+id);
+	System.out.println("pwd : "+pwd);
 	
 	try {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -19,7 +26,7 @@
 	Connection con=null;
 	Statement stmt = null;
 	ResultSet rs = null;
-	String sql = "select * from menulist";
+	String sql = "select menu,price from menulist order by mno";
 	
 	try {
 	    String user = "scott"; 
@@ -36,8 +43,15 @@
 	    rs = stmt.executeQuery(sql);
 	    
 	    while(rs.next()){
-	    	obj.put("menu",rs.getString("menu"));
+	    	jArray.add(rs.getString("menu"));
+	    	jArray1.add(rs.getString("price"));
 	    }
+	    System.out.println("메뉴 : "+jArray);
+	    System.out.println("금액 : "+jArray1);
+	    
+	    obj.put("menu",jArray);
+	    obj.put("amount",jArray1);
+	    
 	    
 	} catch (SQLException sqle) {
 	    System.out.println("DB 접속실패 : "+sqle.toString());

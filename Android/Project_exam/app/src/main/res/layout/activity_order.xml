@@ -16,17 +16,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/menu"
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="menuBtnClicked"
-        android:text="menu" />
+        android:gravity="center_horizontal"
+        android:text="HAPPY ORDER" />
 
     <ListView
         android:id="@+id/mlist1"
