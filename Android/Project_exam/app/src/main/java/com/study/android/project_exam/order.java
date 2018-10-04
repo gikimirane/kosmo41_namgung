@@ -2,13 +2,19 @@ package com.study.android.project_exam;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,15 +41,18 @@ public class order extends AppCompatActivity {
     SingerAdapter adapter;
     TextView textView1;
     ListView listView1;
+
+    HashMap<String,String> cb = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        listView1 = findViewById(R.id.mlist1);
+        listView1 = findViewById(R.id.listview1);
 
 
-        String sUrl ="http://192.168.200.131:8081/menulist/menulist.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/menulist.jsp";
         Log.d(TAG,"sURL : "+sUrl);
 
         try{
@@ -57,8 +66,32 @@ public class order extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public void codeBtnClicked(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
+        builder.setMessage("주문할 메뉴를 모두 체크하셨습니까?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("알림!")
+                .setCancelable(true)
 
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id){
+                        Toast.makeText(getApplicationContext(),"미구현~! nono",Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getApplicationContext(),orderOk.class);
+                        intent.putExtra("orderlist",cb);
+                        startActivity(intent);
+                        dialog.cancel();
+                    }
+                });
 
+        AlertDialog alert = builder.create();
+        alert.show();
     }
     public void menulist(JSONObject s){
         adapter = new SingerAdapter(this);
@@ -76,16 +109,26 @@ public class order extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        listView1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView1.setAdapter(adapter);
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
                 SingerItem item = (SingerItem)adapter.getItem(position);
-                Toast.makeText(getApplicationContext(),"selected : "+item.getDrink(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),item.getDrink(), Toast.LENGTH_SHORT).show();
+
+                CheckBox checkBox = arg1.findViewById(R.id.checkBox1);
+
+                if(checkBox.isChecked()){
+                    checkBox.setChecked(false);
+                    cb.remove(item.getDrink());
+                }else {
+                    checkBox.setChecked(true);
+                    cb.put(item.getDrink(),item.getAmount());
+                }
             }
         });
-
     }
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {

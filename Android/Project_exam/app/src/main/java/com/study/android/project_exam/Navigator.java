@@ -45,7 +45,6 @@ public class Navigator extends AppCompatActivity {
                 showCurrentLocation();
             }
         });
-
         try{
             MapsInitializer.initialize(this);
         }catch(Exception e){
@@ -67,7 +66,6 @@ public class Navigator extends AppCompatActivity {
         startActivity(intent);
     }
     public void naviBtnClicked(View v){
-
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
@@ -78,10 +76,10 @@ public class Navigator extends AppCompatActivity {
         }
     }
 
-    private void roadmap(Location location){
+    private void roadmap(double lati,double longi){
 
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        double latitude = lati;
+        double longitude = longi;
 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("https://www.google.com/maps/dir/"+latitude+","+longitude+"/37.5492995,126.9187274"));
@@ -90,13 +88,13 @@ public class Navigator extends AppCompatActivity {
 
     private void requestMyLocation(){
         LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
         try{
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if(location!=null){
-                roadmap(location);
+                roadmap(location.getLatitude(),location.getLongitude());
             }
             Log.d(TAG,"내 위치 : "+location.getLatitude()+","+location.getLongitude());
+
         }catch (SecurityException e){
             e.printStackTrace();
             Log.d(TAG,"에러발생 : "+e.getMessage());

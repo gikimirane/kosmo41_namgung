@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
 

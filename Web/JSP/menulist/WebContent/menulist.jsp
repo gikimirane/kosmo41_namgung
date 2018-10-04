@@ -8,6 +8,7 @@
 
 	response.setCharacterEncoding("utf-8");
 	request.setCharacterEncoding("utf-8"); 
+	
 	JSONObject obj = new JSONObject();
 	JSONArray jArray = new JSONArray();
 	JSONArray jArray1 = new JSONArray();
@@ -15,8 +16,7 @@
 	String id = request.getParameter("userid");
 	String pwd = request.getParameter("userpwd");
 	
-	System.out.println("id : "+id);
-	System.out.println("pwd : "+pwd);
+	
 	
 	try {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -26,13 +26,13 @@
 	Connection con=null;
 	Statement stmt = null;
 	ResultSet rs = null;
-	String sql = "select menu,price from menulist order by mno";
+	String sql = "select menu,price from menulist order by mro";
 	
 	try {
 	    String user = "scott"; 
 	    String pw = "tiger";
-	    String url = "jdbc:oracle:thin:@ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:1521:xe";
-	    
+	   // String url = "jdbc:oracle:thin:@ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:1521:xe";
+	    String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	  con = DriverManager.getConnection(
 				url,user,pw);
 	    
@@ -63,8 +63,10 @@
 		if(stmt!=null)stmt.close();
 		if(con!=null)con.close();
 	}
+	if(id.equals("admin")){
+		out.println(obj.toJSONString());
+	}
 	
-	out.println(obj.toJSONString());
 	
 %>
 <!DOCTYPE html>

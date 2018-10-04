@@ -39,7 +39,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".order"></activity>
+        <activity android:name=".order" />
+        <activity android:name=".orderOk"></activity>
     </application>
 
 </manifest>
