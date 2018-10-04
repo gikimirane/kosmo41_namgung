@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="HAPPY ORDER" />
+        android:text="HAPPYCODE ORDER" />
 
     <ListView
         android:id="@+id/listview1"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="codeBtnClicked"
-            android:text="HAPPY CODE" />
+            android:text="MAKE! HAPPYCODE" />
     </LinearLayout>
 
 

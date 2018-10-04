@@ -57,8 +57,7 @@ public class order extends AppCompatActivity {
 
         try{
             HashMap<String, String> values = new HashMap<>();
-            values.put("userid","admin");
-            values.put("userpwd","1234");
+            values.put("id","admin");
 
             NetworkTask networkTask = new NetworkTask(sUrl, values);
             networkTask.execute();
@@ -148,75 +147,8 @@ public class order extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(Object... params) {
             JSONObject result = null;
-
-            try {
-                URL url = new URL(surl);
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                Log.d(TAG,"sUrl:"+surl);
-
-                if(conn != null){
-                    Set<String> set = values.keySet();
-                    Iterator<String> it = set.iterator();
-                    while(it.hasNext())
-                    {
-                        key = it.next();
-                        value = values.get(key);
-                        if(isAnd)
-                        {
-                            sbParams.append("&");
-                        }
-
-                        sbParams.append(key).append("=").append(value);
-
-                        if (!isAnd)
-                            if (set.size() >= 2)
-                                isAnd = true;
-                    }
-                    String strParams = sbParams.toString();
-                    conn.setConnectTimeout(10000);
-                    conn.setRequestMethod("POST");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-                    pw.write(strParams);
-                    pw.flush();
-                    pw.close();
-
-                    int resCode = conn.getResponseCode();
-                    if(resCode != HttpURLConnection.HTTP_OK){
-                        Log.d(TAG, "RequestHttpURLConnection : " + conn.getResponseCode());
-                        return null;
-                    }
-
-                    StringBuilder sb = new StringBuilder();
-                    int status = conn.getResponseCode();
-                    if (status == HttpURLConnection.HTTP_OK) {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"), 8);
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line).append("\n");
-                        }
-                        reader.close();
-                        conn.disconnect();
-                    } else {
-                        throw new IOException("Server returned non-OK status: " +
-                                status + " " +
-                                conn.getResponseMessage());
-                    }
-                    try {
-                        result = new JSONObject(sb.toString());
-                    } catch (JSONException | NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    Log.d(TAG, "CCC");
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            Log.d(TAG, "result = " + result);
-
+            RequestHttpURLConnection request = new RequestHttpURLConnection();
+            result=request.jsonReturn(surl,values);
             return result;
         }
 
@@ -235,9 +167,6 @@ public class order extends AppCompatActivity {
                 Log.d(TAG,"결과없음!");
                 Toast.makeText(getApplicationContext(), "결과없음!!", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
-
-
 }

@@ -11,44 +11,35 @@
 	request.setCharacterEncoding("utf-8"); 
 	
 	JSONObject obj = new JSONObject();
-	JSONArray jArray = new JSONArray();
-	JSONArray jArray1 = new JSONArray();
 	
 	try {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 	}catch(ClassNotFoundException cnfe) {
 		cnfe.printStackTrace();
 	}
+	
+	String menu = request.getParameter("menu");
+	String code = request.getParameter("code");
+	String price = request.getParameter("price");
+	
+	String sql = "insert into orderlist values (?,?,?,'clientNo')";
+	
 	Connection con=null;
-	Statement stmt = null;
-	ResultSet rs = null;
-	
-	String sql = "select menu,price from menulist order by mro";
-	
+	PreparedStatement pstmt = null;
 	try {
 	    String user = "scott"; 
 	    String pw = "tiger";
 	   	//String url = "jdbc:oracle:thin:@ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:1521:xe";
 	    String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	  con = DriverManager.getConnection(
-				url,user,pw);
+	  	con = DriverManager.getConnection(url,user,pw);
 	    
-		stmt = con.createStatement();
-	    System.out.println("Database에 연결되었습니다.\n");
-	    
-	    stmt = con.createStatement();
-	    rs = stmt.executeQuery(sql);
-	    
-	    while(rs.next()){
-	    	jArray.add(rs.getString("menu"));
-	    	jArray1.add(rs.getString("price"));
-	    }
-	    System.out.println("메뉴 : "+jArray);
-	    System.out.println("금액 : "+jArray1);
-	    
-	    obj.put("menu",jArray);
-	    obj.put("amount",jArray1);
-	    
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1,code);
+		pstmt.setString(2,menu);
+		pstmt.setString(3,price);
+		
+		int update = pstmt.executeUpdate();
+	    obj.put("result",update);
 	    
 	} catch (SQLException sqle) {
 	    System.out.println("DB 접속실패 : "+sqle.toString());
@@ -56,14 +47,11 @@
 	    System.out.println("Unkonwn error");
 	    e.printStackTrace();
 	}finally{
-		if(rs!=null)rs.close();
-		if(stmt!=null)stmt.close();
+		if(pstmt!=null)pstmt.close();
 		if(con!=null)con.close();
 	}
 	
-	out.println(obj.toJSONString());
-		
-	
+	out.println(obj.toJSONString());	
 %>
 <!DOCTYPE html>
 <html>

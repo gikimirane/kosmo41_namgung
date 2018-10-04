@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         MyPagerAdapter adapter = new MyPagerAdapter(this);
         pager1.setAdapter(adapter);
-
-
     }
 
     public void naviClicked(View v){

@@ -3,6 +3,9 @@ package com.study.android.project_exam;
 import android.content.ContentValues;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,10 +14,96 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class RequestHttpURLConnection {
     private static final String TAG = "lecture";
+
+    String key;
+    String value;
+    boolean isAnd = false;
+    StringBuffer sbParams = new StringBuffer();
+
+    public JSONObject jsonReturn(String surl, HashMap values){
+
+        JSONObject result = null;
+
+        try {
+            URL url = new URL(surl);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            Log.d(TAG,"sUrl:"+surl);
+
+            if(conn != null){
+                Set<String> set = values.keySet();
+                Iterator<String> it = set.iterator();
+                while(it.hasNext())
+                {
+                    key = it.next();
+                    value = (String) values.get(key);
+
+                    if(isAnd)
+                    {
+                        sbParams.append("&");
+                    }
+
+                    sbParams.append(key).append("=").append(value);
+
+                    if (!isAnd)
+                        if (set.size() >= 2)
+                            isAnd = true;
+                }
+                String strParams = sbParams.toString();
+                conn.setConnectTimeout(10000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+                pw.write(strParams);
+                pw.flush();
+                pw.close();
+
+                int resCode = conn.getResponseCode();
+                if(resCode != HttpURLConnection.HTTP_OK){
+                    Log.d(TAG, "RequestHttpURLConnection : " + conn.getResponseCode());
+                    return null;
+                }
+
+                StringBuilder sb = new StringBuilder();
+                int status = conn.getResponseCode();
+                if (status == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"), 8);
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line).append("\n");
+                    }
+                    reader.close();
+                    conn.disconnect();
+                } else {
+                    throw new IOException("Server returned non-OK status: " +
+                            status + " " +
+                            conn.getResponseMessage());
+                }
+                try {
+                    result = new JSONObject(sb.toString());
+                } catch (JSONException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Log.d(TAG, "CCC");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.d(TAG, "result = " + result);
+
+
+        return result;
+    }
+/*
 
     public String request(String _url, ContentValues _params){
 
@@ -23,9 +112,11 @@ public class RequestHttpURLConnection {
         // URL 뒤에 붙여서 보낼 파라미터.
         StringBuffer sbParams = new StringBuffer();
 
-        /**
+        */
+/**
          * 1. StringBuffer에 파라미터 연결
-         **/
+         **//*
+
         if (_params == null) {
             // 보낼 데이터가 없으면 파라미터를 비운다.
             sbParams.append("");
@@ -54,9 +145,11 @@ public class RequestHttpURLConnection {
             }
         }
 
-        /**
+        */
+/**
          * 2. HttpURLConnection을 통해 web의 데이터를 가져온다.
-         **/
+         **//*
+
         try {
             URL url = new URL(_url);
             urlConn = (HttpURLConnection) url.openConnection();
@@ -81,7 +174,8 @@ public class RequestHttpURLConnection {
 //                                  .replace("*", "%2A")
 //                                  .replace("%7E", "~")
 //                                  .replace("%3D", "=");
-           /* PrintWriter pw=null;
+           */
+/* PrintWriter pw=null;
             try{
                 pw = new PrintWriter(new OutputStreamWriter(urlConn.getOutputStream(), "UTF-8"));
             }catch(Exception e){
@@ -90,7 +184,8 @@ public class RequestHttpURLConnection {
 
             pw.write(strParams);
             pw.flush();
-            pw.close();*/
+            pw.close();*//*
+
 
 //            OutputStream os = urlConn.getOutputStream();
 //            os.write(strParams.getBytes("UTF-8")); // 출력 스트림에 출력.
@@ -131,5 +226,6 @@ public class RequestHttpURLConnection {
 
         return null;
     }
+*/
 
 }
