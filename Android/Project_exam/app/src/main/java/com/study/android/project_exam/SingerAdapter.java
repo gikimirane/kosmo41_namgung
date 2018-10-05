@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class SingerAdapter extends BaseAdapter {
     private static final String TAG = "lecture";
 
     CheckBox checkbox;
+    Spinner spinner;
     Context context;
     ArrayList<SingerItem> items = new ArrayList<>();
 
@@ -45,7 +47,6 @@ public class SingerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         //SingerItemView view = new SingerItemView(getApplicationContext());
-
         SingerItemView view = null;
         if(convertView == null){
             view = new SingerItemView(context);
@@ -56,12 +57,12 @@ public class SingerAdapter extends BaseAdapter {
         final SingerItem item = items.get(position);
         view.setDrink(item.getDrink());
         view.setAmount(item.getAmount());
+        view.setCount(item.getCount());
 
         checkbox = (CheckBox) view.findViewById(R.id.checkBox1);
         checkbox.setChecked(((ListView)parent).isItemChecked(position));
         checkbox.setFocusable(false);
         checkbox.setClickable(false);
-
 
         return view;
     }

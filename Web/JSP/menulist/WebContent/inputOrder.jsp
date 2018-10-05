@@ -4,6 +4,8 @@
 <%@page import="org.json.simple.JSONArray" %>
 <%@page import="org.json.simple.JSONObject" %>
 <%@page import="java.sql.*" %>
+<%@page import="java.text.SimpleDateFormat" %>
+<%@page import="java.util.Date" %>
     
 <%
 
@@ -17,12 +19,16 @@
 	}catch(ClassNotFoundException cnfe) {
 		cnfe.printStackTrace();
 	}
+	Date d = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	sdf.format(d);
 	
 	String menu = request.getParameter("menu");
 	String code = request.getParameter("code");
 	String price = request.getParameter("price");
+	String client = request.getParameter("client");
 	
-	String sql = "insert into orderlist values (?,?,?,'clientNo')";
+	String sql = "insert into orderlist values (?,?,?,?,'결제대기',(SELECT SYSDATE FROM DUAL))";
 	
 	Connection con=null;
 	PreparedStatement pstmt = null;
@@ -37,6 +43,7 @@
 		pstmt.setString(1,code);
 		pstmt.setString(2,menu);
 		pstmt.setString(3,price);
+		pstmt.setString(4,client);
 		
 		int update = pstmt.executeUpdate();
 	    obj.put("result",update);

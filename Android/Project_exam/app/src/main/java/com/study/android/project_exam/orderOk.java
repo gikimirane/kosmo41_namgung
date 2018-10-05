@@ -8,6 +8,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,20 +43,31 @@ public class orderOk extends AppCompatActivity {
         mymenu = findViewById(R.id.mymenu);
         total = findViewById(R.id.total);
         tvCode = findViewById(R.id.tvCode);
-
+        //String count;
 
         Intent intent = getIntent();
         orderlist = (HashMap<String, String>) intent.getSerializableExtra("orderlist");
-       // Iterator<String> keys = orderlist.keySet().iterator();
-        int i=0;
+
+        String count;
         for( String key : orderlist.keySet() ){
-            mymenu.append(key+"  /  "+orderlist.get(key)+"\n");
+
+            //String co = key.substring(key.length()-2,key.length()-1);
+            //int count = Integer.parseInt(co);
+
             price = orderlist.get(key);
+            count = price.substring(0,1);
+            price = price.substring(2,price.length());
             price = price.substring(0,price.length()-1);
-            sum = sum + Integer.parseInt(price);
-            menu = menu+key+"|";
+
+            int subsum = Integer.parseInt(count)*Integer.parseInt(price);
+            sum = sum + subsum;
+
+            mymenu.append(key+"  "+count+"잔  " +price+"원  = "+subsum+"원\n");
+            //메뉴|갯수|금액|
+            menu = menu+key+"|"+count+"|";
         }
         menu = menu.substring(0,menu.length()-1);
+        total.setText(price);
         total.setText("\n지불하실 금액은 "+sum+"원 입니다.");
         totalsum = Integer.toString(sum);
         randomCode(menu);
@@ -64,12 +78,17 @@ public class orderOk extends AppCompatActivity {
         Random ran = new Random();
         int code = ran.nextInt(1000);
         String result = String.format("%04d",code);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/inputOrder.jsp";
         HashMap<String, String> values = new HashMap<>();
         values.put("menu",order);
         values.put("code",result);
         values.put("price",totalsum);
+        values.put("client",refreshedToken);
+
+        Log.d(TAG,"client key : "+refreshedToken);
+
 
         NetworkTask networkTask = new NetworkTask(sUrl, values);
         networkTask.execute();

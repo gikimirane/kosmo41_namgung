@@ -4,11 +4,14 @@ public class SingerItem {
 
     private String drink;
     private String amount;
+    private String count="0";
 
     public SingerItem(String drink, String amount) {
         this.drink = drink;
         this.amount = amount;
+        this.count=count;
     }
+
 
     public String getDrink() {
         return drink;
@@ -24,5 +27,12 @@ public class SingerItem {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getCount() {
+        return count;
+    }
+    public void setCount(String count) {
+        this.count = count;
     }
 }

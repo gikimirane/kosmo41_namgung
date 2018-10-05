@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class order extends AppCompatActivity {
     SingerAdapter adapter;
     TextView textView1;
     ListView listView1;
-
+    HashMap<Integer,String> selectedItems = new HashMap<>();
     HashMap<String,String> cb = new HashMap<>();
 
     @Override
@@ -67,67 +68,139 @@ public class order extends AppCompatActivity {
         }
     }
     public void codeBtnClicked(View v){
-        AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
-        builder.setMessage("주문할 메뉴를 모두 체크하셨습니까?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("알림!")
-                .setCancelable(true)
 
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id){
-                        Toast.makeText(getApplicationContext(),"미구현~! nono",Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getApplicationContext(),orderOk.class);
-                        intent.putExtra("orderlist",cb);
-                        startActivity(intent);
-                        dialog.cancel();
-                    }
-                });
+        if(cb.size()>0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
+            builder.setMessage("주문할 메뉴를 모두 체크하셨습니까?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("알림!")
+                    .setCancelable(true)
 
-        AlertDialog alert = builder.create();
-        alert.show();
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id){
+                            Toast.makeText(getApplicationContext(),"미구현~! nono",Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(),orderOk.class);
+                            intent.putExtra("orderlist",cb);
+                            startActivity(intent);
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
+            builder.setMessage("주문할 메뉴를 체크하세요.")
+
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
     public void menulist(JSONObject s){
         adapter = new SingerAdapter(this);
+        SingerItem item;
         String menulist;
         String price;
+
         try {
             JSONArray menu = (JSONArray) s.get("menu");
             JSONArray amount = (JSONArray) s.get("amount");
 
             for(int i=0;i<menu.length();i++){
+
                 menulist = menu.getString(i);
                 price = amount.getString(i);
-                adapter.addItem(new SingerItem(menulist,price));
+
+                item = new SingerItem(menulist,price);
+                adapter.addItem(item);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
         listView1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView1.setAdapter(adapter);
+
+
+
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
-                SingerItem item = (SingerItem)adapter.getItem(position);
-                //Toast.makeText(getApplicationContext(),item.getDrink(), Toast.LENGTH_SHORT).show();
+                final SingerItem item = (SingerItem) adapter.getItem(position);
+                final CheckBox checkBox = arg1.findViewById(R.id.checkBox1);
+                final Spinner spinner = arg1.findViewById(R.id.spinner);
 
-                CheckBox checkBox = arg1.findViewById(R.id.checkBox1);
+                //클릭 이벤트가 있을 때의 스피너 값을 다시 재 셋팅
+                item.setCount(spinner.getSelectedItem().toString());
+                adapter.notifyDataSetChanged();
 
-                if(checkBox.isChecked()){
-                    checkBox.setChecked(false);
+                //체크가 트루상태이면 클릭 들어왔을때 off 해야 하니까..
+                if (checkBox.isChecked()) {
                     cb.remove(item.getDrink());
-                }else {
-                    checkBox.setChecked(true);
-                    cb.put(item.getDrink(),item.getAmount());
+
+                    checkBox.setChecked(false);
+                    spinner.setSelection(0);
+
+                    //체크가 해제되어 있어야 체크로 시켜주기 위해 체크
+                } else if(!checkBox.isChecked()){
+                    if(spinner.getSelectedItem().toString().equals("0")){
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
+                        builder.setMessage("수량을 선택하세요.")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        dialog.cancel();
+                                        checkBox.setChecked(false);
+                                    }
+                                });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                    else if(!spinner.getSelectedItem().toString().equals("0")){
+                        cb.remove(item.getDrink()); //지우고
+                        checkBox.setChecked(true);
+                        cb.put(item.getDrink(), spinner.getSelectedItem().toString()+"|"+item.getAmount()); //다시넣고
+                    }
                 }
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        final SingerItem item = (SingerItem) adapter.getItem(position);
+                        Log.d(TAG,"찍혀라 얍얍");
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
         });
+
+
+
+
+
     }
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
