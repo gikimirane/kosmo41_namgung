@@ -62,8 +62,7 @@
 	}
 	
 	out.println(obj.toJSONString());
-		
-	
+			
 %>
 <!DOCTYPE html>
 <html>

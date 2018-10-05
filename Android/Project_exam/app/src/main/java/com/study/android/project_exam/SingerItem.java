@@ -5,6 +5,8 @@ public class SingerItem {
     private String drink;
     private String amount;
     private String count="0";
+    private boolean ischeck = false;
+
 
     public SingerItem(String drink, String amount) {
         this.drink = drink;
@@ -35,4 +37,12 @@ public class SingerItem {
     public void setCount(String count) {
         this.count = count;
     }
+
+    public boolean getIsCheck() {
+        return ischeck;
+    }
+    public void setIscheck(boolean ischeck) {
+        this.ischeck = ischeck;
+    }
+
 }

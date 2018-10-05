@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -18,6 +20,7 @@ public class SingerItemView extends LinearLayout {
     private static final String TAG = "lecture";
     TextView textView1;
     TextView textView2;
+    CheckBox checkBox;
     Spinner spinner;
     String[] count = {"0","1","2","3","4","5","6"};
 
@@ -33,6 +36,14 @@ public class SingerItemView extends LinearLayout {
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),android.R.layout.simple_spinner_item,count);
+
+        checkBox=findViewById(R.id.checkBox1);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
 
         spinner = findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
@@ -56,5 +67,5 @@ public class SingerItemView extends LinearLayout {
     }
     public void setAmount(String amount) {textView2.setText(amount); }
     public void setCount(String count) { spinner.setSelection(Integer.parseInt(count));}
-
+    public void setIscheck(boolean ch) { checkBox.setChecked(ch);}
 }

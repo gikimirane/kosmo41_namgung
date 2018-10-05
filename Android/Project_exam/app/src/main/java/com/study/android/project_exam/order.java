@@ -42,6 +42,7 @@ public class order extends AppCompatActivity {
     SingerAdapter adapter;
     TextView textView1;
     ListView listView1;
+    Spinner spinner;
     HashMap<Integer,String> selectedItems = new HashMap<>();
     HashMap<String,String> cb = new HashMap<>();
 
@@ -136,8 +137,6 @@ public class order extends AppCompatActivity {
         listView1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView1.setAdapter(adapter);
 
-
-
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -153,8 +152,8 @@ public class order extends AppCompatActivity {
                 //체크가 트루상태이면 클릭 들어왔을때 off 해야 하니까..
                 if (checkBox.isChecked()) {
                     cb.remove(item.getDrink());
-
                     checkBox.setChecked(false);
+                    item.setIscheck(false);
                     spinner.setSelection(0);
 
                     //체크가 해제되어 있어야 체크로 시켜주기 위해 체크
@@ -179,6 +178,7 @@ public class order extends AppCompatActivity {
                     else if(!spinner.getSelectedItem().toString().equals("0")){
                         cb.remove(item.getDrink()); //지우고
                         checkBox.setChecked(true);
+                        item.setIscheck(true);
                         cb.put(item.getDrink(), spinner.getSelectedItem().toString()+"|"+item.getAmount()); //다시넣고
                     }
                 }
@@ -196,11 +196,6 @@ public class order extends AppCompatActivity {
                 });
             }
         });
-
-
-
-
-
     }
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {

@@ -57,7 +57,6 @@
 		if(pstmt!=null)pstmt.close();
 		if(con!=null)con.close();
 	}
-	
 	out.println(obj.toJSONString());	
 %>
 <!DOCTYPE html>

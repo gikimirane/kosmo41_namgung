@@ -58,9 +58,10 @@ public class SingerAdapter extends BaseAdapter {
         view.setDrink(item.getDrink());
         view.setAmount(item.getAmount());
         view.setCount(item.getCount());
+        view.setIscheck(item.getIsCheck());
 
         checkbox = (CheckBox) view.findViewById(R.id.checkBox1);
-        checkbox.setChecked(((ListView)parent).isItemChecked(position));
+       // checkbox.setChecked(((ListView)parent).isItemChecked(position));
         checkbox.setFocusable(false);
         checkbox.setClickable(false);
 
