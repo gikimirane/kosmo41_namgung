@@ -1,21 +1,15 @@
 package com.study.android.project_exam;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,45 +19,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 public class order extends AppCompatActivity {
     private static final String TAG = "lecture";
-    SingerAdapter adapter;
+    menulistAdapter adapter;
     TextView textView1;
     ListView listView1;
     Spinner spinner;
-    HashMap<Integer,String> selectedItems = new HashMap<>();
     HashMap<String,String> cb = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-
         listView1 = findViewById(R.id.listview1);
 
-
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/menulist.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         Log.d(TAG,"sURL : "+sUrl);
 
         try{
             HashMap<String, String> values = new HashMap<>();
-            values.put("id","admin");
+            values.put("order","menu");
 
             NetworkTask networkTask = new NetworkTask(sUrl, values);
             networkTask.execute();
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -111,8 +92,8 @@ public class order extends AppCompatActivity {
         }
     }
     public void menulist(JSONObject s){
-        adapter = new SingerAdapter(this);
-        SingerItem item;
+        adapter = new menulistAdapter(this);
+        menulistItem item;
         String menulist;
         String price;
 
@@ -125,7 +106,7 @@ public class order extends AppCompatActivity {
                 menulist = menu.getString(i);
                 price = amount.getString(i);
 
-                item = new SingerItem(menulist,price);
+                item = new menulistItem(menulist,price);
                 adapter.addItem(item);
 
             }
@@ -141,7 +122,7 @@ public class order extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
-                final SingerItem item = (SingerItem) adapter.getItem(position);
+                final menulistItem item = (menulistItem) adapter.getItem(position);
                 final CheckBox checkBox = arg1.findViewById(R.id.checkBox1);
                 final Spinner spinner = arg1.findViewById(R.id.spinner);
 
@@ -152,21 +133,22 @@ public class order extends AppCompatActivity {
                 //체크가 트루상태이면 클릭 들어왔을때 off 해야 하니까..
                 if (checkBox.isChecked()) {
                     cb.remove(item.getDrink());
-                    checkBox.setChecked(false);
-                    item.setIscheck(false);
+
+                    item.setCount("0");
                     spinner.setSelection(0);
+                    item.setIscheck(false);
+                    checkBox.setChecked(false);
+                    Log.d(TAG,"아이템.getCount : "+item.getCount());
 
                     //체크가 해제되어 있어야 체크로 시켜주기 위해 체크
                 } else if(!checkBox.isChecked()){
                     if(spinner.getSelectedItem().toString().equals("0")){
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
                         builder.setMessage("수량을 선택하세요.")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int id) {
-
                                         dialog.cancel();
                                         checkBox.setChecked(false);
                                     }
@@ -186,7 +168,7 @@ public class order extends AppCompatActivity {
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        final SingerItem item = (SingerItem) adapter.getItem(position);
+                        final menulistItem item = (menulistItem) adapter.getItem(position);
                         Log.d(TAG,"찍혀라 얍얍");
                     }
                     @Override
@@ -198,10 +180,12 @@ public class order extends AppCompatActivity {
         });
     }
 
+
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
 
         private String surl;
         private HashMap<String,String> values;
+        //ContentValues values = new ContentValues();
         StringBuffer sbParams = new StringBuffer();
         String key;
         String value;
@@ -216,13 +200,12 @@ public class order extends AppCompatActivity {
         protected JSONObject doInBackground(Object... params) {
             JSONObject result = null;
             RequestHttpURLConnection request = new RequestHttpURLConnection();
-            result=request.jsonReturn(surl,values);
+            result = request.jsonReturn(surl,values);
             return result;
         }
 
         public void onPostExecute(JSONObject s) {
             super.onPostExecute(s);
-
             if(s!=null){
                 try {
                     Log.d(TAG, "s : " + s.getString("menu"));

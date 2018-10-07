@@ -1,7 +1,15 @@
 package com.study.android.project_exam;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +19,9 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.RemoteMessage;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +42,7 @@ import java.util.Set;
 
 public class orderOk extends AppCompatActivity {
     HashMap<String, String> orderlist;
+
     TextView mymenu,total,tvCode;
     int sum;
     String price;
@@ -81,8 +93,11 @@ public class orderOk extends AppCompatActivity {
         String result = String.format("%04d",code);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/inputOrder.jsp";
-        HashMap<String, String> values = new HashMap<>();
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
+        HashMap<String,String> values= new HashMap<>();
+      //  ContentValues values = new ContentValues();
+        values.put("order","orderinput");
         values.put("menu",order);
         values.put("code",result);
         values.put("price",totalsum);
@@ -103,9 +118,9 @@ public class orderOk extends AppCompatActivity {
     }
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
-
         private String surl;
         private HashMap<String,String> values;
+        //ContentValues values = new ContentValues();
         StringBuffer sbParams = new StringBuffer();
         String key;
         String value;
@@ -132,6 +147,7 @@ public class orderOk extends AppCompatActivity {
                     Log.d(TAG, "s : " + s.getString("result"));
                     Toast.makeText(getApplicationContext(), "db 입력 결과는! "+s.getString("result"), Toast.LENGTH_LONG).show();
 
+                    //Toast.makeText(getApplicationContext(), "push 결과는! "+s.getString("result"), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -141,7 +157,4 @@ public class orderOk extends AppCompatActivity {
             }
         }
     }
-
-
-
 }

@@ -1,33 +1,27 @@
 package com.study.android.project_exam;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class SingerAdapter extends BaseAdapter {
+public class menulistAdapter extends BaseAdapter {
     private static final String TAG = "lecture";
 
     CheckBox checkbox;
     Spinner spinner;
     Context context;
-    ArrayList<SingerItem> items = new ArrayList<>();
+    ArrayList<menulistItem> items = new ArrayList<>();
 
-    public SingerAdapter(Context context){
+    public menulistAdapter(Context context){
         this.context = context;
 
     }
-    public void addItem(SingerItem item){ items.add(item); }
+    public void addItem(menulistItem item){ items.add(item); }
 
 
     @Override
@@ -46,15 +40,15 @@ public class SingerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        //SingerItemView view = new SingerItemView(getApplicationContext());
-        SingerItemView view = null;
+
+        menulistItemView view = null;
         if(convertView == null){
-            view = new SingerItemView(context);
+            view = new menulistItemView(context);
         }else {
-            view = (SingerItemView)convertView;
+            view = (menulistItemView)convertView;
         }
 
-        final SingerItem item = items.get(position);
+        final menulistItem item = items.get(position);
         view.setDrink(item.getDrink());
         view.setAmount(item.getAmount());
         view.setCount(item.getCount());

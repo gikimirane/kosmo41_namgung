@@ -1,6 +1,6 @@
 package com.study.android.project_exam;
 
-public class SingerItem {
+public class menulistItem {
 
     private String drink;
     private String amount;
@@ -8,13 +8,11 @@ public class SingerItem {
     private boolean ischeck = false;
 
 
-    public SingerItem(String drink, String amount) {
+    public menulistItem(String drink, String amount) {
         this.drink = drink;
         this.amount = amount;
         this.count=count;
     }
-
-
     public String getDrink() {
         return drink;
     }

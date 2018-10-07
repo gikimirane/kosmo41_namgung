@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,9 +29,7 @@ public class RequestHttpURLConnection {
     StringBuffer sbParams = new StringBuffer();
 
     public JSONObject jsonReturn(String surl, HashMap values){
-
         JSONObject result = null;
-
         try {
             URL url = new URL(surl);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -55,15 +54,41 @@ public class RequestHttpURLConnection {
                         if (set.size() >= 2)
                             isAnd = true;
                 }
+
+                Log.d(TAG,"파라미터 : "+sbParams);
+
                 String strParams = sbParams.toString();
+               /* strParams = URLEncoder.encode(strParams, "UTF-8")
+                                  .replace("+", "%20")
+                                  .replace("*", "%2A")
+                                  .replace("%7E", "~")
+                                  .replace("%3D", "=");*/
+
+
+
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
+                Log.d(TAG, "strParams : " + strParams);
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
                 pw.write(strParams);
                 pw.flush();
                 pw.close();
+
+               /* conn.setConnectTimeout(10000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;charset=UTF-8");
+                //conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept", "text/html"); //서버에 response 데이터를 html로 받음
+                conn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+                pw.write(strParams);
+                pw.flush();
+                pw.close();*/
+
 
                 int resCode = conn.getResponseCode();
                 if(resCode != HttpURLConnection.HTTP_OK){

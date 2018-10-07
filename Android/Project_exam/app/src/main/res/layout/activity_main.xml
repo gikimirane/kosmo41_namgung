@@ -31,11 +31,18 @@
         android:text="PLACIDO INFO" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="orderClicked"
         android:text="HAPPYCODE ORDER" />
+
+    <Button
+        android:id="@+id/orderlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="orderlistClicked"
+        android:text="MY ORDERLIST" />
 
 
 </LinearLayout>

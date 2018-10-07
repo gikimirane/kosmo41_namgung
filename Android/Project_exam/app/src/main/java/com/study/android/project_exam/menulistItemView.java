@@ -4,32 +4,29 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SingerItemView extends LinearLayout {
+public class menulistItemView extends LinearLayout {
     private static final String TAG = "lecture";
     TextView textView1;
     TextView textView2;
     CheckBox checkBox;
     Spinner spinner;
     String[] count = {"0","1","2","3","4","5","6"};
+    private View header;
 
-    public SingerItemView(final Context context) {
+    public menulistItemView(final Context context) {
         super(context);
 
         LayoutInflater inflater =
                 (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.singer_item_view,this,true);
+        inflater.inflate(R.layout.menulist_item_view,this,true);
 
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
@@ -47,10 +44,13 @@ public class SingerItemView extends LinearLayout {
 
         spinner = findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
+        header = inflater.inflate(R.layout.activity_order, null, false);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TAG","여기서 SingerItem setting하고 싶다.");
+
+                Log.d("TAG","view 리스너에서 설정하고 싶다.");
             }
 
             @Override
