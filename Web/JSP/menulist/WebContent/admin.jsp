@@ -19,5 +19,8 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>
 
+<h1>ADMIN PAGE 입니다.</h1>
+
+
 </body>
 </html>

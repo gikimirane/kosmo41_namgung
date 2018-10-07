@@ -36,9 +36,7 @@ public class ListFragment extends Fragment {
 
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_list, container, false);
-
         ListView listView = (ListView) rootView.findViewById(R.id.listView);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),android.R.layout.simple_list_item_1,values);
 

@@ -23,14 +23,16 @@
         app:tabIndicatorColor="@android:color/holo_orange_light">
 
         <android.support.design.widget.TabItem
+            android:id="@+id/tab1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="결제대기" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/tab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="결제완료 및 취소" />
+            android:text="결제완료" />
 
     </android.support.design.widget.TabLayout>
 

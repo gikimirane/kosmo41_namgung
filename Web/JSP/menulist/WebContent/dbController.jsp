@@ -50,6 +50,10 @@
 		String client = request.getParameter("client");
 		client = URLDecoder.decode(client,"UTF-8");
 		obj = db.myorderlist(client);
+	}else if(order.equals("mysuccess")){
+		String client = request.getParameter("client");
+		client = URLDecoder.decode(client,"UTF-8");
+		obj = db.mysuccesslist(client);
 	}
 	
 	out.println(obj.toJSONString());

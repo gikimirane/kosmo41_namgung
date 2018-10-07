@@ -125,7 +125,57 @@ public class ADao {
         }
 		return re;
 	}
-	
+	public JSONObject mysuccesslist(String client) {
+		JSONObject obj = new JSONObject();
+		JSONArray cArray = new JSONArray();
+		JSONArray mArray = new JSONArray();
+		JSONArray pArray = new JSONArray();
+		
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT code,menulist,price FROM orderlist where clientno=? and status = '결제완료' order by status";
+			
+		try {
+		    System.out.println("Database에 연결되었습니다.\n");
+		    con = dataSource.getConnection();
+		    pstmt = con.prepareStatement(sql);
+		    pstmt.setString(1, client);
+		    rs = pstmt.executeQuery();
+		    
+		    while(rs.next()){
+		    	cArray.add(rs.getString("code"));
+		    	mArray.add(rs.getString("menulist"));
+		    	pArray.add(rs.getString("price"));
+		    }
+		    System.out.println("메뉴 : "+mArray);
+		    System.out.println("금액 : "+pArray);
+		    System.out.println("코드 : "+cArray);
+		    
+		    obj.put("menu",mArray);
+		    obj.put("price",pArray);
+		    obj.put("code", cArray);
+		    
+		    
+		 
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}		
+		
+		return obj;
+	}
 	public JSONObject myorderlist(String client) {
 		JSONObject obj = new JSONObject();
 		JSONArray cArray = new JSONArray();
