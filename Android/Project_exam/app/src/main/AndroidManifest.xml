@@ -53,7 +53,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".myorderlist"></activity>
+        <activity android:name=".myorderlist" />
+        <activity android:name=".webview"></activity>
     </application>
 
 </manifest>
