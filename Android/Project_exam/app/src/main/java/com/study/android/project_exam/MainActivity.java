@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),myorderlist.class);
         startActivity(intent);
     }
+    public void webBtnClicked(View v){
+        Intent intent = new Intent(getApplicationContext(),webview.class);
+        startActivity(intent);
+    }
 
     class MyPagerAdapter extends PagerAdapter {
         private LayoutInflater inflater;

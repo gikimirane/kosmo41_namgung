@@ -37,7 +37,7 @@ public class Fragment1 extends Fragment {
 
     public void requestdata(){
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/androidpage/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","myorderlist");
         values.put("client",refreshedToken);

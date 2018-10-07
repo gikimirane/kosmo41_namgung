@@ -25,15 +25,7 @@
     <!--
     <Manager pathname="" />
     -->
-   <Resource auth="Container" 
-   			 driverClassName="oracle.jdbc.driver.OracleDriver" 
-   			 maxActive="5" 
-   			 maxWait="7000" 
-   			 name="jdbc/Oracle11g" 
-   			 password="tiger" 
-   			 type="javax.sql.DataSource" 
-   			 url="jdbc:oracle:thin:@ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:1521:xe" 
-   			 username="scott"/>
+   <Resource auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="5" maxWait="7000" name="jdbc/Oracle11g" password="tiger" type="javax.sql.DataSource" url="jdbc:oracle:thin:@ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:1521:xe" username="scott"/>
    
     
 </Context>

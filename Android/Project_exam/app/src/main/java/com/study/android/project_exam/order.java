@@ -35,7 +35,7 @@ public class order extends AppCompatActivity {
         setContentView(R.layout.activity_order);
         listView1 = findViewById(R.id.listview1);
 
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/androidpage/dbController.jsp";
         //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         Log.d(TAG,"sURL : "+sUrl);
 
