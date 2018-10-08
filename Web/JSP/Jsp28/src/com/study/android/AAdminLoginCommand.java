@@ -16,7 +16,7 @@ public class AAdminLoginCommand implements ACommand {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		ArrayList<ADto> list = new ArrayList<>();
-		
+		PrintWriter writer = response.getWriter();
 		String inputId = request.getParameter("id");
 		String inputPw=request.getParameter("pw");
 		ADao dao = ADao.getInstance();

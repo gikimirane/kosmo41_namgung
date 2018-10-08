@@ -15,10 +15,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,10 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     ViewPager pager1;
     int count;
+    int up=0,down=0,btncount=0;
+    LinearLayout layout;
+    Context context;
+    Button btn02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,49 @@ public class MainActivity extends AppCompatActivity {
         pager1.setAdapter(adapter);
 
     }
+    public boolean onKeyBack(int keyCode,KeyEvent event){
+        return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            up++;
+            Log.d("TAG","업 :"+up);
+        }
+        else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            down++;
+            Log.d("TAG","다운 :"+down);
+        }
+
+        if(up==2 && down ==2 && btncount==0){
+            up=0;
+            down=0;
+            btncount=1;
+            context = this;
+            layout = findViewById(R.id.layout);
+            btn02 = new Button(context);
+            btn02.setText("ADMIN PAGE");
+            layout.addView(btn02);
+            btn02.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    webBtnClicked(v);
+                }
+            });
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void loginClicked(View v){
+        Intent intent = new Intent(getApplicationContext(),loginView.class);
+        startActivity(intent);
+    }
+    public void joinClicked(View v){
+        Intent intent = new Intent(getApplicationContext(),JoinView.class);
+        startActivity(intent);
+    }
+
 
     public void naviClicked(View v){
         Intent intent = new Intent(getApplicationContext(),Navigator.class);
@@ -54,8 +103,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void orderlistClicked(View v){
+
         Intent intent = new Intent(getApplicationContext(),myorderlist.class);
         startActivity(intent);
+
+
     }
     public void webBtnClicked(View v){
         Intent intent = new Intent(getApplicationContext(),webview.class);

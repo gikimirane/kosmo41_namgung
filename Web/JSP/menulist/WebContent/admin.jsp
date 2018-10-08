@@ -9,16 +9,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script>
-	function form_check(){
-		var id = document.getElementById('id').value;
-		var pw = document.getElementById('pw').value;
-		if(id=="" || pw==""){
-			alert("ADMIN ID와 PW를 입력하세요.");
-		}else if(id==admin && pw==7786){
-			alert("PLACIDO ADMIN님 반갑습니다!");
-			document.frm_form.submit();
-		}
+function form_check(){
+	var id = document.getElementById('id').value;
+	var pw = document.getElementById('pw').value;
+	var myid="admin";
+	var mypw="7786";
+	if(id=="" || pw==""){
+		alert("ADMIN ID와 PW를 입력하세요.");
+	}else if(id==myid && pw==mypw){
+		alert("PLACIDO ADMIN님 반갑습니다!");
+		document.frm_form.submit();
+		
+	}else {
+		alert("올바른 ADMIN ID와 PW를 입력하세요.");
 	}
+}
 	
 	
 </script>
@@ -35,12 +40,11 @@
 	<div class="container">
 		<h1>ADMIN PAGE 입니다.</h1>
 		<div class="row">
-			<form action="adminpage.jsp" name="frm_form">
+			<form action="adminpage.jsp" name="frm_form"  method = "post">
 			<input type="text" class="form-control btn btn-outline-secondary" id="id" name="id" placeholder="Enter ADMIN ID" style="width:400px;height:31px;">
 		 	<input type="password" class="form-control btn btn-outline-secondary" id="pw" name="pw" placeholder="Enter ADMIN PW" style="width:400px; height:31px;">&nbsp;
-			<input type="hidden" id="type" name="type" value="none">
-			<a href="#" onclick="javascript:form_check()" class="btn btn-outline-secondary btn-sm">LOGIN</a>&nbsp;
 			
+			<a href="#" onclick="form_check()" class="btn btn-outline-secondary btn-sm">LOGIN</a>&nbsp;
 	  		</form>
   		</div>
 	</div>

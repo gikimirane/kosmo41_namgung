@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,9 +20,31 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/ViewPager1"
         android:layout_width="match_parent"
-        android:layout_height="250dp" >
+        android:layout_height="250dp">
 
     </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="loginClicked"
+            android:text="login" />
+
+        <Button
+            android:id="@+id/join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="joinClicked"
+            android:text="join" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/Navigator"
@@ -43,13 +66,6 @@
         android:layout_height="wrap_content"
         android:onClick="orderlistClicked"
         android:text="MY ORDERLIST" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="webBtnClicked"
-        android:text="WEBVIEW" />
 
 
 </LinearLayout>

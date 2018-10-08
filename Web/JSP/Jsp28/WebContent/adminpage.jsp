@@ -22,10 +22,10 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 
-function orderlist(){
+/* function orderlist(){
 	orderlist.innerHTML = "";
 	$.ajax({
-		url : './adminlogin.admin',
+		url : './adminlogin.ad',
 		type : 'POST',
 		dataType : 'json',
 		error : function(xhr,status,error){
@@ -35,7 +35,7 @@ function orderlist(){
 		success : function(json){
 			var results = eval(json);
 			var html = "<tr><td>전체 주문 보기</td></tr>";
-				html += "<tr><td><button type=\"button\" class=\"btn btn-outline-secondary btn-sm\" id=\"instancesend\" onclick=\"popupmsg()\">쪽지보내기</button></td></tr>";
+				
 				for(var i=0;i<results.length;i ++) {
 					html += "<tr>";
 					html += "<td><input type=\"radio\" id=\"alluserlist\" name=\"alluserlist\" value=\""+results[i].user+"\">"+results[i].user + "</td>";
@@ -45,17 +45,45 @@ function orderlist(){
 		}
 	});
 	
-}
+} */
 </script>
 <body>
 	<div class="container">
 		<h1>ADMIN PAGE 입니다.</h1>
 		<div class="row">
-			<a href="#" onclick="orderlist()" class="btn btn-outline-secondary btn-sm">ORDER LIST</a>&nbsp;
+			<a href="./adminlogin.ad" class="btn btn-outline-secondary btn-sm">ORDER LIST</a>&nbsp;
   		</div>
   		<div class="row">
   			<div class="col" id="orderlist" style="overflow:auto;background-color:#F3E9E8"></div>
   		</div>
 	</div>
+	
+	<div class="container">
+		<table class="table table-hover">
+			<thead>
+			<tr>
+				<th scope="col">코드</th>
+				<th scope="col">메뉴</th>
+				<th scope="col">금액</th>
+				<th scope="col">상태</th>
+				<th scope="col">주문날짜</th>
+				<!-- <th scope="col">고객정보</th>
+ -->			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${list}" var="dto">
+			<tr>
+				<td width="50">${dto.code}</td>
+				<td width="100">${dto.menu}</td>
+				<td width="50">${dto.price}</td>
+				<td width="50">${dto.status}</td>
+				<td width="50">${dto.date}</td>
+				<%-- <td width="50">${dto.clientno}</td> --%>
+			</tr>
+			</c:forEach>
+			</tbody>
+	</table>
+	
+	
 </body>
 </html>

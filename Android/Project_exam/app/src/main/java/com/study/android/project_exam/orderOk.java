@@ -93,7 +93,7 @@ public class orderOk extends AppCompatActivity {
         String result = String.format("%04d",code);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/androidpage/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
         //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         HashMap<String,String> values= new HashMap<>();
       //  ContentValues values = new ContentValues();

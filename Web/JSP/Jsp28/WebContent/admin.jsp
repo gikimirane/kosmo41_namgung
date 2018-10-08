@@ -39,10 +39,10 @@ function form_check(){
 	<div class="container">
 		<h1>ADMIN PAGE 입니다.</h1>
 		<div class="row">
-			<form action="adminpage.jsp" name="frm_form">
+			<form action="adminpage.jsp" name="frm_form"  method = "post">
 			<input type="text" class="form-control btn btn-outline-secondary" id="id" name="id" placeholder="Enter ADMIN ID" style="width:400px;height:31px;">
 		 	<input type="password" class="form-control btn btn-outline-secondary" id="pw" name="pw" placeholder="Enter ADMIN PW" style="width:400px; height:31px;">&nbsp;
-			<input type="hidden" id="type" name="type" value="none">
+			
 			<a href="#" onclick="form_check()" class="btn btn-outline-secondary btn-sm">LOGIN</a>&nbsp;
 	  		</form>
   		</div>

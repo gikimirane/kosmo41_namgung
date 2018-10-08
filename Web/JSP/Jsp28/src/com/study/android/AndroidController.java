@@ -40,23 +40,14 @@ public class AndroidController extends HttpServlet {
 		System.out.println("com은?"+com);
 		ACommand command;
 		String viewPage="";
-		
 		if(com.equals("/adminlogin.ad")) {
 			command = new AAdminLoginCommand();
 			command.execute(request, response);
 			viewPage = "adminpage.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-			dispatcher.forward(request,response);
-			return;
-		}else if(com.equals("/pushclient.ad")) {
-			command = new APushClientCommand();
-			command.execute(request, response);
-		}else if(com.equals("/payclient.ad")) {
-			command = new APayClientCommand();
-			command.execute(request, response);
-		}else if(com.equals("/change.ad")) {
-			command = new AChangeCommand();
-			command.execute(request, response);
 		}
+		//얘를 통해서 forward 시켜버림, forward할 때 request랑 response 데려가~
+		RequestDispatcher dispatcher = request.getRequestDispatcher("adminpage.jsp");
+		dispatcher.forward(request,response);
 	}
+
 }

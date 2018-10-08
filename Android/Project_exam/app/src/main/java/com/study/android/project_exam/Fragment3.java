@@ -1,5 +1,6 @@
 package com.study.android.project_exam;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -19,21 +19,22 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+public class Fragment3 extends Fragment {
 
-public class Fragment2 extends Fragment {
     private static final String TAG = "lecture";
     ListView listview1;
-    mysuccessAdapter adapter;
-    @Override
+    myfinishAdapter adapter;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView =
-                (ViewGroup)inflater.inflate(R.layout.fragment2,container,false);
-        listview1 = rootView.findViewById(R.id.success);
-        adapter = new mysuccessAdapter(getContext());
+                (ViewGroup)inflater.inflate(R.layout.fragment3,container,false);
+        listview1 = rootView.findViewById(R.id.finish);
+        adapter = new myfinishAdapter(getContext());
         requestdata();
-        // FragmentTransaction ft = getFragmentManager().beginTransaction();
-        // ft.detach(this).attach(this).commit();
+       // FragmentTransaction ft = getFragmentManager().beginTransaction();
+       // ft.detach(this).attach(this).commit();
 
         return rootView;
     }
@@ -42,15 +43,16 @@ public class Fragment2 extends Fragment {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
-        values.put("order","mysuccess");
+        values.put("order","myfinish");
         values.put("client",refreshedToken);
         NetworkTask networkTask = new NetworkTask(sUrl,values);
         networkTask.execute();
     }
 
+
     public void createlist(JSONObject s){
 
-        mysuccesslistItem item;
+        myfinishlistItem item;
         String menu;
         String price;
         String code;
@@ -66,10 +68,10 @@ public class Fragment2 extends Fragment {
                 price = myprice.getString(i);
                 code = mycode.getString(i);
 
-                item = new mysuccesslistItem(menu,price,code);
+                item = new myfinishlistItem(menu,price,code);
                 adapter.addItem(item);
-            }
 
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
