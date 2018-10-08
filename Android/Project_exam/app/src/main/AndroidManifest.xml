@@ -57,7 +57,7 @@
         <activity android:name=".myorderlist" />
         <activity android:name=".webview" />
         <activity android:name=".loginView" />
-        <activity android:name=".JoinView"></activity>
+        <activity android:name=".SaveSharedPreference"></activity>
     </application>
 
 </manifest>

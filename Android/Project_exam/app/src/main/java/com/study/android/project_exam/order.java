@@ -55,9 +55,7 @@ public class order extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(order.this);
             builder.setMessage("주문할 메뉴를 모두 체크하셨습니까?")
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("알림!")
                     .setCancelable(true)
-
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id){
                             Toast.makeText(getApplicationContext(),"미구현~! nono",Toast.LENGTH_SHORT).show();

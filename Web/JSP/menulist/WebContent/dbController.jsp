@@ -89,6 +89,21 @@
 			obj.put("result","중복");
 		}
 		
+	}else if(order.equals("trylogin")){
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
+		
+		String userpw = request.getParameter("userpw");
+		userpw = URLDecoder.decode(userpw,"UTF-8");
+		System.out.println(userid+", "+userpw);
+		
+		int result=0;
+		result=db.tryLogin(userid,userpw);
+		if(result==1){
+			obj.put("result","성공");
+		}else if(result==0){
+			obj.put("result","실패");
+		}
 	}
 	out.println(obj.toJSONString());
 %>    

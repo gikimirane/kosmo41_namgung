@@ -109,11 +109,6 @@ public class orderOk extends AppCompatActivity {
         NetworkTask networkTask = new NetworkTask(sUrl, values);
         networkTask.execute();
 
-        //이 난수가 db에 있으면 다시 실행시켜야 함
-        //json 1 or 1로 다시 받자
-        //data 접근 깔끔하게 하는 메소드 만들기
-        //코드 발생시키고, db에 넣고
-
         tvCode.setText(result);
     }
 

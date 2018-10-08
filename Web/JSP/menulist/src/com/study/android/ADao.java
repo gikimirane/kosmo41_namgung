@@ -76,6 +76,40 @@ public class ADao {
 		}	
 		return result;
 	}
+	public int tryLogin(String id, String pw) {
+		int result=0;
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from appemp where userid=? and userpw=?";
+		try {	
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				result=1;
+			}else {
+				result=0;
+			}
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		return result;
+	}
 	public String insertuser(String id, String pw, String phone, String point, String clientno) {
 		String result="";
 		Connection con=null;

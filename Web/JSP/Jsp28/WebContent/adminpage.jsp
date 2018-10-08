@@ -20,33 +20,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
 
-/* function orderlist(){
-	orderlist.innerHTML = "";
-	$.ajax({
-		url : './adminlogin.ad',
-		type : 'POST',
-		dataType : 'json',
-		error : function(xhr,status,error){
-			alert(error);
-			alert("error");
-		},
-		success : function(json){
-			var results = eval(json);
-			var html = "<tr><td>전체 주문 보기</td></tr>";
-				
-				for(var i=0;i<results.length;i ++) {
-					html += "<tr>";
-					html += "<td><input type=\"radio\" id=\"alluserlist\" name=\"alluserlist\" value=\""+results[i].user+"\">"+results[i].user + "</td>";
-					html += "</tr>";
-				}
-			$("#alluser").append(html); 
-		}
-	});
-	
-} */
-</script>
 <body>
 	<div class="container">
 		<h1>ADMIN PAGE 입니다.</h1>
@@ -67,8 +41,7 @@
 				<th scope="col">금액</th>
 				<th scope="col">상태</th>
 				<th scope="col">주문날짜</th>
-				<!-- <th scope="col">고객정보</th>
- -->			</tr>
+			</tr>
 			</thead>
 			<tbody>
 			<c:forEach items="${list}" var="dto">
@@ -78,7 +51,7 @@
 				<td width="50">${dto.price}</td>
 				<td width="50">${dto.status}</td>
 				<td width="50">${dto.date}</td>
-				<%-- <td width="50">${dto.clientno}</td> --%>
+				
 			</tr>
 			</c:forEach>
 			</tbody>
