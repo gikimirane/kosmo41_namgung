@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logoutLayout();
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             strPassword = SaveSharedPreference.getUserPw(this);
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
+            loginLayout();
         }
 
     }
@@ -81,25 +83,20 @@ public class MainActivity extends AppCompatActivity {
             down=0;
             btncount=1;
             context = this;
-            layout = findViewById(R.id.layout);
+            layout = findViewById(R.id.logoutlayout);
             btn02 = new Button(context);
             btn02.setText("ADMIN PAGE");
             layout.addView(btn02);
-
+            Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
             btn02.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     webBtnClicked(v);
                 }
             });
-            Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
-        }
+         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
-
     public void loginClicked(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -133,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 strEmail = email.getText().toString();
                 strPassword = password.getText().toString();
                 loginCheck();
-                /*Toast.makeText(getApplicationContext(), strEmail+"/"+strPassword,Toast.LENGTH_LONG).show();
-                dialog.dismiss();*/
+
             }
         });
         dialog = builder.create();
@@ -287,6 +283,24 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), strEmail+"님! 반가워요! ", Toast.LENGTH_LONG).show();
                         loginLayout();
+
+                        if(strEmail.equalsIgnoreCase("placido")){
+                            context = getApplicationContext();
+                            layout = findViewById(R.id.logoutlayout);
+                            btn02 = new Button(context);
+                            btn02.setText("ADMIN PAGE");
+                            layout.addView(btn02);
+
+                            btn02.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    webBtnClicked(v);
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
+                        }
+
+
                     }else if(s.getString("result").equals("실패")){
                         Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show();
                     }else {
