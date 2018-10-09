@@ -20,10 +20,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,61 +43,25 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog dialog;
     AlertDialog joindialog;
     CheckBox cb;
-
+    public static UserInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutLayout();
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
 
         MyPagerAdapter adapter = new MyPagerAdapter(this);
         pager1.setAdapter(adapter);
-
+        logoutLayout();
         if(!SaveSharedPreference.getUserName(this).equals("")){
             strEmail = SaveSharedPreference.getUserName(this);
             strPassword = SaveSharedPreference.getUserPw(this);
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
-            loginLayout();
         }
-
-    }
-    public boolean onKeyBack(int keyCode,KeyEvent event){
-        return super.onKeyDown(keyCode,event);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            up++;
-            Log.d("TAG","업 :"+up);
-        }
-        else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            down++;
-            Log.d("TAG","다운 :"+down);
-        }
-        if(up==2 && down ==2 && btncount==0 && strEmail.equalsIgnoreCase("placido")){
-            up=0;
-            down=0;
-            btncount=1;
-            context = this;
-            layout = findViewById(R.id.logoutlayout);
-            btn02 = new Button(context);
-            btn02.setText("ADMIN PAGE");
-            layout.addView(btn02);
-            Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
-            btn02.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    webBtnClicked(v);
-                }
-            });
-         }
-        return super.onKeyDown(keyCode, event);
     }
     public void loginClicked(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void logoutClicked(View v){
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("정말 LOGOUT 하시겠습니까?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -247,6 +212,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    public void setInfomation(JSONObject s) throws JSONException {
+        JSONObject obj =s.getJSONObject("userinfo");
+        JSONArray userinfo = (JSONArray) obj.getJSONArray("info");
+
+        String uid=userinfo.getString(0);
+        String upw=userinfo.getString(1);
+        String uphone = userinfo.getString(2);
+        String upoint =userinfo.getString(3);
+        String uclient =userinfo.getString(4);
+        info = new UserInfo(uid,upw,uphone,upoint,uclient);
+    }
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
         private String surl;
@@ -282,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         Toast.makeText(getApplicationContext(), strEmail+"님! 반가워요! ", Toast.LENGTH_LONG).show();
-                        loginLayout();
 
                         if(strEmail.equalsIgnoreCase("placido")){
                             context = getApplicationContext();
@@ -299,7 +274,8 @@ public class MainActivity extends AppCompatActivity {
                             });
                             Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
                         }
-
+                        setInfomation(s);
+                        loginLayout();
 
                     }else if(s.getString("result").equals("실패")){
                         Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show();
@@ -317,18 +293,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginLayout(){
+        TextView info = findViewById(R.id.info);
+        info.setText(MainActivity.info.getId()+"님의 PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+
+
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.GONE);
 
         LinearLayout logoutlayout = findViewById(R.id.logoutlayout);
         logoutlayout.setVisibility(View.VISIBLE);
+
+        LinearLayout orderlayout = findViewById(R.id.orderlayout);
+        orderlayout.setVisibility(View.VISIBLE);
     }
     public void logoutLayout(){
+        TextView info = findViewById(R.id.info);
+        info.setText("");
+        info.setVisibility(View.VISIBLE);
+
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.VISIBLE);
 
         LinearLayout logoutlayout = findViewById(R.id.logoutlayout);
         logoutlayout.setVisibility(View.GONE);
+
+        LinearLayout orderlayout = findViewById(R.id.orderlayout);
+        orderlayout.setVisibility(View.GONE);
     }
 
     public class NetworkTask1 extends AsyncTask<Object,Void,JSONObject> {

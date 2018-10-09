@@ -93,7 +93,6 @@ public class ADao {
 			}else {
 				result=0;
 			}
-			
 		} catch (SQLException sqle) {
 		    System.out.println("DB 접속실패 : "+sqle.toString());
 		} catch (Exception e) {
@@ -157,6 +156,7 @@ public class ADao {
 		Statement stmt = null;
 		int result=0;
 		String sql = "update orderlist set status = '"+status+"' where code = '"+code+"'";
+	
 		try {
 			con = dataSource.getConnection();
 			stmt = con.createStatement();
@@ -184,7 +184,7 @@ public class ADao {
 		Connection con=null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "select * from orderlist order by status,code";
+		String sql = "select * from orderlist order by status,odata desc";
 		String code,menu,price,clientno,status;
 		Timestamp date;
 		
@@ -313,6 +313,44 @@ public class ADao {
 		return re;
 	}
 	
+	public String payToPoint(String id,int point) {
+		
+		String result="";
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		int upcount=0;
+		String sql="";
+		 
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, point);
+			pstmt.setString(2, id);
+			
+			upcount=pstmt.executeUpdate();    
+			
+			if(upcount==1) {
+				result="성공";
+			}else {
+				result="db입력실패";
+			}
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		return result;
+	}
+	
 	public String instancepush(String client,String msg1) {
 		
 		String re = "";
@@ -436,6 +474,52 @@ public class ADao {
         	re= "실패";
         }
 		return re;
+	}
+	
+	public JSONObject getUserInfo(String userid) {
+		JSONObject obj = new JSONObject();
+		JSONArray info = new JSONArray();
+		
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM appemp where userid=?";
+			
+		try {
+		    System.out.println("Database에 연결되었습니다.\n");
+		    con = dataSource.getConnection();
+		    pstmt = con.prepareStatement(sql);
+		    pstmt.setString(1, userid);
+		    rs = pstmt.executeQuery();
+		    
+		    if(rs.next()){
+		    	info.add(rs.getString("userid"));
+		    	info.add(rs.getString("userpw"));
+		    	info.add(rs.getString("userphone"));
+		    	info.add(rs.getString("userpoint"));
+		    	info.add(rs.getString("clientno"));
+		    }
+		    System.out.println("id : "+info.get(0));
+		    System.out.println("pw : "+info.get(1));
+		    System.out.println("point"+info.get(2));
+		    
+		    obj.put("info", info);	 
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}		
+		return obj;
 	}
 	
 	public JSONObject mysuccesslist(String client) {

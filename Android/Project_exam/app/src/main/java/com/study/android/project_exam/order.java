@@ -112,14 +112,11 @@ public class order extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         listView1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView1.setAdapter(adapter);
-
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-
                 final menulistItem item = (menulistItem) adapter.getItem(position);
                 final CheckBox checkBox = arg1.findViewById(R.id.checkBox1);
                 final Spinner spinner = arg1.findViewById(R.id.spinner);
@@ -131,7 +128,6 @@ public class order extends AppCompatActivity {
                 //체크가 트루상태이면 클릭 들어왔을때 off 해야 하니까..
                 if (checkBox.isChecked()) {
                     cb.remove(item.getDrink());
-
                     item.setCount("0");
                     spinner.setSelection(0);
                     item.setIscheck(false);
@@ -162,7 +158,6 @@ public class order extends AppCompatActivity {
                         cb.put(item.getDrink(), spinner.getSelectedItem().toString()+"|"+item.getAmount()); //다시넣고
                     }
                 }
-
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

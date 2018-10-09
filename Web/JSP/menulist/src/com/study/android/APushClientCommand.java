@@ -17,7 +17,7 @@ public class APushClientCommand implements ACommand {
 		
 		ADao dao = ADao.getInstance();
 		String result;
-		result=dao.sendpush(code, "음료가 완료되었습니다!");
+		result=dao.sendpush(code, "음료가 완료되어 카운터에서 기다리고 있습니다!");
 		System.out.println("result : "+result);
 		if(result.equals("성공")) {
 			writer.println( "[{\"results\":\"ok\",\"desc\":\"PUSH 발송 완료\"}]" );

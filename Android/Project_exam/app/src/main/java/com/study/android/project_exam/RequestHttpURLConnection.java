@@ -124,8 +124,6 @@ public class RequestHttpURLConnection {
             e.printStackTrace();
         }
         Log.d(TAG, "result = " + result);
-
-
         return result;
     }
 /*

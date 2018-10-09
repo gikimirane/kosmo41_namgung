@@ -49,12 +49,10 @@ public class Fragment2 extends Fragment {
     }
 
     public void createlist(JSONObject s){
-
         mysuccesslistItem item;
         String menu;
         String price;
         String code;
-
         try {
             JSONArray mymenu = (JSONArray) s.get("menu");
             JSONArray myprice = (JSONArray) s.get("price");
@@ -73,9 +71,7 @@ public class Fragment2 extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         listview1.setAdapter(adapter);
-
     }
 
 

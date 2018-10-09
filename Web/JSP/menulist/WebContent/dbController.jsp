@@ -101,9 +101,22 @@
 		result=db.tryLogin(userid,userpw);
 		if(result==1){
 			obj.put("result","성공");
+			obj.put("userinfo",db.getUserInfo(userid));
 		}else if(result==0){
 			obj.put("result","실패");
 		}
+	}else if(order.equals("paypoint")){
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
+		
+		String po = request.getParameter("subsum");
+		po = URLDecoder.decode(po,"UTF-8");
+		int point = Integer.parseInt(po);
+		System.out.println("id : "+userid+", point : "+point);
+		
+		String result=db.payToPoint(userid,point);
+		obj.put("result",result);
+		obj.put("payresult","payok");
 	}
 	out.println(obj.toJSONString());
 %>    

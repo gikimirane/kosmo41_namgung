@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 public class APayClientCommand implements ACommand {
 
 	@Override
@@ -15,18 +17,23 @@ public class APayClientCommand implements ACommand {
 		PrintWriter writer = response.getWriter();
 		String code = request.getParameter("code");
 		ADao dao = ADao.getInstance();
+		
 		String result;
 		int upcount;
-		System.out.println("성공?");
 		
+		JSONObject obj = new JSONObject();
+		
+		System.out.println("code : "+code);
 		result=dao.sendpush(code, "결제가 완료되어 음료를 만드는 중입니다.");
 		if(result.equals("성공")) {
-			writer.println( "[{\"results\":\"ok\",\"desc\":\"PUSH 발송 완료\"}]" );
-		
+			obj.put("results", "OK");
+			obj.put("desc", "push 발송완료");
+			writer.println(obj);
 		}else {
-			writer.println( "[{\"results\":\"fail\",\"desc\":\"다시 시도해 주세요.\"}]" );
+			obj.put("results", "fail");
+			obj.put("desc", "다시 시도해 주세요.");
+			writer.println(obj);
 		}
-		
 		writer.close();
 	}
 }

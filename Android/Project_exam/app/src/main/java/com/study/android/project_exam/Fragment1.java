@@ -33,9 +33,7 @@ public class Fragment1 extends Fragment {
                 (ViewGroup)inflater.inflate(R.layout.fragment1,container,false);
         listview1 = rootView.findViewById(R.id.waiting);
         adapter = new myorderlistAdapter(getContext());
-
         requestdata();
-
         return rootView;
     }
 
@@ -51,12 +49,10 @@ public class Fragment1 extends Fragment {
 
 
     public void createlist(JSONObject s){
-
         myorderlistItem item;
         String menu;
         String price;
         String code;
-
         try {
             JSONArray mymenu = (JSONArray) s.get("menu");
             JSONArray myprice = (JSONArray) s.get("price");
@@ -75,9 +71,7 @@ public class Fragment1 extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         listview1.setAdapter(adapter);
-
     }
 
 
@@ -101,8 +95,6 @@ public class Fragment1 extends Fragment {
             result=request.jsonReturn(surl,values);
             return result;
         }
-
-
         public void onPostExecute(JSONObject s) {
             super.onPostExecute(s);
 

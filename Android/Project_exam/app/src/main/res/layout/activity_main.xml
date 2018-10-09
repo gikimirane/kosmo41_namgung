@@ -20,9 +20,19 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/ViewPager1"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        android:layout_marginBottom="10dp">
 
     </android.support.v4.view.ViewPager>
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="LOGIN 시 HAPPYORDER가 가능합니다!"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/emplayout"
@@ -54,19 +64,26 @@
         android:onClick="naviClicked"
         android:text="PLACIDO INFO" />
 
-    <Button
-        android:id="@+id/order"
+    <LinearLayout
+        android:id="@+id/orderlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="orderClicked"
-        android:text="HAPPYCODE ORDER" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/orderlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="orderlistClicked"
-        android:text="MY ORDERLIST" />
+        <Button
+            android:id="@+id/order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="orderClicked"
+            android:text="HAPPYCODE ORDER" />
+
+        <Button
+            android:id="@+id/orderlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="orderlistClicked"
+            android:text="MY ORDERLIST" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/logoutlayout"
