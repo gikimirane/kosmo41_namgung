@@ -29,17 +29,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textviewLogo"
-            android:text="ID / EMAIL ADDRESS"
+            android:text="ID"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:id="@+id/etid"
+            android:id="@+id/ettext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textviewEmailAddress"
             android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:inputType="textEmailAddress">
+            android:ems="10">
 
             <requestFocus />
         </EditText>
@@ -48,7 +47,7 @@
             android:id="@+id/textviewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etid"
+            android:layout_below="@+id/ettext"
             android:text="PASSWORD"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -62,10 +61,27 @@
             android:inputType="textPassword" />
 
         <TextView
+            android:id="@+id/textviewPassword4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ettext"
+            android:text="NAME"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewPassword"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
             android:id="@+id/textviewPassword2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etid"
+            android:layout_below="@+id/ettext"
             android:text="PHONE NUMBER"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -77,6 +93,40 @@
             android:layout_marginBottom="10dp"
             android:ems="10"
             android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/textviewPassword5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ettext"
+            android:text="EMAIL"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewPassword"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/textviewPassword6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ettext"
+            android:text="ADDRESS"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/etaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textviewPassword"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text" />
 
     </LinearLayout>
 

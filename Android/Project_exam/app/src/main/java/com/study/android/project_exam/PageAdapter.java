@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
+import static android.app.PendingIntent.getActivity;
+
 public class PageAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "lecture";
     int mNumOfTabs;
@@ -25,7 +27,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         }else if(object instanceof Fragment3){
             position = 2;
         }
-        Log.d(TAG,"나의 포지선 : "+position);
+
         return (position >= 0) ? position : POSITION_NONE;
     }
 

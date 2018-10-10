@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                     minTime,
                     minDistance,
                     new LocationListener(){
-
                         @Override
                         public void onLocationChanged(Location location) {
                             showCurrentLocation(location);
@@ -128,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"에러발생 : "+e.getMessage());
         }
     }
-
     private void showCurrentLocation(Location location){
         LatLng curPoint = new LatLng(location.getLatitude(),location.getLongitude());
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint,15));

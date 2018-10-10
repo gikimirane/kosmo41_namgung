@@ -89,7 +89,7 @@ public class orderOk extends AppCompatActivity {
     }
 
     public void paytopoint(){
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/payclient.ad";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/payclient.ad";
         //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
         HashMap<String,String> values= new HashMap<>();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -97,7 +97,7 @@ public class orderOk extends AppCompatActivity {
         NetworkTask networkTask = new NetworkTask(sUrl, values);
         networkTask.execute();
 
-        sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/change.ad";
+        sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/change.ad";
         //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
         values= new HashMap<>();
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -106,7 +106,7 @@ public class orderOk extends AppCompatActivity {
         networkTask = new NetworkTask(sUrl, values);
         networkTask.execute();
 
-        sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         //sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         values= new HashMap<>();
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -177,7 +177,7 @@ public class orderOk extends AppCompatActivity {
         result = String.format("%04d",code);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         HashMap<String,String> values= new HashMap<>();
       //  ContentValues values = new ContentValues();

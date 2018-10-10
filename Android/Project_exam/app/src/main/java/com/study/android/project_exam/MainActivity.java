@@ -11,7 +11,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -39,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout layout;
     Context context;
     Button btn02;
-    String strEmail,strPassword,newPhone,newId,newPw;
+    String strEmail,strPassword,newPhone,newId,newPw,newName,newAddress,newEmail;
     AlertDialog dialog;
     AlertDialog joindialog;
     CheckBox cb;
+
     public static UserInfo info;
 
     @Override
@@ -102,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
     }
+
+
     public void joinClicked(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -109,9 +115,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(view);
         //builder.setCancelable(false);
         final Button submit = view.findViewById(R.id.join);
-        final EditText email = view.findViewById(R.id.etid);
+        final EditText id = view.findViewById(R.id.ettext);
         final EditText password = view.findViewById(R.id.etpw);
+        final EditText name = view.findViewById(R.id.etname);
         final EditText phone = view.findViewById(R.id.etphone);
+        final EditText email = view.findViewById(R.id.etemail);
+        final EditText address = view.findViewById(R.id.etaddress);
+
         final Button cancel = view.findViewById(R.id.jcancel);
         joindialog = builder.create();
 
@@ -122,9 +132,12 @@ public class MainActivity extends AppCompatActivity {
         });
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                newId = email.getText().toString();
+                newId = id.getText().toString();
                 newPw = password.getText().toString();
+                newName = name.getText().toString();
                 newPhone = phone.getText().toString();
+                newEmail = email.getText().toString();
+                newAddress = address.getText().toString();
                 insertDB();
             }
         });
@@ -133,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void insertDB(){
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         //String sUrl ="http://192.168.0.101:8081/menulist/dbController.jsp";
         Log.d(TAG,"sURL : "+sUrl);
 
@@ -143,11 +156,16 @@ public class MainActivity extends AppCompatActivity {
             values.put("order","insertuser");
             values.put("userid",newId);
             values.put("userpw",newPw);
+            values.put("username",newName);
             values.put("userphone",newPhone);
+            values.put("useremail",newEmail);
+            values.put("useraddress",newAddress);
             values.put("clientno",refreshedToken);
             values.put("point","5000");
+
             NetworkTask1 networkTask1 = new NetworkTask1(sUrl, values);
             networkTask1.execute();
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -185,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        if(info.getId().equals("placido")){
+                            adminlogout();
+                        }
                         SaveSharedPreference.clearUserName(getApplicationContext());
                         Toast.makeText(getApplicationContext(),"LOGOUT을 완료 했습니다.",Toast.LENGTH_SHORT).show();
                         logoutLayout();
@@ -194,16 +215,19 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
     public void loginCheck(){
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         //String sUrl ="http://192.168.200.131:8081/menulist/dbController.jsp";
         Log.d(TAG,"sURL : "+sUrl);
 
         try{
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             HashMap<String, String> values = new HashMap<>();
             values.put("order","trylogin");
             values.put("userid",strEmail);
             values.put("userpw",strPassword);
+            values.put("clientno",refreshedToken);
 
             NetworkTask networkTask = new NetworkTask(sUrl, values);
             networkTask.execute();
@@ -223,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         String uclient =userinfo.getString(4);
         info = new UserInfo(uid,upw,uphone,upoint,uclient);
     }
+
 
     public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
         private String surl;
@@ -260,18 +285,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), strEmail+"님! 반가워요! ", Toast.LENGTH_LONG).show();
 
                         if(strEmail.equalsIgnoreCase("placido")){
-                            context = getApplicationContext();
-                            layout = findViewById(R.id.logoutlayout);
-                            btn02 = new Button(context);
-                            btn02.setText("ADMIN PAGE");
-                            layout.addView(btn02);
-
-                            btn02.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    webBtnClicked(v);
-                                }
-                            });
+                            adminlogin();
                             Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
                         }
                         setInfomation(s);
@@ -296,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
         TextView info = findViewById(R.id.info);
         info.setText(MainActivity.info.getId()+"님의 PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
 
-
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.GONE);
 
@@ -306,9 +319,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout orderlayout = findViewById(R.id.orderlayout);
         orderlayout.setVisibility(View.VISIBLE);
     }
+    private void adminlogin(){
+        Button btnadmin = findViewById(R.id.admin);
+        btnadmin.setVisibility(View.VISIBLE);
+    }
+    private void adminlogout(){
+
+        Button btnadmin = findViewById(R.id.admin);
+        btnadmin.setVisibility(View.GONE);
+
+    }
     public void logoutLayout(){
         TextView info = findViewById(R.id.info);
-        info.setText("");
+        info.setText("LOGIN 시 HAPPYORDER가 가능합니다!");
         info.setVisibility(View.VISIBLE);
 
         LinearLayout emplayout = findViewById(R.id.emplayout);
@@ -319,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout orderlayout = findViewById(R.id.orderlayout);
         orderlayout.setVisibility(View.GONE);
+
     }
 
     public class NetworkTask1 extends AsyncTask<Object,Void,JSONObject> {
@@ -353,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                     }else if(s.getString("result").equals("중복")){
                         Toast.makeText(getApplicationContext(), "아이디가 중복됩니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(getApplicationContext(), "잠시 후 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "잠시 후 다시 시도해 주세요."+s.get("result"), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {

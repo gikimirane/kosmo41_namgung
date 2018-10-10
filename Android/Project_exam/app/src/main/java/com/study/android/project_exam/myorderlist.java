@@ -68,14 +68,12 @@ public class myorderlist extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                adapter.notifyDataSetChanged();
-                Log.d(TAG,"페이지 변경11!");
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                adapter.notifyDataSetChanged();
-                Log.d(TAG,"페이지 변경!");
+
             }
         });
     }
@@ -83,7 +81,7 @@ public class myorderlist extends AppCompatActivity {
 
     public void requestdata() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/dbController.jsp";
+        String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","sendpush");
         values.put("client",refreshedToken);
@@ -113,14 +111,12 @@ public class myorderlist extends AppCompatActivity {
 
         public void onPostExecute(JSONObject s) {
             super.onPostExecute(s);
-
             if(s!=null){
                 try {
                     Log.d(TAG,"결과있음");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }else {
                 Log.d(TAG,"결과없음!");
                 //Toast.makeText(getApplicationContext(), "결과없음!!", Toast.LENGTH_SHORT).show();

@@ -16,6 +16,14 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="내역을 길게 누르면 삭제가 가능합니다."
+        android:textStyle="bold" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabmenu"
         android:layout_width="match_parent"

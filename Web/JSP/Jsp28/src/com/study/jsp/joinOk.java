@@ -31,19 +31,17 @@ public class joinOk implements Service {
 		String eMail = request.getParameter("eMail");
 		String pw = request.getParameter("pw2");
 		String address =request.getParameter("address");
+		String phone =request.getParameter("phone");
 		
-		dto.setAddress(address);
-		dto.seteMail(eMail);
 		dto.setId(id);
 		dto.setPw(pw);
+		dto.setPhone(phone);
 		dto.setName(name);
+		dto.seteMail(eMail);
+		dto.setAddress(address);
+		dto.setPoint("0");
+		dto.setClientno("-");
 		dto.setrDate(new Timestamp(System.currentTimeMillis()));
-		
-		System.out.println(dto.getAddress());
-		System.out.println(dto.geteMail());
-		System.out.println(dto.getPw());
-		System.out.println(dto.getId());
-		System.out.println(dto.getName());
 		
 		
 		MemberDao dao = MemberDao.getInstance();

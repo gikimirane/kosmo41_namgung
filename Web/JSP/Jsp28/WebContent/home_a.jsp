@@ -94,14 +94,21 @@
 					<li class="nav-item"><a class="nav-link" href="#" onclick="fblogout()">F_LOGOUT</a></li>
 				
 				<%}else if(session.getAttribute("logintype").equals("none")){ %>
-					<a class="nav-link" href="./myinfo.jsp" id="info">MYINFO</a></li>
-					<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>
-				
-				<%} %>
+					<%}if(session.getAttribute("id").equals("placido")){ %>
+						<a class="nav-link" href="./myinfo.jsp" id="info">MYINFO</a></li>
+						<li class="nav-item"><a class="nav-link" href="./adminpage.jsp" >ADMINPAGE</a></li>
+						<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>
+					<%} else {%>
+						<a class="nav-link" href="./myinfo.jsp" id="info">MYINFO</a></li>
+						<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>
+					<%} %>
 			<%} else {%>
 				<a class="nav-link" href="./join.jsp">LOGIN</a>	
 			<%} %>
+           
             </li>
+            
+            
           </ul>
         </nav>
         <a href="main.jsp"><h3 class="text-muted">PLACIDO COFFEE</h3></a>

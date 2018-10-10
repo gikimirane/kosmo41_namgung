@@ -22,7 +22,6 @@ public class CWaitinglistCommand implements CCommand {
 		String data="[";
 		for(int i=0;i<list.size();i++) {
 			data += "{\"user\":\""+list.get(i)+"\"},";
-			
 		}
 		
 		data = data.substring(0,data.length()-1)+"]";

@@ -509,15 +509,15 @@ function popupmsg(){
         		alert("본인은 선택할 수 없습니다.");
         	}else {
         		var user = alluserlist[i].value;
+        		var msg = prompt(user+'님께 보낼 쪽지 내용을 입력하세요.', '' );
+        		if(msg){
+        			webSocket.send(id+"|!쪽지전송@"+user+","+msg);
+        		}
+        		alluser.innerHTML ="";
         	}
 	    	
 	    }
 	}
-	var msg = prompt(user+'님께 보낼 쪽지 내용을 입력하세요.', '' );
-	if(msg){
-		webSocket.send(id+"|!쪽지전송@"+user+","+msg);
-	}
-	alluser.innerHTML ="";
 }
 
 function listview(){
@@ -702,7 +702,7 @@ function checkform(){
 	var limit=document.getElementById("limit").value;
 
 	var locktype; 
-	var pw;
+	
 	
 	for(var i=0; i<lock.length; i++) {
 	    if(lock[i].checked) {
@@ -718,7 +718,10 @@ function checkform(){
 			document.getElementById('limit').value="";
 			return;
 		}
+	}else {
+		pw = "-";
 	}
+	
 	if(locktype!="게임"){
 		if(!($.isNumeric(limit))){
 			alert("정원은 숫자로만 입력하세요.");

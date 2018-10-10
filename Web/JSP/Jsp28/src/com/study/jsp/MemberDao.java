@@ -38,17 +38,20 @@ public class MemberDao {
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
-		String query = "insert into members values (?,?,?,?,?,?,?)";
+		String query = "insert into members values (?,?,?,?,?,?,?,?,?)";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPw());
-			pstmt.setString(3, dto.getName());
-			pstmt.setString(4, dto.geteMail());
-			pstmt.setTimestamp(5, dto.getrDate());
+			pstmt.setString(3, dto.getPhone());
+			pstmt.setString(4,dto.getName());
+			pstmt.setString(5, dto.geteMail());
 			pstmt.setString(6, dto.getAddress());
-			pstmt.setString(7, "일련번호");
+			pstmt.setString(7, dto.getPoint());
+			pstmt.setString(8, "-");
+			pstmt.setTimestamp(9, dto.getrDate());
+			
 			pstmt.executeQuery();
 			ri = MemberDao.MEMBER_JOIN_SUCCESS;
 		}catch(Exception e) {
@@ -70,7 +73,7 @@ public class MemberDao {
 		Connection con =null;
 		PreparedStatement pstmt =null;
 		ResultSet set =null;
-		String query = "select id from members where id=?";
+		String query = "select userid from members where userid=?";
 		
 		try {
 			con = dataSource.getConnection();
@@ -104,7 +107,7 @@ public class MemberDao {
 		Connection con =null;
 		PreparedStatement pstmt =null;
 		ResultSet set =null;
-		String query = "select pw from members where id=?";
+		String query = "select userpw from members where userid=?";
 		
 		try {
 			con = dataSource.getConnection();
@@ -113,7 +116,7 @@ public class MemberDao {
 			set=pstmt.executeQuery();
 			
 			if(set.next()) {
-				dbPw = set.getString("pw");
+				dbPw = set.getString("userpw");
 				if(dbPw.equals(pw)) {
 					System.out.println("login OK");
 					ri = MemberDao.MEMBER_LOGIN_SUCCESS;
@@ -144,7 +147,7 @@ public class MemberDao {
 		Connection con =null;
 		PreparedStatement pstmt=null;
 		ResultSet set=null;
-		String query="select * from members where id=?";
+		String query="select * from members where userid=?";
 		
 		try {
 			con = dataSource.getConnection();
@@ -154,12 +157,12 @@ public class MemberDao {
 			
 			if(set.next()) {
 				dto = new MemberDto();
-				dto.setId(set.getString("id"));
-				dto.setPw(set.getString("pw"));
-				dto.setName(set.getString("name"));
-				dto.seteMail(set.getString("email"));
+				dto.setId(set.getString("userid"));
+				dto.setPw(set.getString("userpw"));
+				dto.setName(set.getString("username"));
+				dto.seteMail(set.getString("useremail"));
 				dto.setrDate(set.getTimestamp("rdate"));
-				dto.setAddress(set.getString("address"));
+				dto.setAddress(set.getString("useraddress"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -180,7 +183,7 @@ public class MemberDao {
 		
 		Connection con =null;
 		PreparedStatement pstmt=null;
-		String query = "update members set pw=?, eMail=?, address=? where id=?";
+		String query = "update members set userpw=?, usereMail=?, useraddress=? where userid=?";
 		
 		try {
 			con = dataSource.getConnection();
@@ -210,7 +213,7 @@ public class MemberDao {
 		int ri=0;
 		Connection con =null;
 		PreparedStatement pstmt=null;
-		String query = "delete from members where id=?";
+		String query = "delete from members where userid=?";
 		
 		try {
 			con = dataSource.getConnection();

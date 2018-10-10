@@ -14,7 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -24,17 +28,27 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class Navigator extends AppCompatActivity {
     private static final String TAG = "lecture";
 
     SupportMapFragment mapFragment;
     GoogleMap map;
-
+    private AdView mAdView;
     MarkerOptions myLocationMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigator);
+
+        String bannerid = getResources().getString(R.string.ad_unit_id_1);
+        MobileAds.initialize(this, bannerid);
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("89D6C32BE363B3E63BB9C7C0111DA1A8")
+                .build();
+        mAdView.loadAd(adRequest);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -62,6 +76,7 @@ public class Navigator extends AppCompatActivity {
     }
 
     public void naviBtnClicked(View v){
+
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
@@ -73,18 +88,45 @@ public class Navigator extends AppCompatActivity {
     }
 
     private void requestMyLocation(){
-        LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        try{
+
+        final LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        try {
+            long minTime=10000;
+            float minDistance = 0;
+            //Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance,
+                    new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location!=null){
+            if (location != null) {
                 roadmap(location);
-                Log.d(TAG,"내 위치 : "+location.getLatitude()+","+location.getLongitude());
             }
-        }catch (SecurityException e){
+
+        } catch (SecurityException e) {
             e.printStackTrace();
-            Log.d(TAG,"에러발생 : "+e.getMessage());
+            Log.d(TAG, "에러발생 : " + e.getMessage());
         }
     }
+
     private void roadmap(Location location){
 
         double latitude = location.getLatitude();
@@ -116,6 +158,8 @@ public class Navigator extends AppCompatActivity {
             myLocationMarker.position(new LatLng(37.5492995,126.9187274));
         }
     }
+
+
 
     protected void onPause(){
         super.onPause();

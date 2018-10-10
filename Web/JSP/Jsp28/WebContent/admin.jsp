@@ -19,6 +19,7 @@ function form_check(){
 	}else if(id==myid && pw==mypw){
 		alert("PLACIDO ADMIN님 반갑습니다!");
 		document.frm_form.submit();
+		
 	}else {
 		alert("올바른 ADMIN ID와 PW를 입력하세요.");
 	}

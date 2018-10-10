@@ -28,7 +28,7 @@ public class webview extends AppCompatActivity {
         web.getSettings().setJavaScriptEnabled(true);
         web.setWebChromeClient(new myWebChromeClient());
         web.getSettings().setDefaultTextEncodingName("UTF-8");
-        web.loadUrl("http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/menulist/adminpage.jsp");
+        web.loadUrl("http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/adminpage.jsp");
         web.setWebViewClient(new myWebView());
     }
 

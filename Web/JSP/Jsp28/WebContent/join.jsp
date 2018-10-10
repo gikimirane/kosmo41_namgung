@@ -177,6 +177,7 @@ function check(){
 				<input type="text" class="form-control" id="name" name="name" placeholder="Name"><br>
 				<input type="email" class="form-control" id="eMail" name="eMail" placeholder="eMail"><br>
 				<input type="text" class="form-control" id="address" name="address" placeholder="address"><br>
+				<input type="text" class="form-control" id="phone" name="phone" placeholder="phone number"><br>
 				<input type="button" class="btn btn-outline-secondary btn-sm" value="JOIN" onclick="infoConfirm();">&nbsp;&nbsp;&nbsp;
 			</form>
 		</div>

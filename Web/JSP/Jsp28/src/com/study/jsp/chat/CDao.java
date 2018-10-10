@@ -869,9 +869,6 @@ public class CDao {
 	}
 
 	
-	
-	
-	
 	public int newroom(String id,String lock,String limit,String pw) {
 		int uCount=0;
 			

@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -47,7 +49,7 @@ public class ADao {
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from appemp where userid=?";
+		String sql = "select * from members where userid=?";
 		try {	
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
@@ -68,6 +70,37 @@ public class ADao {
 		}finally {
 			try{
 				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		return result;
+	}
+	public String deletecode(String code) {
+		String result="실패";
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		String sql = "delete from orderlist where code =?";
+		
+		try {	
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, code);
+			int upcount = pstmt.executeUpdate();
+			if(upcount==1) {
+				result="성공";
+			}
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
 				if(pstmt!=null)pstmt.close();
 				if(con!=null)con.close();
 			}catch(Exception e2) {
@@ -81,7 +114,7 @@ public class ADao {
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from appemp where userid=? and userpw=?";
+		String sql = "select * from members where userid=? and userpw=?";
 		try {	
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
@@ -109,24 +142,29 @@ public class ADao {
 		}	
 		return result;
 	}
-	public String insertuser(String id, String pw, String phone, String point, String clientno) {
+	
+	public String insertuser(String id, String pw, String name, String phone, String email, String address, String clientno, String point) {
 		String result="";
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		
 		int upcount=0;
 		int point1 = Integer.parseInt(point);
-		String sql = "insert into appemp values (?,?,?,?,?)";
+		String sql = "insert into members values (?,?,?,?,?,?,?,?,sysdate)";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
-			pstmt.setString(3, phone);
-			pstmt.setInt(4, point1);
-			pstmt.setString(5, clientno);
-			upcount=pstmt.executeUpdate();    
+			pstmt.setString(3, name);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, email);
+			pstmt.setString(6, address);
+			pstmt.setInt(7, point1);
+			pstmt.setString(8,clientno);
 			
+			upcount=pstmt.executeUpdate();    
+			System.out.println("upcount: "+upcount);
 			if(upcount==1) {
 				result="성공";
 			}else {
@@ -134,12 +172,13 @@ public class ADao {
 			}
 		} catch (SQLException sqle) {
 		    System.out.println("DB 접속실패 : "+sqle.toString());
+		    result = "접속실패111"+sqle.getMessage();
 		} catch (Exception e) {
 		    System.out.println("Unkonwn error");
 		    e.printStackTrace();
+		    result = "다른에러111"+e.getMessage();
 		}finally {
 			try{
-				
 				if(pstmt!=null)pstmt.close();
 				if(con!=null)con.close();
 			}catch(Exception e2) {
@@ -147,6 +186,36 @@ public class ADao {
 			}
 		}	
 		
+		return result;
+	}
+	
+	public int updateClient(String clientno,String userid) {
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql = "update members set clientno =? where userid =?";
+	
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,clientno);
+			pstmt.setString(2, userid);
+			result = pstmt.executeUpdate();
+			System.out.println("update 완료!");
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
 		return result;
 	}
 	
@@ -484,7 +553,7 @@ public class ADao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT * FROM appemp where userid=?";
+		String sql = "SELECT * FROM members where userid=?";
 			
 		try {
 		    System.out.println("Database에 연결되었습니다.\n");
