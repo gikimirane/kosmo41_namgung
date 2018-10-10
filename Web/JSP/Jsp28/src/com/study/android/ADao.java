@@ -388,7 +388,7 @@ public class ADao {
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		int upcount=0;
-		String sql="";
+		String sql= "update members set userpoint=userpoint-? where userid =?";
 		 
 		try {
 			con = dataSource.getConnection();

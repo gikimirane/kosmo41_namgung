@@ -88,6 +88,8 @@ public class orderOk extends AppCompatActivity {
         randomCode(menu);
     }
 
+
+
     public void paytopoint(){
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/payclient.ad";
         //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";

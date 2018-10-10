@@ -136,6 +136,7 @@
 		String result=db.payToPoint(userid,point);
 		obj.put("result",result);
 		obj.put("payresult","payok");
+		
 	}else if(order.equals("deleteorder")){
 		String code = request.getParameter("code");
 		code = URLDecoder.decode(code,"UTF-8");

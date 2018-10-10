@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
         }
+        TextView info = findViewById(R.id.info);
     }
     public void loginClicked(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -305,6 +306,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        TextView info = findViewById(R.id.info);
+        info.setText(MainActivity.info.getId() + "님의 PLACIDO CARD 잔액 : " + MainActivity.info.getPoint() + "원");
+    }
+
 
     public void loginLayout(){
         TextView info = findViewById(R.id.info);
