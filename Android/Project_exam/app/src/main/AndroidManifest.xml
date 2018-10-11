@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <permission
         android:name="com.study.android.project_exam.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -58,6 +59,9 @@
         <activity android:name=".webview" />
         <activity android:name=".loginView" />
         <activity android:name=".SaveSharedPreference" />
+        <activity android:name=".StartActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".myInfomation"></activity>
     </application>
 
 </manifest>

@@ -135,7 +135,7 @@ public class orderOk extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.info.setUsecount(MainActivity.info.getUsecount()+1);
-                        if(MainActivity.info.getUsecount()>=10) {
+                        if(MainActivity.info.getUsecount()>10) {
                             checkUseCount();
                         }else {
                             Intent intent = new Intent(getApplicationContext(),myorderlist.class);
@@ -208,6 +208,7 @@ public class orderOk extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.info.setPoint(MainActivity.info.getPoint()+5000);
+                        MainActivity.info.setUsecount(0);
                         dialog.cancel();
                         Intent intent = new Intent(getApplicationContext(), myorderlist.class);
                         intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);

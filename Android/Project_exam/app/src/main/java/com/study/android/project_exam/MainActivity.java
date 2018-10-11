@@ -205,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onChatClicked(View v){
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
+
     public void orderlistClicked(View v){
         Intent intent = new Intent(this, myorderlist.class);
         startActivityForResult(intent,1);
