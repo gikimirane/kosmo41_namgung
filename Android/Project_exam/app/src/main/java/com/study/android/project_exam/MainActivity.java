@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.service.autofill.SaveRequest;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -34,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "lecture";
@@ -51,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
     TextView infotext;
     public static UserInfo info;
     Boolean Loginsw=false;
+    //ImageView[] img=new ImageView[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TypefaceProvider.registerDefaultIconSets();
+
         infotext = findViewById(R.id.info);
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
         }
+
     }
 
 
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if(Loginsw){
             infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원 / 쿠폰 : "+MainActivity.info.getUsecount()+"개");
+            makeStar();
         }
     }
 
@@ -338,10 +339,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void makeStar(){
+        int mystamp=info.getUsecount();
+        ImageView img[] = {
+                findViewById(R.id.star1),findViewById(R.id.star2),findViewById(R.id.star3),findViewById(R.id.star4),findViewById(R.id.star5),
+                findViewById(R.id.star6),findViewById(R.id.star7),findViewById(R.id.star8),findViewById(R.id.star9),findViewById(R.id.star10)
+        };
+        for(int i=1;i<=mystamp;i++){
+            img[i-1].setImageResource(R.drawable.ic_favorite_black_24dp);
+
+        }
+    }
 
     public void loginLayout(){
 
-        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원 / 쿠폰 : "+MainActivity.info.getUsecount()+"개");
+        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+
+        LinearLayout stamplayout = findViewById(R.id.stamp);
+        stamplayout.setVisibility(View.VISIBLE);
+        makeStar();
 
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.GONE);
@@ -353,15 +369,17 @@ public class MainActivity extends AppCompatActivity {
         orderlayout.setVisibility(View.VISIBLE);
     }
     private void adminlogin(){
-        Button btnadmin = findViewById(R.id.admin);
+        BootstrapButton btnadmin = findViewById(R.id.admin);
         btnadmin.setVisibility(View.VISIBLE);
     }
     private void adminlogout(){
-        Button btnadmin = findViewById(R.id.admin);
+        BootstrapButton btnadmin = findViewById(R.id.admin);
         btnadmin.setVisibility(View.GONE);
-
     }
     public void logoutLayout(){
+
+        LinearLayout stamplayout = findViewById(R.id.stamp);
+        stamplayout.setVisibility(View.GONE);
 
         infotext.setText("LOGIN 시 HAPPYORDER가 가능합니다!");
 
