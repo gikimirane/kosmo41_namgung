@@ -8,21 +8,28 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AAdminLoginCommand implements ACommand {
+public class AChargeCardCommand implements ACommand {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		ArrayList<ADto> list = new ArrayList<>();
-		
-		String inputId = request.getParameter("id");
-		String inputPw=request.getParameter("pw");
+		PrintWriter writer = response.getWriter();
+		String code = request.getParameter("code");
 		ADao dao = ADao.getInstance();
-		list = dao.adminlist();
+		ArrayList<userDTO> list = new ArrayList<>();
 		
-		request.setAttribute("list", list);
+		list=dao.chargeCard();
+		request.setAttribute("userlist", list);
+		
+		String viewPage = "userchargeCard.jsp";
+		try {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
+			dispatcher.forward(request,response);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

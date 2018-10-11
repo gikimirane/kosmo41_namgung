@@ -1,6 +1,7 @@
 package com.study.android.project_exam;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -79,12 +80,14 @@ public class myorderlist extends AppCompatActivity {
     }
 
 
+
     public void requestdata() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","sendpush");
         values.put("client",refreshedToken);
+        values.put("message","결제 대기 중인 내역을 삭제하거나 결제하세요!");
         NetworkTask networkTask = new NetworkTask(sUrl,values);
         networkTask.execute();
     }

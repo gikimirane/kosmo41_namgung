@@ -18,13 +18,16 @@ public class AChangeCommand implements ACommand {
 		String code = request.getParameter("code");
 		String status = request.getParameter("status");
 		ADao dao = ADao.getInstance();
-		JSONObject obj = new JSONObject();
+		
 		
 		int result = dao.status(status,code);
-		System.out.println("성공?");
-		if(result==1) {
-			obj.put("results", "OK");
-			obj.put("desc", "DB Update 완료");
+		result = result+dao.upUseCount(code);
+		
+		JSONObject obj = new JSONObject();
+		System.out.println("성공?"+result);
+		if(result==2) {
+			obj.put("results", "ok");
+			obj.put("desc", "DB Update 모두 완료");
 			writer.println(obj);
 		}else {
 			obj.put("results", "fail");

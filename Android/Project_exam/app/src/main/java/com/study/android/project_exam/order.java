@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class order extends AppCompatActivity {
     private static final String TAG = "lecture";
     menulistAdapter adapter;
@@ -59,16 +61,18 @@ public class order extends AppCompatActivity {
                     .setCancelable(true)
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id){
-                            Toast.makeText(getApplicationContext(),"미구현~! nono",Toast.LENGTH_SHORT).show();
+
                             dialog.cancel();
                         }
                     })
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(getApplicationContext(),orderOk.class);
+                            Intent intent = new Intent(getApplicationContext(), orderOk.class);
                             intent.putExtra("orderlist",cb);
+                            intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
+
                             dialog.cancel();
                         }
                     });

@@ -33,13 +33,14 @@ function paycheck(){
 		dataType : 'json',
 		success : function(json){
 			var results = eval(json);
-			if(results[0].results == "ok"){
-				alert(results[0].desc);
-			}else if(results[0].results=="fail"){
-				alert(results[0].desc);
+			if(results.results == "ok"){
+				alert(results.desc);
+			}else if(results.results=="fail"){
+				alert(results.desc);
 			}
 		}
 	}); 
+	
 	var data1 ="code="+code;
 	$.ajax({
 		url : './payclient.ad',
@@ -48,12 +49,12 @@ function paycheck(){
 		dataType : 'json',
 		success : function(json){
 			var results = eval(json);
-			if(results[0].results == "ok"){
-				alert(results[0].desc);
+			if(results.results == "ok"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
-			}else if(results[0].results=="fail"){
-				alert(results[0].desc);
+			}else if(results.results=="fail"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
 			}
@@ -85,12 +86,12 @@ function finishcheck(){
 		dataType : 'json',
 		success : function(json){
 			var results = eval(json);
-			if(results[0].results == "ok"){
-				alert(results[0].desc);
+			if(results.results == "ok"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
-			}else if(results[0].results=="fail"){
-				alert(results[0].desc);
+			}else if(results.results=="fail"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
 			}
@@ -121,12 +122,12 @@ function drinkcheck(){
 		dataType : 'json',
 		success : function(json){
 			var results = eval(json);
-			if(results[0].results == "ok"){
-				alert(results[0].desc);
+			if(results.results == "ok"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
-			}else if(results[0].results=="fail"){
-				alert(results[0].desc);
+			}else if(results.results=="fail"){
+				alert(results.desc);
 				location.href="adminlogin.ad";
 				return;
 			}
@@ -154,10 +155,9 @@ function drinkcheck(){
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>
 	<div class="container">
-		<h1>PLACIDO ADMIN</h1>
+		<h1>PLACIDO ADMIN</h1><a href="./chargeCard.ad" class="btn btn-outline-secondary btn-sm">카드 충전</a>
 		<hr>
 		<div class="row">
-			
 			<div class="col"><a href="./adminlogin.ad" class="btn btn-outline-secondary btn-sm">주문 목록</a>
 			&nbsp;<a href="#" onclick="paycheck()" class="btn btn-outline-secondary btn-sm">결제 완료</a>
 			&nbsp;<a href="#" onclick="drinkcheck()" class="btn btn-outline-secondary btn-sm">음료 완료</a>
@@ -165,9 +165,7 @@ function drinkcheck(){
 			</div>
 			
   		</div>
-  		<div class="row">
-  			<div class="col" id="orderlist" style="overflow:auto;background-color:#F3E9E8"></div>
-  		</div>
+  		
 	</div>
 	<div class="container">
 		<table class="table table-hover">

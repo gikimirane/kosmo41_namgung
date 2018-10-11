@@ -26,7 +26,7 @@ public class APayClientCommand implements ACommand {
 		System.out.println("code : "+code);
 		result=dao.sendpush(code, "결제가 완료되어 음료를 만드는 중입니다.");
 		if(result.equals("성공")) {
-			obj.put("results", "OK");
+			obj.put("results", "ok");
 			obj.put("desc", "push 발송완료");
 			writer.println(obj);
 		}else {

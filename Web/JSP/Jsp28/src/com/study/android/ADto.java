@@ -11,7 +11,6 @@ public class ADto {
 	private Timestamp date;
 	
 	public ADto(String code, String menu, String price, String clientno, String status, Timestamp date) {
-		
 		this.code = code;
 		this.menu = menu;
 		this.price = price;

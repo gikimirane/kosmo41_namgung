@@ -44,6 +44,7 @@ public class ADao {
 		return instance;
 	}
 	
+
 	public int searchid(String id) {
 		int result=0;
 		Connection con=null;
@@ -109,6 +110,35 @@ public class ADao {
 		}	
 		return result;
 	}
+	public int resetCount(String id) {
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql = "update members set usecount=0 where userid=?";
+	
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,id);
+		
+			result = pstmt.executeUpdate();
+			System.out.println("update 완료!");
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		return result;
+	}
 	public int tryLogin(String id, String pw) {
 		int result=0;
 		Connection con=null;
@@ -150,18 +180,19 @@ public class ADao {
 		
 		int upcount=0;
 		int point1 = Integer.parseInt(point);
-		String sql = "insert into members values (?,?,?,?,?,?,?,?,sysdate)";
+		String sql = "insert into members values (?,?,?,?,?,?,?,?,sysdate,?)";
 		try {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
-			pstmt.setString(3, name);
-			pstmt.setString(4, phone);
+			pstmt.setString(3, phone);
+			pstmt.setString(4, name);
 			pstmt.setString(5, email);
 			pstmt.setString(6, address);
 			pstmt.setInt(7, point1);
 			pstmt.setString(8,clientno);
+			pstmt.setInt(9, 0);
 			
 			upcount=pstmt.executeUpdate();    
 			System.out.println("upcount: "+upcount);
@@ -177,6 +208,39 @@ public class ADao {
 		    System.out.println("Unkonwn error");
 		    e.printStackTrace();
 		    result = "다른에러111"+e.getMessage();
+		}finally {
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		
+		return result;
+	}
+	public int chargeMoney(String id,String money) {
+		
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql = "update members set userpoint=userpoint+? where userid =?";
+		int mymoney=0;
+		mymoney = Integer.parseInt(money);
+		System.out.println("mymoney : "+mymoney);
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,mymoney);
+			pstmt.setString(2, id);
+			result = pstmt.executeUpdate();
+			System.out.println("update 완료!");
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
 		}finally {
 			try{
 				if(pstmt!=null)pstmt.close();
@@ -247,6 +311,79 @@ public class ADao {
 		}	
 		return result;
 	}
+	
+	public int upUseCount(String id) {
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		int result=0;
+		String sql = "update members set usecount=usecount+1 where userid = (select userid from orderlist where code =?)";
+	
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		return result;
+	}
+	
+	public ArrayList<userDTO> chargeCard() {
+		ArrayList<userDTO> userlist = new ArrayList<>();
+		
+		Connection con=null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "select userid,username,userphone,useremail,userpoint from members";
+		String id,name,phone,email,point;
+		
+		
+		try {
+			con = dataSource.getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				id = rs.getString("userid");
+				name = rs.getString("username");
+				phone = rs.getString("userphone");
+				email = rs.getString("useremail");
+				point = rs.getString("userpoint");
+				userDTO dto = new userDTO(id,name,phone,email,point);
+				
+				userlist.add(dto);
+			}
+			
+		} catch (SQLException sqle) {
+		    System.out.println("DB 접속실패 : "+sqle.toString());
+		} catch (Exception e) {
+		    System.out.println("Unkonwn error");
+		    e.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}	
+		
+		return userlist;
+	}
+	
 	public ArrayList<ADto> adminlist() {
 		ArrayList<ADto> list = new ArrayList<>();
 		
@@ -568,10 +705,12 @@ public class ADao {
 		    	info.add(rs.getString("userphone"));
 		    	info.add(rs.getString("userpoint"));
 		    	info.add(rs.getString("clientno"));
+		    	info.add(rs.getString("usecount"));
 		    }
 		    System.out.println("id : "+info.get(0));
 		    System.out.println("pw : "+info.get(1));
 		    System.out.println("point"+info.get(2));
+		    System.out.println("usercount : "+info.get(5));
 		    
 		    obj.put("info", info);	 
 		} catch (SQLException sqle) {
@@ -784,19 +923,17 @@ public class ADao {
 		return obj;
 	}
 	
-	public JSONObject inputorder(HashMap<String,String> data) {
-		HashMap<String,String> userdata = data;
+	public JSONObject inputorder(String menu,String code, String price, String client, String userid) {
+	
 		JSONObject obj = new JSONObject();
 		JSONArray jArray = new JSONArray();
+	
+		System.out.println("메뉴 : "+menu);
+		System.out.println("아이디 : "+userid);
 		
-		String menu = data.get("menu");
-		String code = data.get("code");
-		String price = data.get("price");
-		String client = data.get("client");		
-		String sql = "insert into orderlist values (?,?,?,?,'결제대기',(SELECT SYSDATE FROM DUAL))";
+		String sql = "insert into orderlist values (?,?,?,?,'결제대기',(SELECT SYSDATE FROM DUAL),?)";
 		Connection con=null;
 		PreparedStatement pstmt = null;
-		
 		try {
 			
 			con = dataSource.getConnection();
@@ -807,13 +944,12 @@ public class ADao {
 			pstmt.setString(2,menu);
 			pstmt.setString(3,price);
 			pstmt.setString(4,client);
-			int update = pstmt.executeUpdate();
+			pstmt.setString(5, userid);
 			
-		    String push = sendpush("카운터에 HAPPYCODE를 제시하세요!");
-		    String sendmsg = "업데이트 : "+update+" , push 여부 : "+push;
-			obj.put("result",sendmsg);
+			int update = pstmt.executeUpdate();
 		    
-		    
+		    String sendmsg = "업데이트 : "+update;
+			obj.put("result",sendmsg);		    
 		}catch (SQLException sqle) {
 		    System.out.println("DB 접속실패 : "+sqle.toString());
 		} catch (Exception e) {

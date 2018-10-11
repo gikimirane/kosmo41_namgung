@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.autofill.SaveRequest;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "lecture";
@@ -46,28 +48,38 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog dialog;
     AlertDialog joindialog;
     CheckBox cb;
-
+    TextView infotext;
     public static UserInfo info;
+    Boolean Loginsw=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        infotext = findViewById(R.id.info);
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
 
         MyPagerAdapter adapter = new MyPagerAdapter(this);
         pager1.setAdapter(adapter);
         logoutLayout();
+
         if(!SaveSharedPreference.getUserName(this).equals("")){
             strEmail = SaveSharedPreference.getUserName(this);
             strPassword = SaveSharedPreference.getUserPw(this);
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
         }
-        TextView info = findViewById(R.id.info);
     }
+
+
+    protected void onResume(){
+        super.onResume();
+        if(Loginsw){
+            infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원 / 쿠폰 : "+MainActivity.info.getUsecount()+"개");
+        }
+    }
+
     public void loginClicked(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -114,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_join_view, null);
         builder.setView(view);
+
         //builder.setCancelable(false);
         final Button submit = view.findViewById(R.id.join);
         final EditText id = view.findViewById(R.id.ettext);
@@ -133,13 +146,21 @@ public class MainActivity extends AppCompatActivity {
         });
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 newId = id.getText().toString();
                 newPw = password.getText().toString();
                 newName = name.getText().toString();
                 newPhone = phone.getText().toString();
                 newEmail = email.getText().toString();
                 newAddress = address.getText().toString();
-                insertDB();
+
+                if(newId.length()==0 || newPw.length()==0 || newName.length()==0 || newPhone.length()==0 || newEmail.length()==0 || newAddress.length()==0){
+                    Toast.makeText(getApplicationContext(),"값을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    insertDB();
+                }
+
             }
         });
         joindialog.show();
@@ -177,14 +198,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void orderClicked(View v){
-        Intent intent = new Intent(getApplicationContext(),order.class);
+        Intent intent = new Intent(this, order.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
     public void orderlistClicked(View v){
-        Intent intent = new Intent(getApplicationContext(),myorderlist.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, myorderlist.class);
+        startActivityForResult(intent,1);
     }
     public void webBtnClicked(View v){
         Intent intent = new Intent(getApplicationContext(),webview.class);
@@ -246,7 +269,8 @@ public class MainActivity extends AppCompatActivity {
         String uphone = userinfo.getString(2);
         String upoint =userinfo.getString(3);
         String uclient =userinfo.getString(4);
-        info = new UserInfo(uid,upw,uphone,upoint,uclient);
+        String ucount = userinfo.getString(5);
+        info = new UserInfo(uid,upw,uphone,upoint,uclient,ucount);
     }
 
 
@@ -277,10 +301,11 @@ public class MainActivity extends AppCompatActivity {
             if(s!=null){
                 try {
                     if(s.getString("result").equals("성공")){
+                        setInfomation(s);
                         if(SaveSharedPreference.getUserName(getApplicationContext()).length()<=0){
                             dialog.dismiss();
                             if(cb.isChecked()){
-                                SaveSharedPreference.setUserName(getApplicationContext(),strEmail,strPassword);
+                                SaveSharedPreference.setUserName(getApplicationContext(),strEmail,strPassword,MainActivity.info.getPoint(),MainActivity.info.getUsecount());
                             }
                         }
                         Toast.makeText(getApplicationContext(), strEmail+"님! 반가워요! ", Toast.LENGTH_LONG).show();
@@ -289,8 +314,9 @@ public class MainActivity extends AppCompatActivity {
                             adminlogin();
                             Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
                         }
-                        setInfomation(s);
+
                         loginLayout();
+                        Loginsw = true;
 
                     }else if(s.getString("result").equals("실패")){
                         Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_LONG).show();
@@ -307,18 +333,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        TextView info = findViewById(R.id.info);
-        info.setText(MainActivity.info.getId() + "님의 PLACIDO CARD 잔액 : " + MainActivity.info.getPoint() + "원");
-    }
-
 
     public void loginLayout(){
-        TextView info = findViewById(R.id.info);
-        info.setText(MainActivity.info.getId()+"님의 PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+
+        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원 / 쿠폰 : "+MainActivity.info.getUsecount()+"개");
 
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.GONE);
@@ -334,15 +352,13 @@ public class MainActivity extends AppCompatActivity {
         btnadmin.setVisibility(View.VISIBLE);
     }
     private void adminlogout(){
-
         Button btnadmin = findViewById(R.id.admin);
         btnadmin.setVisibility(View.GONE);
 
     }
     public void logoutLayout(){
-        TextView info = findViewById(R.id.info);
-        info.setText("LOGIN 시 HAPPYORDER가 가능합니다!");
-        info.setVisibility(View.VISIBLE);
+
+        infotext.setText("LOGIN 시 HAPPYORDER가 가능합니다!");
 
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.VISIBLE);
@@ -353,6 +369,22 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout orderlayout = findViewById(R.id.orderlayout);
         orderlayout.setVisibility(View.GONE);
 
+    }
+    private void notiAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("가입 기념으로 PLACIDO CARD 5000원을 충전해 드립니다.\nHAPPYORDER를 경험하세요!")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("가입을 환영합니다!")
+                .setCancelable(true)
+
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public class NetworkTask1 extends AsyncTask<Object,Void,JSONObject> {
@@ -384,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
                     if(s.getString("result").equals("성공")){
                         Toast.makeText(getApplicationContext(), "가입 완료 ! 반갑습니다 !", Toast.LENGTH_LONG).show();
                         joindialog.dismiss();
+                        notiAlert();
                     }else if(s.getString("result").equals("중복")){
                         Toast.makeText(getApplicationContext(), "아이디가 중복됩니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                     }else {
@@ -436,6 +469,4 @@ public class MainActivity extends AppCompatActivity {
             return v;
         }
     }
-
-
 }

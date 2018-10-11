@@ -34,13 +34,11 @@
 		price = URLDecoder.decode(price,"UTF-8");
 		String client = request.getParameter("client");
 		client = URLDecoder.decode(client,"UTF-8");
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
 		
-		data.put("menu", menu);
-		data.put("code",code);
-		data.put("price",price);
-		data.put("client",client);
-		obj = db.inputorder(data);
-		System.out.println("obj!!"+obj.size());
+		obj = db.inputorder(menu, code, price, client, userid);
+		//System.out.println("obj!!"+obj.size());
 		
 	}else if(order.equals("myorderlist")){
 		
@@ -62,7 +60,11 @@
 	}else if(order.equals("sendpush")){
 		String client = request.getParameter("client");
 		client = URLDecoder.decode(client,"UTF-8");
-		String result=db.instancepush(client,"발급된 HAPPYCODE는 오늘이 지나면 사라집니다.");
+		
+		String msg = request.getParameter("message");
+		client = URLDecoder.decode(msg,"UTF-8");
+		
+		String result=db.instancepush(client,msg);
 		obj.put("result",result);
 	}else if(order.equals("insertuser")){
 		System.out.println("insert user !");

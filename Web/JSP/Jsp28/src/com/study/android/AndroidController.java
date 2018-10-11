@@ -42,20 +42,40 @@ public class AndroidController extends HttpServlet {
 		String viewPage="";
 		
 		if(com.equals("/adminlogin.ad")) {
+			
 			command = new AAdminLoginCommand();
 			command.execute(request, response);
 			viewPage = "adminpage.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 			dispatcher.forward(request,response);
 			return;
+			
 		}else if(com.equals("/pushclient.ad")) {
+			
 			command = new APushClientCommand();
 			command.execute(request, response);
+			
 		}else if(com.equals("/payclient.ad")) {
+			
 			command = new APayClientCommand();
 			command.execute(request, response);
+			
 		}else if(com.equals("/change.ad")) {
+			
 			command = new AChangeCommand();
+			command.execute(request, response);
+			
+		}else if(com.equals("/chargeCard.ad")) {
+			
+			command = new AChargeCardCommand();
+			command.execute(request, response);
+			
+		}else if(com.equals("/chargemoney.ad")) {
+			
+			command = new AChargeMoneyCommand();
+			command.execute(request, response);
+		}else if(com.equals("/resetcount.ad")) {
+			command = new AResetCountCommand();
 			command.execute(request, response);
 		}
 	}

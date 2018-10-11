@@ -8,26 +8,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-public class APayClientCommand implements ACommand {
+public class AResetCountCommand implements ACommand {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter writer = response.getWriter();
-		String code = request.getParameter("code");
+		String id = request.getParameter("id");
 		ADao dao = ADao.getInstance();
 		
-		String result;
-		int upcount;
-		
+		int result=dao.resetCount(id);
 		JSONObject obj = new JSONObject();
 		
-		System.out.println("code : "+code);
-		result=dao.sendpush(code, "결제가 완료되어 음료를 만드는 중입니다.");
-		if(result.equals("성공")) {
-			obj.put("results", "OK");
-			obj.put("desc", "push 발송완료");
+		if(result==1) {
+			obj.put("results", "ok");
+			obj.put("desc", "Reset 완료");
 			writer.println(obj);
 		}else {
 			obj.put("results", "fail");
@@ -36,4 +32,5 @@ public class APayClientCommand implements ACommand {
 		}
 		writer.close();
 	}
+
 }
