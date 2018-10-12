@@ -74,6 +74,7 @@ public class AndroidController extends HttpServlet {
 			
 			command = new AChargeMoneyCommand();
 			command.execute(request, response);
+			
 		}else if(com.equals("/resetcount.ad")) {
 			command = new AResetCountCommand();
 			command.execute(request, response);

@@ -25,7 +25,10 @@ public class AChargeMoneyCommand implements ACommand {
 		System.out.println("id : "+id);
 		System.out.println("money : "+money);
 		JSONObject obj = new JSONObject();
+		
 		int result=dao.chargeMoney(id,money);
+		
+		
 		if(result==1) {
 			obj.put("results", "ok");
 			obj.put("desc", "DB Update 완료");

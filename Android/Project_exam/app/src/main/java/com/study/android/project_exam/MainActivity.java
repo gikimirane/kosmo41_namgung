@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     TextView infotext;
     public static UserInfo info;
     Boolean Loginsw=false;
-    //ImageView[] img=new ImageView[10];
+    myNetworkTask networkTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +68,65 @@ public class MainActivity extends AppCompatActivity {
             strPassword = SaveSharedPreference.getUserPw(this);
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
+
         }
 
     }
 
+    protected void onDestroy(){
+        super.onDestroy();
+        networkTask =null;
+    }
 
     protected void onResume(){
         super.onResume();
         if(Loginsw){
-            infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원 / 쿠폰 : "+MainActivity.info.getUsecount()+"개");
+            Log.d(TAG,"쿠폰 : "+MainActivity.info.getUsecount());
+            if(MainActivity.info.getUsecount()>=10){
+                checkUseCount();
+            }
+            infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
             makeStar();
         }
+    }
+
+    private void checkUseCount(){
+        int count=MainActivity.info.getUsecount();
+        String sUrl="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/chargemoney.ad";
+        //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
+        HashMap<String,String> values= new HashMap<>();
+        values.put("id",MainActivity.info.getId());
+        values.put("money","5000");
+        networkTask = new myNetworkTask(sUrl, values);
+        networkTask.execute();
+
+
+
+
+
+        sUrl="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/resetcount.ad";
+        //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
+        values= new HashMap<>();
+        values.put("id",MainActivity.info.getId());
+        networkTask = new myNetworkTask(sUrl, values);
+        networkTask.execute();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("쿠폰 10장! 5000원 증정!\n이용해주셔서 감사합니다.")
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.info.setPoint(MainActivity.info.getPoint()+5000);
+                        MainActivity.info.setUsecount(0);
+                        dialog.cancel();
+                        Intent intent = new Intent(getApplicationContext(), myorderlist.class);
+                        intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void loginClicked(View v){
@@ -239,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
                         SaveSharedPreference.clearUserName(getApplicationContext());
                         Toast.makeText(getApplicationContext(),"LOGOUT을 완료 했습니다.",Toast.LENGTH_SHORT).show();
                         logoutLayout();
+                        Loginsw=false;
                         dialog.cancel();
                     }
                 });
@@ -264,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
     public void setInfomation(JSONObject s) throws JSONException {
         JSONObject obj =s.getJSONObject("userinfo");
@@ -276,7 +324,8 @@ public class MainActivity extends AppCompatActivity {
         String upoint =userinfo.getString(3);
         String uclient =userinfo.getString(4);
         String ucount = userinfo.getString(5);
-        info = new UserInfo(uid,upw,uphone,upoint,uclient,ucount);
+        String name = userinfo.getString(6);
+        info = new UserInfo(uid,upw,uphone,upoint,uclient,ucount,name);
     }
 
 
@@ -347,7 +396,6 @@ public class MainActivity extends AppCompatActivity {
         };
         for(int i=1;i<=mystamp;i++){
             img[i-1].setImageResource(R.drawable.ic_favorite_black_24dp);
-
         }
     }
 
@@ -358,6 +406,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout stamplayout = findViewById(R.id.stamp);
         stamplayout.setVisibility(View.VISIBLE);
         makeStar();
+
+        BootstrapButton chat = findViewById(R.id.chatting);
+        chat.setVisibility(View.VISIBLE);
 
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.GONE);
@@ -386,6 +437,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout emplayout = findViewById(R.id.emplayout);
         emplayout.setVisibility(View.VISIBLE);
 
+        BootstrapButton chat = findViewById(R.id.chatting);
+        chat.setVisibility(View.GONE);
+
         LinearLayout logoutlayout = findViewById(R.id.logoutlayout);
         logoutlayout.setVisibility(View.GONE);
 
@@ -395,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void notiAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("가입 기념으로 PLACIDO CARD 5000원을 충전해 드립니다.\nHAPPYORDER를 경험하세요!")
+        builder.setMessage("가입 기념 PLACIDO CARD 5000원을 충전!\nHAPPYORDER를 경험하세요!")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("가입을 환영합니다!")
                 .setCancelable(true)

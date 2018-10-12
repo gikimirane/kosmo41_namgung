@@ -62,6 +62,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String channelId = "channel";
         String channelName = "Channel Name";
 
+        if(body.contains("완료")){
+            MainActivity.info.setUsecount(MainActivity.info.getUsecount()+1);
+        }
+
         NotificationManager notifManager
                 = (NotificationManager) getSystemService  (Context.NOTIFICATION_SERVICE);
 

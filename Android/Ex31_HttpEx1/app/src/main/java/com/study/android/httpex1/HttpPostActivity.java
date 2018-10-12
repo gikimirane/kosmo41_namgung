@@ -51,9 +51,10 @@ public class HttpPostActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String result;
-            RequestHttpURLConnection requestHttpURLConnection =
+            RequestHttpURLConnection re =
                     new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values);
+
+            result = re.request(url,values);
 
             return result;
         }
@@ -63,5 +64,6 @@ public class HttpPostActivity extends AppCompatActivity {
             tvHtml2.setText(s);
         }
     }
+
 }
 

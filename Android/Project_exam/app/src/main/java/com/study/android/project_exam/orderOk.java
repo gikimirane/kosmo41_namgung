@@ -58,6 +58,7 @@ public class orderOk extends AppCompatActivity {
     String menu="",totalsum;
     int subsum,count=0;
     String saveid;
+    myNetworkTask networkTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class orderOk extends AppCompatActivity {
         HashMap<String,String> values= new HashMap<>();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         values.put("code",result);
-        NetworkTask networkTask = new NetworkTask(sUrl, values);
+        networkTask= new myNetworkTask(sUrl, values);
         networkTask.execute();
 
         sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/change.ad";
@@ -111,7 +112,7 @@ public class orderOk extends AppCompatActivity {
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
         values.put("code",result);
         values.put("status","결제완료");
-        networkTask = new NetworkTask(sUrl, values);
+        networkTask = new myNetworkTask(sUrl, values);
         networkTask.execute();
 
         sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
@@ -122,7 +123,7 @@ public class orderOk extends AppCompatActivity {
         values.put("userid",MainActivity.info.getId());
         values.put("subsum", String.valueOf(subsum));
 
-        networkTask = new NetworkTask(sUrl, values);
+        networkTask = new myNetworkTask(sUrl, values);
         networkTask.execute();
 
         MainActivity.info.setPoint(MainActivity.info.getPoint()-subsum);
@@ -134,13 +135,10 @@ public class orderOk extends AppCompatActivity {
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.info.setUsecount(MainActivity.info.getUsecount()+1);
-                        if(MainActivity.info.getUsecount()>10) {
-                            checkUseCount();
-                        }else {
-                            Intent intent = new Intent(getApplicationContext(),myorderlist.class);
-                            startActivity(intent);
-                        }
+
+                        Intent intent = new Intent(getApplicationContext(),myorderlist.class);
+                        startActivity(intent);
+
                     }
                 });
         AlertDialog alert = builder.create();
@@ -184,43 +182,7 @@ public class orderOk extends AppCompatActivity {
 
         }
     }
-    private void checkUseCount(){
-        int count=MainActivity.info.getUsecount();
-        String sUrl="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/chargemoney.ad";
-        //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
-        HashMap<String,String> values= new HashMap<>();
-        values.put("id",MainActivity.info.getId());
-        values.put("money","5000");
-        NetworkTask networkTask = new NetworkTask(sUrl, values);
-        networkTask.execute();
 
-        sUrl="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/resetcount.ad";
-        //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
-        values= new HashMap<>();
-        values.put("id",MainActivity.info.getId());
-        networkTask = new NetworkTask(sUrl, values);
-        networkTask.execute();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("10회 이용 감사 5000원 증정!\n이용해주셔서 감사합니다.")
-                .setCancelable(true)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        MainActivity.info.setPoint(MainActivity.info.getPoint()+5000);
-                        MainActivity.info.setUsecount(0);
-                        dialog.cancel();
-                        Intent intent = new Intent(getApplicationContext(), myorderlist.class);
-                        intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-
-
-
-    }
 
     private void randomCode(String order){
 
@@ -241,47 +203,8 @@ public class orderOk extends AppCompatActivity {
         values.put("userid",saveid);
 
         //Log.d(TAG,"client key : "+refreshedToken);
-        NetworkTask networkTask = new NetworkTask(sUrl, values);
+        myNetworkTask networkTask = new myNetworkTask(sUrl, values);
         networkTask.execute();
         tvCode.setText(result);
-    }
-
-    public class NetworkTask extends AsyncTask<Object,Void,JSONObject> {
-        private String surl;
-        private HashMap<String,String> values;
-        //ContentValues values = new ContentValues();
-        StringBuffer sbParams = new StringBuffer();
-        String key;
-        String value;
-        boolean isAnd = false;
-
-        public NetworkTask(String url, HashMap values) {
-            this.surl = url;
-            this.values = values;
-        }
-
-        @Override
-        protected JSONObject doInBackground(Object... params) {
-            JSONObject result = null;
-            RequestHttpURLConnection request = new RequestHttpURLConnection();
-
-            result=request.jsonReturn(surl,values);
-            return result;
-        }
-
-        public void onPostExecute(JSONObject s) {
-            super.onPostExecute(s);
-            String result;
-            if(s!=null){
-                try {
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                Log.d(TAG,"결과없음!");
-                Toast.makeText(getApplicationContext(), "결과없음!!", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

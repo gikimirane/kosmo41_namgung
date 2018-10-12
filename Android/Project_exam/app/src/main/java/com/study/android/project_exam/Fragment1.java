@@ -30,7 +30,7 @@ public class Fragment1 extends Fragment {
     private static final String TAG = "lecture";
     ListView listview1;
     myorderlistAdapter adapter;
-
+    myNetworkTask NetworkTask1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class Fragment1 extends Fragment {
         HashMap<String,String> values = new HashMap<>();
         values.put("order","deleteorder");
         values.put("code",mycode);
-        NetworkTask1 NetworkTask1 = new NetworkTask1(sUrl,values);
+        NetworkTask1 = new myNetworkTask(sUrl,values);
         NetworkTask1.execute();
     }
 
@@ -157,6 +157,7 @@ public class Fragment1 extends Fragment {
                 Log.d(TAG,"결과없음!");
 
             }
+            NetworkTask1=null;
         }
     }
 

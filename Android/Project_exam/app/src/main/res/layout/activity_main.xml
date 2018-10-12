@@ -10,253 +10,285 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="PLACIDO COFFEE"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_height="270dp"
+        android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/ViewPager1"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="PLACIDO COFFEE"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-    </android.support.v4.view.ViewPager>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/ViewPager1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="LOGIN 시 HAPPYORDER가 가능합니다!"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        </android.support.v4.view.ViewPager>
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="LOGIN 시 HAPPYORDER가 가능합니다!"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/stamp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#fff2db"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="visible">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/groupstar1"
+            android:id="@+id/stamp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff2db"
+            android:orientation="vertical"
+            android:padding="10dp"
             android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/star1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+            <LinearLayout
+                android:id="@+id/groupstar1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/star2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
-            <ImageView
-                android:id="@+id/star3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
-            <ImageView
-                android:id="@+id/star4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
-            <ImageView
-                android:id="@+id/star5"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/groupstar2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/star6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/star7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/star8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/star9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+                <ImageView
+                    android:id="@+id/star10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/groupstar2"
+            android:id="@+id/emplayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/star6"
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                android:onClick="loginClicked"
+                android:text="LOGIN"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="true" />
 
-            <ImageView
-                android:id="@+id/star7"
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/join"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
-
-            <ImageView
-                android:id="@+id/star8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
-
-            <ImageView
-                android:id="@+id/star9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
-
-            <ImageView
-                android:id="@+id/star10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+                android:onClick="joinClicked"
+                android:text="JOIN"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="true" />
         </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/emplayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="horizontal">
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:onClick="loginClicked"
-            android:text="LOGIN"
-            app:bootstrapBrand="warning"
-            app:bootstrapSize="lg"
-            app:buttonMode="regular"
-            app:roundedCorners="true"
-            app:showOutline="true" />
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:onClick="joinClicked"
-            android:text="JOIN"
-            app:bootstrapBrand="warning"
-            app:bootstrapSize="lg"
-            app:buttonMode="regular"
-            app:roundedCorners="true"
-            app:showOutline="true" />
-    </LinearLayout>
-
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/Navigator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:onClick="naviClicked"
-        android:text="PLACIDO INFO"
-        app:bootstrapBrand="warning"
-        app:bootstrapSize="lg"
-        app:buttonMode="regular"
-        app:roundedCorners="true"
-        app:showOutline="true" />
-
-    <LinearLayout
-        android:id="@+id/orderlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical">
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/order"
+            android:id="@+id/Navigator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:onClick="orderClicked"
-            android:text="HAPPYCODE ORDER"
-            app:bootstrapBrand="warning"
-            app:bootstrapSize="lg"
-            app:buttonMode="regular"
-            app:roundedCorners="true"
-
-            app:showOutline="true" />
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/orderlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="orderlistClicked"
-            android:text="MY ORDERLIST"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:onClick="naviClicked"
+            android:text="PLACIDO INFO"
             app:bootstrapBrand="warning"
             app:bootstrapSize="lg"
             app:buttonMode="regular"
             app:roundedCorners="true"
             app:showOutline="true" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/logoutlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical">
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/logout"
+        <LinearLayout
+            android:id="@+id/orderlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:onClick="logoutClicked"
-            android:text="LOGOUT"
-            app:bootstrapBrand="warning"
-            app:bootstrapSize="lg"
-            app:buttonMode="regular"
-            app:roundedCorners="true"
-            app:showOutline="true" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/admin"
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:onClick="orderClicked"
+                android:text="HAPPYCODE ORDER"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+
+                app:showOutline="true" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/orderlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="orderlistClicked"
+                android:text="MY ORDERLIST"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logoutlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="webBtnClicked"
-            android:text="ADMINPAGE"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:onClick="logoutClicked"
+                android:text="LOGOUT"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="true" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="webBtnClicked"
+                android:text="ADMINPAGE"
+                android:visibility="gone"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="true" />
+
+        </LinearLayout>
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/chatting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:onClick="onChatClicked"
+            android:text="CHATTING"
             android:visibility="gone"
             app:bootstrapBrand="warning"
             app:bootstrapSize="lg"
@@ -266,19 +298,8 @@
 
     </LinearLayout>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:onClick="onChatClicked"
-        android:text="CHATTING"
-        app:bootstrapBrand="warning"
-        app:bootstrapSize="lg"
-        app:buttonMode="regular"
-        app:roundedCorners="true"
-        app:showOutline="true" />
+
+
 
 
 </LinearLayout>

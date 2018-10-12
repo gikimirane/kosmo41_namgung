@@ -7,14 +7,24 @@ public class UserInfo {
     private int point;
     private String clientno;
     private int usecount;
+    private String name;
 
-    public UserInfo(String id, String pw, String phone, String point, String clientno, String usecount) {
+    public UserInfo(String id, String pw, String phone, String point, String clientno, String usecount,String name) {
         this.id = id;
         this.pw = pw;
         this.phone = phone;
         this.point = Integer.parseInt(point);
         this.clientno = clientno;
         this.usecount = Integer.parseInt(usecount);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {

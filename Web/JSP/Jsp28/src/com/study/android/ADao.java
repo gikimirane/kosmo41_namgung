@@ -55,7 +55,7 @@ public class ADao {
 			con = dataSource.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			rs=pstmt.executeQuery();
+			rs=pstmt.executeQuery(); 
 			
 			if(rs.next()) {
 				result=1;
@@ -706,6 +706,7 @@ public class ADao {
 		    	info.add(rs.getString("userpoint"));
 		    	info.add(rs.getString("clientno"));
 		    	info.add(rs.getString("usecount"));
+		    	info.add(rs.getString("username"));
 		    }
 		    System.out.println("id : "+info.get(0));
 		    System.out.println("pw : "+info.get(1));
