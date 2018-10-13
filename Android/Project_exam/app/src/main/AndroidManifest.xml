@@ -29,7 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".slider" />
         <activity android:name=".Navigator" />
 
         <uses-library android:name="com.google.android.maps" />
@@ -61,7 +60,6 @@
         <activity android:name=".SaveSharedPreference" />
         <activity android:name=".StartActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".myInfomation"></activity>
     </application>
 
 </manifest>

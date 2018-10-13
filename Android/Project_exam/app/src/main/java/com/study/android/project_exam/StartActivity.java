@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +27,7 @@ public class StartActivity extends AppCompatActivity {
     private static final String TAG = "lecture";
 
     private EditText user_chat;
-    private Button user_next;
+    private BootstrapButton user_next;
     private ListView chat_list;
     private TextView user_edit;
 
@@ -38,12 +39,12 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        user_chat = (EditText) findViewById(R.id.user_chat);
+        user_chat = findViewById(R.id.user_chat);
         user_edit = findViewById(R.id.username);
         user_edit.setText(MainActivity.info.getName());
 
-        user_next = (Button) findViewById(R.id.user_next);
-        chat_list = (ListView) findViewById(R.id.chat_list);
+        user_next = findViewById(R.id.user_next);
+        chat_list = findViewById(R.id.chat_list);
 
         user_next.setOnClickListener(new View.OnClickListener() {
             @Override

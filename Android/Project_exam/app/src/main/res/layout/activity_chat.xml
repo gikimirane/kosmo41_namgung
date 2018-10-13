@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="PLACIDO COFFEE"
+            android:textColor="@color/myGray"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -43,24 +44,36 @@
                 android:divider="#ffffff"
                 android:dividerHeight="0px"
                 android:fastScrollEnabled="true"
+                android:stackFromBottom="true"
+                android:transcriptMode="alwaysScroll"
+
                 />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/chat_sent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="send" />
+            android:layout_margin="15dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/chat_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/chat_sent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SEND"
+                app:bootstrapBrand="regular"
+                app:bootstrapSize="md"
+                app:buttonMode="regular"
+                app:roundedCorners="true"
+                app:showOutline="false" />
+
         </LinearLayout>
 
     </LinearLayout>

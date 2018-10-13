@@ -36,12 +36,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/button7"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:onClick="codeBtnClicked"
-            android:text="MAKE! HAPPYCODE" />
+            android:text="MAKE! HAPPYCODE"
+            app:bootstrapBrand="warning"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="false"
+            app:showOutline="false"/>
     </LinearLayout>
 
 

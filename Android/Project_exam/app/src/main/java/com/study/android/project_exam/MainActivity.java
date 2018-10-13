@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,14 +34,10 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "lecture";
     ViewPager pager1;
-    int count;
-    int up=0,down=0,btncount=0;
     LinearLayout layout;
     Context context;
-    Button btn02;
     String strEmail,strPassword,newPhone,newId,newPw,newName,newAddress,newEmail;
-    AlertDialog dialog;
-    AlertDialog joindialog;
+    AlertDialog dialog,joindialog;
     CheckBox cb;
     TextView infotext;
     public static UserInfo info;
@@ -54,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TypefaceProvider.registerDefaultIconSets();
+
 
         infotext = findViewById(R.id.info);
         pager1 = findViewById(R.id.ViewPager1);
@@ -68,9 +64,7 @@ public class MainActivity extends AppCompatActivity {
             strPassword = SaveSharedPreference.getUserPw(this);
             Log.d(TAG,"PreparedShare id : "+strEmail+" / PW "+strPassword);
             loginCheck();
-
         }
-
     }
 
     protected void onDestroy(){
@@ -100,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
         networkTask = new myNetworkTask(sUrl, values);
         networkTask.execute();
 
-
-
-
-
         sUrl="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/resetcount.ad";
         //String sUrl ="http://192.168.200.131:8081/menulist/payclient.ad";
         values= new HashMap<>();
@@ -113,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("쿠폰 10장! 5000원 증정!\n이용해주셔서 감사합니다.")
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -134,11 +124,10 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_login_view, null);
         builder.setView(view);
-        //builder.setCancelable(false);
-        final Button submit = view.findViewById(R.id.login);
+        final BootstrapButton submit = view.findViewById(R.id.login);
         final EditText email = view.findViewById(R.id.edittextEmailAddress);
         final EditText password = view.findViewById(R.id.edittextPassword);
-        final Button cancel = view.findViewById(R.id.cancel);
+        final BootstrapButton cancel = view.findViewById(R.id.cancel);
         cb = view.findViewById(R.id.autologin);
 
         LinearLayout autolayout=view.findViewById(R.id.autolayout);
@@ -175,9 +164,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_join_view, null);
         builder.setView(view);
-
-        //builder.setCancelable(false);
-        final Button submit = view.findViewById(R.id.join);
+        final BootstrapButton submit = view.findViewById(R.id.join);
         final EditText id = view.findViewById(R.id.ettext);
         final EditText password = view.findViewById(R.id.etpw);
         final EditText name = view.findViewById(R.id.etname);
@@ -185,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText email = view.findViewById(R.id.etemail);
         final EditText address = view.findViewById(R.id.etaddress);
 
-        final Button cancel = view.findViewById(R.id.jcancel);
+        final BootstrapButton cancel = view.findViewById(R.id.jcancel);
         joindialog = builder.create();
 
         cancel.setOnClickListener(new View.OnClickListener(){
@@ -368,8 +355,9 @@ public class MainActivity extends AppCompatActivity {
                         if(strEmail.equalsIgnoreCase("placido")){
                             adminlogin();
                             Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
+                        }else {
+                            adminlogout();
                         }
-
                         loginLayout();
                         Loginsw = true;
 
@@ -395,11 +383,18 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.star6),findViewById(R.id.star7),findViewById(R.id.star8),findViewById(R.id.star9),findViewById(R.id.star10)
         };
         for(int i=1;i<=mystamp;i++){
-            img[i-1].setImageResource(R.drawable.ic_favorite_black_24dp);
+            img[i-1].setImageResource(R.drawable.ic_sentiment_very_satisfied_black_24dp);
         }
     }
 
     public void loginLayout(){
+
+        LinearLayout imglayout = findViewById(R.id.imglayout);
+
+        LinearLayout.LayoutParams params
+                = (LinearLayout.LayoutParams) imglayout.getLayoutParams();
+        params.weight = 1;
+        imglayout.setLayoutParams(params);
 
         infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
 
@@ -420,14 +415,21 @@ public class MainActivity extends AppCompatActivity {
         orderlayout.setVisibility(View.VISIBLE);
     }
     private void adminlogin(){
-        BootstrapButton btnadmin = findViewById(R.id.admin);
-        btnadmin.setVisibility(View.VISIBLE);
+        LinearLayout adminlayout = findViewById(R.id.adminlayout);
+        adminlayout.setVisibility(View.VISIBLE);
     }
     private void adminlogout(){
-        BootstrapButton btnadmin = findViewById(R.id.admin);
-        btnadmin.setVisibility(View.GONE);
+        LinearLayout adminlayout = findViewById(R.id.adminlayout);
+        adminlayout.setVisibility(View.GONE);
     }
     public void logoutLayout(){
+
+        LinearLayout imglayout = findViewById(R.id.imglayout);
+
+        LinearLayout.LayoutParams params
+                = (LinearLayout.LayoutParams) imglayout.getLayoutParams();
+        params.weight = 3;
+        imglayout.setLayoutParams(params);
 
         LinearLayout stamplayout = findViewById(R.id.stamp);
         stamplayout.setVisibility(View.GONE);

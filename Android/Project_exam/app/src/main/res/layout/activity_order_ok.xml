@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Random Code"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="#f0ad4e"
         android:textSize="60sp"
         android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/paypoint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +104,12 @@
             android:onClick="paybtnClicked"
             android:text="PAY NOW!"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:bootstrapBrand="warning"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Project_exam</string>
     <string name="server_addr">http:// 192.168.200.131:8081</string>
-    <string name="ad_unit_id_1">ca-app-pub-1523120398026120/5397929749</string>
+    <string name="ad_unit_id_1">ca-app-pub-2483880267269749/3579630783</string>
     <!--<string name="ad_unit_id_1">ca-app-pub-2483880267269749/3579630783</string>-->
 </resources>

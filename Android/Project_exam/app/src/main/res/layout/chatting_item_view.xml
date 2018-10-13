@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff6e4"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
@@ -18,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="TextView"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="#F0AD4E"
             android:textSize="18sp"
             android:textStyle="bold" />
 

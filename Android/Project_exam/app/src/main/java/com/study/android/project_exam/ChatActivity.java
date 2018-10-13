@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +29,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private ListView chat_view;
     private EditText chat_edit;
-    private Button chat_send;
+    private BootstrapButton chat_send;
     private TextView chat_name;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -42,9 +43,9 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         // 위젯 ID 참조
-        chat_view = (ListView) findViewById(R.id.chat_view);
-        chat_edit = (EditText) findViewById(R.id.chat_edit);
-        chat_send = (Button) findViewById(R.id.chat_sent);
+        chat_view = findViewById(R.id.chat_view);
+        chat_edit = findViewById(R.id.chat_edit);
+        chat_send = findViewById(R.id.chat_sent);
         chat_name = findViewById(R.id.roomname);
 
 
