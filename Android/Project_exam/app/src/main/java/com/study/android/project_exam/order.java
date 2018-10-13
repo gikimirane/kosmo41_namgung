@@ -61,7 +61,6 @@ public class order extends AppCompatActivity {
                     .setCancelable(true)
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id){
-
                             dialog.cancel();
                         }
                     })
@@ -70,8 +69,9 @@ public class order extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(getApplicationContext(), orderOk.class);
                             intent.putExtra("orderlist",cb);
-                            intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
+                            finish();
 
                             dialog.cancel();
                         }

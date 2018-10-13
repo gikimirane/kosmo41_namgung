@@ -131,14 +131,14 @@ public class orderOk extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("PLACIDO CARD로 결제가 완료되었습니다.\n"+MainActivity.info.getId()+"님의 현재 잔액은 "+MainActivity.info.getPoint()+"원 입니다.")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
                         Intent intent = new Intent(getApplicationContext(),myorderlist.class);
                         startActivity(intent);
-
+                        finish();
                     }
                 });
         AlertDialog alert = builder.create();

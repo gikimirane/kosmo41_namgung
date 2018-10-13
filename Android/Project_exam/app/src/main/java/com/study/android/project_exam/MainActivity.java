@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TypefaceProvider.registerDefaultIconSets();
 
-
         infotext = findViewById(R.id.info);
         pager1 = findViewById(R.id.ViewPager1);
         pager1.setOffscreenPageLimit(5);
@@ -109,10 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.info.setPoint(MainActivity.info.getPoint()+5000);
                         MainActivity.info.setUsecount(0);
+                        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+                        makeStar();
                         dialog.cancel();
-                        Intent intent = new Intent(getApplicationContext(), myorderlist.class);
-                        intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
-                        startActivity(intent);
+                        //Intent intent = new Intent(getApplicationContext(), myorderlist.class);
+                        //intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(intent);
                     }
                 });
         AlertDialog alert = builder.create();
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void orderClicked(View v){
         Intent intent = new Intent(this, order.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
@@ -382,6 +383,11 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.star1),findViewById(R.id.star2),findViewById(R.id.star3),findViewById(R.id.star4),findViewById(R.id.star5),
                 findViewById(R.id.star6),findViewById(R.id.star7),findViewById(R.id.star8),findViewById(R.id.star9),findViewById(R.id.star10)
         };
+
+        for(int i=1;i<=10;i++){
+            img[i-1].setImageResource(R.drawable.ic_sentiment_satisfied_black_24dp);
+        }
+
         for(int i=1;i<=mystamp;i++){
             img[i-1].setImageResource(R.drawable.ic_sentiment_very_satisfied_black_24dp);
         }
