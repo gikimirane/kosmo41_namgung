@@ -2,7 +2,9 @@ package com.study.android.project_exam;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Network;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -30,7 +32,7 @@ public class Fragment1 extends Fragment {
     private static final String TAG = "lecture";
     ListView listview1;
     myorderlistAdapter adapter;
-    myNetworkTask NetworkTask1;
+    NetworkTask1 NetworkTask1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class Fragment1 extends Fragment {
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","myorderlist");
-        values.put("client",refreshedToken);
+        values.put("userid",MainActivity.info.getId());
         NetworkTask networkTask = new NetworkTask(sUrl,values);
         networkTask.execute();
     }
@@ -94,7 +96,6 @@ public class Fragment1 extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-
                                 deleteorder(mycode);
                                 dialog.cancel();
                             }
@@ -112,16 +113,19 @@ public class Fragment1 extends Fragment {
         HashMap<String,String> values = new HashMap<>();
         values.put("order","deleteorder");
         values.put("code",mycode);
-        NetworkTask1 = new myNetworkTask(sUrl,values);
+        NetworkTask1 = new NetworkTask1(sUrl,values);
         NetworkTask1.execute();
     }
 
     private void refresh(){
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
+        ((myorderlist)getActivity()).adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
-    public class NetworkTask1 extends AsyncTask<Object,Void,JSONObject> {
+    private class NetworkTask1 extends AsyncTask<Object,Void,JSONObject> {
         private String surl;
         private HashMap<String,String> values;
         StringBuffer sbParams = new StringBuffer();
@@ -147,7 +151,9 @@ public class Fragment1 extends Fragment {
                 try {
                     String result=s.getString("result");
                     if(result.equals("성공")){
+                        Log.d(TAG,"result : "+result+"새로고쳐져라!!");
                         refresh();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -187,6 +193,7 @@ public class Fragment1 extends Fragment {
                 //Toast.makeText(getApplicationContext(), "onPostExecute", Toast.LENGTH_LONG).show();
                 Log.d(TAG,"fragment : onPostExecute");
                 createlist(s);
+
             }else {
                 Log.d(TAG,"결과없음!");
                 //Toast.makeText(getApplicationContext(), "결과없음!!", Toast.LENGTH_SHORT).show();

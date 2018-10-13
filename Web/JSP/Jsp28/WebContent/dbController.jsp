@@ -42,20 +42,20 @@
 		
 	}else if(order.equals("myorderlist")){
 		
-		String client = request.getParameter("client");
-		client = URLDecoder.decode(client,"UTF-8");
-		obj = db.myorderlist(client);
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
+		obj = db.myorderlist(userid);
 		
 	}else if(order.equals("mysuccess")){
 		
-		String client = request.getParameter("client");
-		client = URLDecoder.decode(client,"UTF-8");
-		obj = db.mysuccesslist(client);
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
+		obj = db.mysuccesslist(userid);
 	}else if(order.equals("myfinish")){
 		
-		String client = request.getParameter("client");
-		client = URLDecoder.decode(client,"UTF-8");
-		obj = db.myfinishlist(client);
+		String userid = request.getParameter("userid");
+		userid = URLDecoder.decode(userid,"UTF-8");
+		obj = db.myfinishlist(userid);
 		
 	}else if(order.equals("sendpush")){
 		String client = request.getParameter("client");
@@ -139,6 +139,7 @@
 		obj.put("result",result);
 		obj.put("payresult","payok");
 	}else if(order.equals("deleteorder")){
+		
 		String code = request.getParameter("code");
 		code = URLDecoder.decode(code,"UTF-8");
 		String result=db.deletecode(code);

@@ -731,7 +731,7 @@ public class ADao {
 		return obj;
 	}
 	
-	public JSONObject mysuccesslist(String client) {
+	public JSONObject mysuccesslist(String userid) {
 		JSONObject obj = new JSONObject();
 		JSONArray cArray = new JSONArray();
 		JSONArray mArray = new JSONArray();
@@ -741,13 +741,13 @@ public class ADao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT code,menulist,price FROM orderlist where clientno=? and status = '결제완료' order by status";
+		String sql = "SELECT code,menulist,price FROM orderlist where userid=? and status = '결제완료' order by status";
 			
 		try {
 		    System.out.println("Database에 연결되었습니다.\n");
 		    con = dataSource.getConnection();
 		    pstmt = con.prepareStatement(sql);
-		    pstmt.setString(1, client);
+		    pstmt.setString(1, userid);
 		    rs = pstmt.executeQuery();
 		    
 		    while(rs.next()){
@@ -755,9 +755,6 @@ public class ADao {
 		    	mArray.add(rs.getString("menulist"));
 		    	pArray.add(rs.getString("price"));
 		    }
-		    System.out.println("메뉴 : "+mArray);
-		    System.out.println("금액 : "+pArray);
-		    System.out.println("코드 : "+cArray);
 		    
 		    obj.put("menu",mArray);
 		    obj.put("price",pArray);
@@ -778,7 +775,7 @@ public class ADao {
 		}		
 		return obj;
 	}
-	public JSONObject myfinishlist(String client) {
+	public JSONObject myfinishlist(String userid) {
 		
 		JSONObject obj = new JSONObject();
 		JSONArray cArray = new JSONArray();
@@ -789,13 +786,13 @@ public class ADao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT code,menulist,price FROM orderlist where clientno=? and status = '주문종료' order by status";
+		String sql = "SELECT code,menulist,price FROM orderlist where userid=? and status = '주문종료' order by status";
 			
 		try {
 		    System.out.println("Database에 연결되었습니다.\n");
 		    con = dataSource.getConnection();
 		    pstmt = con.prepareStatement(sql);
-		    pstmt.setString(1, client);
+		    pstmt.setString(1, userid);
 		    rs = pstmt.executeQuery();
 		    
 		    while(rs.next()){
@@ -828,7 +825,7 @@ public class ADao {
 		return obj;
 	}
 	
-	public JSONObject myorderlist(String client) {
+	public JSONObject myorderlist(String userid) {
 		JSONObject obj = new JSONObject();
 		JSONArray cArray = new JSONArray();
 		JSONArray mArray = new JSONArray();
@@ -838,13 +835,13 @@ public class ADao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT code,menulist,price FROM orderlist where clientno=? and status = '결제대기' order by status";
+		String sql = "SELECT code,menulist,price FROM orderlist where userid=? and status = '결제대기' order by status";
 			
 		try {
 		    System.out.println("Database에 연결되었습니다.\n");
 		    con = dataSource.getConnection();
 		    pstmt = con.prepareStatement(sql);
-		    pstmt.setString(1, client);
+		    pstmt.setString(1, userid);
 		    rs = pstmt.executeQuery();
 		    
 		    while(rs.next()){

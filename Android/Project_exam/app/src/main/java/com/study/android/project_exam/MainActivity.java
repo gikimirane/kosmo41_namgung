@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if(Loginsw){
             Log.d(TAG,"쿠폰 : "+MainActivity.info.getUsecount());
-            if(MainActivity.info.getUsecount()>=10){
+            Log.d(TAG,"카운트 : "+info.getUsecount());
+            if(MainActivity.info.getUsecount()==10){
                 checkUseCount();
+                Log.d(TAG,"resume > checkUseCount");
             }
             infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
             makeStar();
@@ -395,6 +397,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginLayout(){
 
+        if(MainActivity.info.getUsecount()==10){
+            checkUseCount();
+            Log.d(TAG,"LoginLayout > checkUseCount");
+        }
+
         LinearLayout imglayout = findViewById(R.id.imglayout);
 
         LinearLayout.LayoutParams params
@@ -458,10 +465,7 @@ public class MainActivity extends AppCompatActivity {
     private void notiAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("가입 기념 PLACIDO CARD 5000원을 충전!\nHAPPYORDER를 경험하세요!")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("가입을 환영합니다!")
-                .setCancelable(true)
-
+                .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

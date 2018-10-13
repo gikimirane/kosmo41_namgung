@@ -47,7 +47,7 @@ public class Fragment2 extends Fragment {
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","mysuccess");
-        values.put("client",refreshedToken);
+        values.put("userid",MainActivity.info.getId());
         NetworkTask networkTask = new NetworkTask(sUrl,values);
         networkTask.execute();
     }

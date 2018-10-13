@@ -121,13 +121,12 @@ public class orderOk extends AppCompatActivity {
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
         values.put("order","paypoint");
         values.put("userid",MainActivity.info.getId());
-        values.put("subsum", String.valueOf(subsum));
+        values.put("subsum", String.valueOf(sum));
 
         networkTask = new myNetworkTask(sUrl, values);
         networkTask.execute();
 
-        MainActivity.info.setPoint(MainActivity.info.getPoint()-subsum);
-
+        MainActivity.info.setPoint(MainActivity.info.getPoint()-sum);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("PLACIDO CARD로 결제가 완료되었습니다.\n"+MainActivity.info.getId()+"님의 현재 잔액은 "+MainActivity.info.getPoint()+"원 입니다.")
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -135,7 +134,6 @@ public class orderOk extends AppCompatActivity {
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
                         Intent intent = new Intent(getApplicationContext(),myorderlist.class);
                         startActivity(intent);
                         finish();
@@ -143,11 +141,10 @@ public class orderOk extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-
     }
 
     public void paybtnClicked(View v){
-        if(subsum <= MainActivity.info.getPoint() && count==0){
+        if(sum <= MainActivity.info.getPoint() && count==0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("PLACIDO CARD로 결제하시겠습니까?")
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -166,7 +163,7 @@ public class orderOk extends AppCompatActivity {
                     });
             AlertDialog alert = builder.create();
             alert.show();
-        }else if(subsum > MainActivity.info.getPoint()){
+        }else if(sum > MainActivity.info.getPoint()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("잔액이 부족합니다.\nPLACIDO CARD 충전이 필요합니다.")
 

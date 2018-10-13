@@ -12,11 +12,7 @@ public class myNetworkTask extends AsyncTask<Object,Void,JSONObject> {
     private static final String TAG = "lecture";
     private String surl;
     private HashMap<String,String> values;
-    //ContentValues values = new ContentValues();
-    StringBuffer sbParams = new StringBuffer();
-    String key;
     String value;
-    boolean isAnd = false;
 
     public myNetworkTask(String url, HashMap values) {
         this.surl = url;
@@ -37,7 +33,7 @@ public class myNetworkTask extends AsyncTask<Object,Void,JSONObject> {
         String result;
         if(s!=null){
             try {
-                Log.d(TAG,"결과 : "+s.getString("result"));
+                Log.d(TAG,"myNetworkTask Class");
             } catch (Exception e) {
                 e.printStackTrace();
             }

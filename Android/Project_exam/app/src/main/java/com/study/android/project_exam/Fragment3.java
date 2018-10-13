@@ -46,7 +46,7 @@ public class Fragment3 extends Fragment {
         String sUrl ="http://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/dbController.jsp";
         HashMap<String,String> values = new HashMap<>();
         values.put("order","myfinish");
-        values.put("client",refreshedToken);
+        values.put("userid",MainActivity.info.getId());
         NetworkTask networkTask = new NetworkTask(sUrl,values);
         networkTask.execute();
     }
@@ -86,7 +86,7 @@ public class Fragment3 extends Fragment {
                 final String mycode = item.getCode();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                builder.setMessage("결제 내역을 삭제하시겠습니까?")
+                builder.setMessage("내역을 삭제하시겠습니까?")
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setCancelable(true)
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
