@@ -79,7 +79,7 @@ function chargemoney(){
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>
 	<div class="container">
-		<h1>PLACIDO ADMIN</h1>
+		<h1>YOONI ADMIN</h1>
 		<hr>
 		<div class="row">
 			<div class="col">

@@ -46,7 +46,7 @@ public class Navigator extends AppCompatActivity {
         MobileAds.initialize(this, bannerid);
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("89D6C32BE363B3E63BB9C7C0111DA1A8")
+                //.addTestDevice("89D6C32BE363B3E63BB9C7C0111DA1A8")
                 .build();
         mAdView.loadAd(adRequest);
 
@@ -150,7 +150,7 @@ public class Navigator extends AppCompatActivity {
         if(myLocationMarker==null){
             myLocationMarker = new MarkerOptions();
             myLocationMarker.position(new LatLng(37.5492995,126.9187274));
-            myLocationMarker.title("PLACIDO COFFEE\n");
+            myLocationMarker.title("YOONI COFFEE\n");
             myLocationMarker.snippet("어서오세요!");
             myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.mylocation));
             map.addMarker(myLocationMarker);

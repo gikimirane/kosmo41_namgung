@@ -94,7 +94,7 @@
 					<li class="nav-item"><a class="nav-link" href="#" onclick="fblogout()">F_LOGOUT</a></li>
 				
 				<%}else if(session.getAttribute("logintype").equals("none")){ %>
-					<%}if(session.getAttribute("id").equals("placido")){ %>
+					<%}if(session.getAttribute("id").equals("yooni")){ %>
 						<a class="nav-link" href="./myinfo.jsp" id="info">MYINFO</a></li>
 						<li class="nav-item"><a class="nav-link" href="./adminpage.jsp" >ADMINPAGE</a></li>
 						<li class="nav-item"><a class="nav-link" href="./logout.do" >B_LOGOUT</a></li>

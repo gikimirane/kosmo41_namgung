@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 checkUseCount();
                 Log.d(TAG,"resume > checkUseCount");
             }
-            infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+            infotext.setText(info.getName()+"님의 CARD 잔액 : "+MainActivity.info.getPoint()+"원");
             makeStar();
         }
     }
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.info.setPoint(MainActivity.info.getPoint()+5000);
                         MainActivity.info.setUsecount(0);
-                        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+                        infotext.setText(info.getName()+"님의 CARD 잔액 : "+MainActivity.info.getPoint()+"원");
                         makeStar();
                         dialog.cancel();
                         //Intent intent = new Intent(getApplicationContext(), myorderlist.class);
@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        if(info.getId().equals("placido")){
+                        if(info.getId().equals("yooni")){
                             adminlogout();
                         }
                         SaveSharedPreference.clearUserName(getApplicationContext());
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), strEmail+"님! 반가워요! ", Toast.LENGTH_LONG).show();
 
-                        if(strEmail.equalsIgnoreCase("placido")){
+                        if(strEmail.equalsIgnoreCase("yooni")){
                             adminlogin();
                             Toast.makeText(getApplicationContext(),"ADMIN으로 진입합니다.",Toast.LENGTH_SHORT).show();
                         }else {
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
         params.weight = 1;
         imglayout.setLayoutParams(params);
 
-        infotext.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+        infotext.setText(info.getName()+"님의 CARD 잔액 : "+MainActivity.info.getPoint()+"원");
 
         LinearLayout stamplayout = findViewById(R.id.stamp);
         stamplayout.setVisibility(View.VISIBLE);
@@ -464,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void notiAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("가입 기념 PLACIDO CARD 5000원을 충전!\nHAPPYORDER를 경험하세요!")
+        builder.setMessage("가입 기념 CARD 5000원을 충전!\nHAPPYORDER를 경험하세요!")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -528,9 +528,9 @@ public class MainActivity extends AppCompatActivity {
         public MyPagerAdapter(Context context){
             this.context = context;
         }
-        private int[] images = {R.drawable.img1,
-                R.drawable.img2,
-                R.drawable.img3, R.drawable.img4, R.drawable.img5 };
+        private int[] images = {R.drawable.img01,
+                R.drawable.img02,
+                R.drawable.img03, R.drawable.img04, R.drawable.img05 };
         @Override
         public int getCount() {
             return images.length;

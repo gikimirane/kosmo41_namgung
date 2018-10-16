@@ -498,7 +498,7 @@ public class ADao {
         .delayWhileIdle(SHOW_ON_IDLE)
         .timeToLive(LIVE_TIME)
         .addData("message",msg)
-        .addData("title", "PLACIDO COFFEE")	
+        .addData("title", "YOONI COFFEE")	
         .build();
         
                 
@@ -585,7 +585,7 @@ public class ADao {
         .delayWhileIdle(SHOW_ON_IDLE)
         .timeToLive(LIVE_TIME)
         .addData("message",msg)
-        .addData("title", "PLACIDO COFFEE")	
+        .addData("title", "YOONI COFFEE")	
         .build();
                         
         try {
@@ -662,7 +662,7 @@ public class ADao {
         .delayWhileIdle(SHOW_ON_IDLE)
         .timeToLive(LIVE_TIME)
         .addData("message",msg)
-        .addData("title", "PLACIDO COFFEE")	
+        .addData("title", "YOONI COFFEE")	
         .build();
         
                 

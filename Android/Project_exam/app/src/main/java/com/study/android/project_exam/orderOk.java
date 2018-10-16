@@ -68,7 +68,7 @@ public class orderOk extends AppCompatActivity {
         total = findViewById(R.id.total);
         tvCode = findViewById(R.id.tvCode);
         myname = findViewById(R.id.mypoint);
-        myname.setText("PLACIDO CARD 잔액 : "+MainActivity.info.getPoint()+"원");
+        myname.setText("CARD 잔액 : "+MainActivity.info.getPoint()+"원");
 
         Intent intent = getIntent();
         orderlist = (HashMap<String, String>) intent.getSerializableExtra("orderlist");
@@ -128,7 +128,7 @@ public class orderOk extends AppCompatActivity {
 
         MainActivity.info.setPoint(MainActivity.info.getPoint()-sum);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("PLACIDO CARD로 결제가 완료되었습니다.\n"+MainActivity.info.getId()+"님의 현재 잔액은 "+MainActivity.info.getPoint()+"원 입니다.")
+        builder.setMessage("CARD로 결제가 완료되었습니다.\n"+MainActivity.info.getId()+"님의 현재 잔액은 "+MainActivity.info.getPoint()+"원 입니다.")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -146,7 +146,7 @@ public class orderOk extends AppCompatActivity {
     public void paybtnClicked(View v){
         if(sum <= MainActivity.info.getPoint() && count==0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("PLACIDO CARD로 결제하시겠습니까?")
+            builder.setMessage("CARD로 결제하시겠습니까?")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setCancelable(true)
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -165,7 +165,7 @@ public class orderOk extends AppCompatActivity {
             alert.show();
         }else if(sum > MainActivity.info.getPoint()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("잔액이 부족합니다.\nPLACIDO CARD 충전이 필요합니다.")
+            builder.setMessage("잔액이 부족합니다.\nCARD 충전이 필요합니다.")
 
                     .setCancelable(true)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

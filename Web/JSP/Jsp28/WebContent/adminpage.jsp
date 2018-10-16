@@ -155,7 +155,7 @@ function drinkcheck(){
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>
 	<div class="container">
-		<h1>PLACIDO ADMIN</h1><a href="./chargeCard.ad" class="btn btn-outline-secondary btn-sm">카드 충전</a>
+		<h1>YOONI ADMIN</h1><a href="./chargeCard.ad" class="btn btn-outline-secondary btn-sm">카드 충전</a>
 		<hr>
 		<div class="row">
 			<div class="col"><a href="./adminlogin.ad" class="btn btn-outline-secondary btn-sm">주문 목록</a>

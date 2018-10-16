@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/intro" />
+        app:srcCompat="@drawable/img01" />
 
 </LinearLayout>
