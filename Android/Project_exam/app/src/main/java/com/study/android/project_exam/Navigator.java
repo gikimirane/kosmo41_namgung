@@ -133,13 +133,13 @@ public class Navigator extends AppCompatActivity {
         double longitude = location.getLongitude();
 
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("https://www.google.com/maps/dir/"+latitude+","+longitude+"/37.5492995,126.9187274"));
+                Uri.parse("https://www.google.com/maps/dir/"+latitude+","+longitude+"/37.47884419784093,126.87865504358037"));
         startActivity(intent);
     }
 
 
     private void showCurrentLocation(){
-        LatLng curPoint = new LatLng(37.5492995,126.9187274);
+        LatLng curPoint = new LatLng(37.47884419784093,126.87865504358037);
         //map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint,15));
         //애니메이션 있고 없음은 move or animate로 구분됨
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(curPoint,15));
@@ -149,13 +149,13 @@ public class Navigator extends AppCompatActivity {
     private void showMyLocationMarker(){
         if(myLocationMarker==null){
             myLocationMarker = new MarkerOptions();
-            myLocationMarker.position(new LatLng(37.5492995,126.9187274));
+            myLocationMarker.position(new LatLng(37.47884419784093,126.87865504358037));
             myLocationMarker.title("YOONI COFFEE\n");
             myLocationMarker.snippet("어서오세요!");
             myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.mylocation));
             map.addMarker(myLocationMarker);
         }else {
-            myLocationMarker.position(new LatLng(37.5492995,126.9187274));
+            myLocationMarker.position(new LatLng(37.47884419784093,126.87865504358037));
         }
     }
 
