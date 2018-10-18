@@ -25,7 +25,6 @@ public class Student implements InitializingBean, DisposableBean{
 		System.out.println("Student : destroy()");
 	}
 
-	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("Student : AfterPropertiesSet");
 		

@@ -10,6 +10,6 @@
 이름 : ${member.name }<br/>
 ID : ${member.id }<br/>
 PW : ${member.pw }<br/>
-메일 : ${member.email }</br>
+메일 : ${member.email }
 </body>
 </html>
