@@ -176,7 +176,7 @@ function openSocket(){
 		return;
 	}
 	
-	webSocket = new WebSocket("ws://localhost:8081/Jsp28/websocketendpoint2");
+	webSocket = new WebSocket("ws://ec2-13-209-64-83.ap-northeast-2.compute.amazonaws.com:8081/Jsp28/websocketendpoint2");
 	
 	webSocket.onopen = function(event){
 		webSocket.send(id+"|"+"!입장@");
