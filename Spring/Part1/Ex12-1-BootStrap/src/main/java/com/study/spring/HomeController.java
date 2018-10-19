@@ -28,14 +28,17 @@ public class HomeController {
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
 		String formattedDate = dateFormat.format(date);
+		
 		model.addAttribute("serverTime", formattedDate );
+		
 		return "home";
 	}
 	
 	@RequestMapping(value="/hello",method=RequestMethod.GET)
 	public String myHelloSpring(Model model) {
-		String myMessage = "SPRING + BootStrap";
+		String myMessage = "SPRING+BOOTSTRAP";
 		model.addAttribute("message", myMessage);
 		return "helloSpring";
 	}

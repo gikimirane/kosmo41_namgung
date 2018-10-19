@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.study</groupId>
 	<artifactId>spring</artifactId>
-	<name>Ex12-1-BootStrap</name>
+	<name>Ex12-1-1-BootStrap</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
