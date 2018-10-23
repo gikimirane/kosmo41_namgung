@@ -5,15 +5,38 @@
 	
 <mapper namespace="com.study.spring.dao.BDao">
 	<select id="listDao" resultType="com.study.spring.dto.BDto">
-		SELECT * FROM MVC_BOARD1 ORDER BY BID DESC
+	<![CDATA[ select * from (select rownum num, A.* from (select * from mvc_board1 order by bgroup desc, bstep asc) A where rownum <= #{param1}) B Where B.num >= #{param2} ]]>
 	</select>	
-	<insert id="writeDao">
-		<!-- INSERT INTO BOARD (MID,MWRITER,MCONTENT) VALUES (BOARD_SEQ.NEXTVAL,#{param1}, #{param2}) -->
-	</insert>
+
 	<delete id="deleteDao">
-		<!-- //DELETE FROM BOARD WHERE MID = #{param1} -->
+		DELETE FROM MVC_BOARD1 WHERE BID = #{param1}
 	</delete>
+	
 	<select id="contentview" resultType="com.study.spring.dto.BDto">
 		SELECT * FROM MVC_BOARD1 WHERE BID = #{param1}
 	</select>
+	
+	<update id="modifyDao">
+		update mvc_board1 set bName=#{param1}, bTitle=#{param2}, bContent=#{param3} where bId =#{param4}
+	</update>
+	
+	<insert id="writeDao">
+		insert into mvc_board1 (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) values (mvc_board1_seq.nextval,#{param1},#{param2},#{param3},0,mvc_board1_seq.currval,0,0)
+	</insert>
+	
+	<insert id="replyDao">
+		insert into mvc_board1 (bId,bName,bTitle,bContent,bGroup,bStep,bIndent) values (mvc_board1_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+	</insert>
+	
+	<update id="replyShape">
+		<![CDATA[ update mvc_board1 set bStep=bStep+1 where bGroup=#{param1} and bStep > #{param2} ]]>
+	</update>
+	
+	<update id="upHit">
+		update mvc_board1 set bHit=bHit+1 where bId =#{param1}
+	</update>
+	<select id="countpage" resultType="int">
+		select count(*) as total from mvc_board1
+	</select>
+	
 </mapper>

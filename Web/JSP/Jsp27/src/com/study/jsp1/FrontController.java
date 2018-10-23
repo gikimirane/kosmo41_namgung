@@ -45,6 +45,7 @@ public class FrontController extends HttpServlet {
 		
 		HttpSession session =null;
 		session = request.getSession();
+		
 		int curPage = 1;
 		if(session.getAttribute("cpage")!=null) {
 			curPage =(int)session.getAttribute("cpage");

@@ -8,8 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	
 		<input type="hidden" name="bId" value="${content_view.bId }">
 		<tr>
 			<td>번호</td>
@@ -39,7 +39,6 @@
 				<a href="reply_view?bId=${content_view.bId}">답변</a>&nbsp;&nbsp;
 			</td>
 		</tr>	
-	
 </table>
 </body>
 </html>
