@@ -40,7 +40,6 @@ public class MyService1 extends Service {
             //내가 넣어둠..for문 다 돌리고 service 죽도록
             onDestroy();
         }
-
     }
     public void onDestroy(){
         super.onDestroy();

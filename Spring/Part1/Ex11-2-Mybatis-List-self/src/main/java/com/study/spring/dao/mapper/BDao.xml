@@ -25,11 +25,12 @@
 	</insert>
 	
 	<insert id="replyDao">
-		insert into mvc_board1 (bId,bName,bTitle,bContent,bGroup,bStep,bIndent) values (mvc_board1_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+		insert into mvc_board1 (bId,bName,bTitle,bContent,bGroup,bStep,bIndent) values (mvc_board1_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5}+1,#{param6}+1)
 	</insert>
 	
 	<update id="replyShape">
 		<![CDATA[ update mvc_board1 set bStep=bStep+1 where bGroup=#{param1} and bStep > #{param2} ]]>
+		
 	</update>
 	
 	<update id="upHit">

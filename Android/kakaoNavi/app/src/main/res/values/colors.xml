@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navi_button">#feee35</color>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#00000000</color>
+    <color name="textColor">#ffffff</color>
+    <color name="color_menu">#3F51B5</color>
+    <color name="colorWeek">#6ca0e1</color>
+    <color name="colorSubWeek">#b1e7ff</color>
+
+    <!-- NEW DISIGN -->
+    <color name="color2">#B2B2B2</color>
+    <color name="color3">#2A2A2A</color>
+    <color name="color6">#FFFFFF</color>
+</resources>

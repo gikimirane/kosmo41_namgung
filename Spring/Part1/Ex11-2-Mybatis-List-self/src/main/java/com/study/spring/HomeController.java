@@ -142,9 +142,8 @@ public class HomeController {
 		String bTitle = request.getParameter("bTitle");
 		String bContent = request.getParameter("bContent");
 		
+		//step 이 늘어나지 않아!
 		dao.replyShape(bGroup, bStep);
-		System.out.println("bGroup : "+bGroup);
-		System.out.println("bStep : "+bStep);
 		dao.replyDao(bName, bTitle, bContent, bGroup, bStep, bIndent);
 		
 		redirectAttributes.addAttribute("page", session.getAttribute("cpage"));
