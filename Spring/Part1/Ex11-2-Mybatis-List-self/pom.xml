@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.study</groupId>
 	<artifactId>spring</artifactId>
-	<name>Ex11-2-Mybatis-self</name>
+	<name>Ex11-2-Mybatis-List-self</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -116,7 +116,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>        
-		
 		<!--Mybatis  -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
