@@ -20,7 +20,7 @@
 				client_id: '477735906673-gij7e82ii8htukmh08tejum8sc7gpp3e.apps.googleusercontent.com',
 				cookiepolicy: 'single_host_origin',
         		// Request scopes in addition to 'profile' and 'email'
-        		//scope: 'additional_scope'
+        		//scope: 'https://www.googleapis.com/auth/admin.directory.user.readonly'
 			});
 			
 			attachSignin(document.getElementById('login'));

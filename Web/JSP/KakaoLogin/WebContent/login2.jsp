@@ -28,7 +28,7 @@
 
 
 <script type='text/javascript'>
-    Kakao.init('Your App Key');
+    Kakao.init('0eb1acd742b3f93613dfd26663dd28cd');
     function loginWithKakao() {
       // 로그인 창을 띄웁니다.
       Kakao.Auth.login({
