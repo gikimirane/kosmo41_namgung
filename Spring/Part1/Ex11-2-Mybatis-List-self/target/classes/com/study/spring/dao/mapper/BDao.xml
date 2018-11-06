@@ -4,6 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.study.spring.dao.BDao">
+
 	<select id="listDao" resultType="com.study.spring.dto.BDto">
 	<![CDATA[ select * from (select rownum num, A.* from (select * from mvc_board1 order by bgroup desc, bstep asc) A where rownum <= #{param1}) B Where B.num >= #{param2} ]]>
 	</select>	

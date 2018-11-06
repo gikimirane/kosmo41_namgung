@@ -16,7 +16,7 @@ public class FileDownloadView extends AbstractView {
 
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest req,
-			HttpServletResponse res) throws Exception {
+		HttpServletResponse res) throws Exception {
 		File file=(File)model.get("downloadFile");
 		String oriFileName = (String)model.get("oriFileName");
 		
