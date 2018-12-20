@@ -142,7 +142,6 @@ public class HomeController {
 		String bTitle = request.getParameter("bTitle");
 		String bContent = request.getParameter("bContent");
 		
-		//step 이 늘어나지 않아!
 		dao.replyShape(bGroup, bStep);
 		dao.replyDao(bName, bTitle, bContent, bGroup, bStep, bIndent);
 		

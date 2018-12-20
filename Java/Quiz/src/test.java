@@ -1,15 +1,10 @@
 public class test {
 	public static void main(String[] args) {
 		
-		int i=0;
-		int j=0;
-		
-		// i=1
-		System.out.println(++i);
-		// j=0
-		System.out.println(j++);
-		// j=1
-		System.out.println(j);
-			
+		String msg = "msg:p1244|조윤희|ff";
+		String[] arr = msg.split("\\|");
+		for(int i=0;i<arr.length;i++) {
+			System.out.println(arr[i]);
+		}
 	}
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "273566753664",
+    "firebase_url": "https://callmetellme-6f7ee.firebaseio.com",
+    "project_id": "callmetellme-6f7ee",
+    "storage_bucket": "callmetellme-6f7ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273566753664:android:cba0c9677647d326",
+        "android_client_info": {
+          "package_name": "com.study.android.callmetellme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273566753664-dov70pvd4k0ad6lih9t6oj95i420flqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx3XE3Zy1Z8xwY2hNS18JgA-ZSljL59cg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

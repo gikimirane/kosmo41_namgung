@@ -81,7 +81,6 @@ public class WsServer2 {
 		} else if (com.equals("!방입장")) {
 
 			String room = message.substring(message.indexOf("@") + 1);
-			
 			int myroom = dao.myRoomNo(user);
 			int newroom = Integer.parseInt(room);
 			

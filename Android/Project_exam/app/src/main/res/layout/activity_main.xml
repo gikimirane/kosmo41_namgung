@@ -180,7 +180,7 @@
                 android:layout_weight="1"
                 android:onClick="loginClicked"
                 android:text="LOGIN"
-                app:bootstrapBrand="regular"
+                app:bootstrapBrand="info"
                 app:bootstrapSize="lg"
                 app:buttonMode="regular"
                 app:roundedCorners="true"

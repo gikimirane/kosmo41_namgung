@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".companyLogin">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/companyimage" />
+
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="CallmeTell美"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="대표자 ID로 로그인하세요."
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="ID"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etpw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword" />
+
+        <CheckBox
+            android:id="@+id/autologin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="자동 로그인" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="LoginBtnClicked"
+            android:text="LOGIN"
+            app:bootstrapBrand="info"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="true" />
+    </LinearLayout>
+
+</LinearLayout>
